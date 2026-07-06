@@ -1,0 +1,28 @@
+{
+  "name": "sarkarimate",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,md}": "prettier --write"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.10.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.15.0",
+    "eslint-config-next": "^15.3.3",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.3.3",
+    "turbo": "^2.1.0",
+    "typescript": "^5.7.2"
+  }
+}
