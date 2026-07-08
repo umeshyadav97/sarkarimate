@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Apple, Bell, Check, Mail, Play, Send, ShieldCheck } from 'lucide-react';
+import { Apple, Bell, Check, Mail, Play, Send } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { Button, Card, Input } from '@repo/ui';
+import { BrandShieldIcon } from '@/components/brand-shield-icon';
 import { footerLinks, trustPoints } from '@/features/home/constants/homepage-data';
 import { legalFooterLinks } from '@/features/legal/constants/legal-pages';
 
@@ -14,15 +15,24 @@ const socialLinks = [
   { label: 'Instagram', icon: FaInstagram, className: 'text-[#111827]' },
 ];
 
+const footerRouteByLabel: Record<string, string> = {
+  'Latest Jobs': '/jobs',
+  'Admit Card': '/admit-cards',
+  Results: '/results',
+  'Answer Key': '/answer-keys',
+  Syllabus: '/syllabus',
+  'Govt. Schemes': '/schemes',
+};
+
 export function HomeFooter() {
   return (
     <footer className="bg-white">
       <TrustNewsletterSection />
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-4 sm:px-6 md:grid-cols-[1.05fr_2.6fr_0.8fr] lg:px-8">
+      <div className="mx-auto grid max-w-full gap-6 px-4 py-4 sm:px-6 md:grid-cols-[1.05fr_2.6fr_0.8fr] lg:px-8">
         <div>
           <Link href="/" className="flex items-center gap-3" aria-label="SarkariMate home">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-[#1D4ED8]">
-              <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+            <span className="grid h-9 w-9 place-items-center">
+              <BrandShieldIcon className="h-10 w-10" aria-hidden="true" />
             </span>
             <span>
               <span className="block text-xl font-bold leading-none text-red-600">
@@ -55,7 +65,7 @@ export function HomeFooter() {
         </div>
 
         <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
-          <FooterColumn links={footerLinks.quickLinks} title="Quick Links" />
+          <FooterColumn links={footerLinks.quickLinks} title="Quick Links" useKnownRoutes />
           <FooterColumn links={footerLinks.popularExams} title="Popular Exams" />
           <FooterColumn links={footerLinks.resources} title="Resources" />
           <FooterColumn links={footerLinks.company} title="Company" useKnownRoutes />
@@ -177,7 +187,7 @@ function FooterColumn({
 
 function FooterColumnLink({ label, useKnownRoutes }: { label: string; useKnownRoutes: boolean }) {
   const knownRoute = legalFooterLinks.find((link) => link.label === label);
-  const href = useKnownRoutes && knownRoute ? knownRoute.href : '#';
+  const href = useKnownRoutes ? (knownRoute?.href ?? footerRouteByLabel[label] ?? '#') : '#';
 
   return (
     <Link className="text-xs font-medium text-slate-600 hover:text-[#1D4ED8]" href={href}>

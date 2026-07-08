@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Card } from '@repo/ui';
 import { importantTools } from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
@@ -12,9 +13,9 @@ export function ImportantToolsSection() {
             const Icon = tool.icon;
 
             return (
-              <a
+              <Link
                 key={tool.title}
-                href="#"
+                href={tool.href}
                 className="flex items-center gap-3 rounded-lg border border-slate-200 p-4 hover:bg-blue-50"
               >
                 <span className="grid h-10 w-10 place-items-center rounded-md bg-blue-50 text-[#1D4ED8]">
@@ -26,7 +27,7 @@ export function ImportantToolsSection() {
                     {tool.description}
                   </span>
                 </span>
-              </a>
+              </Link>
             );
           })}
         </div>

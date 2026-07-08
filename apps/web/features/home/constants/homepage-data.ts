@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
 import {
   BadgeCheck,
   Bell,
@@ -15,23 +14,32 @@ import {
   ListChecks,
   MonitorCheck,
   Newspaper,
-  ShieldCheck,
   Target,
   Trophy,
   Users,
   WalletCards,
 } from 'lucide-react';
+import type { ComponentType, SVGProps } from 'react';
+import { BrandShieldIcon } from '@/components/brand-shield-icon';
+
+type HomeIcon = ComponentType<
+  SVGProps<SVGSVGElement> & {
+    className?: string;
+    strokeWidth?: number;
+  }
+>;
 
 export interface NavigationItem {
   label: string;
   href: string;
-  icon?: LucideIcon;
+  icon?: HomeIcon;
 }
 
 export interface QuickAccessItem {
   label: string;
   description: string;
-  icon: LucideIcon;
+  href: string;
+  icon: HomeIcon;
   tone: 'blue' | 'green' | 'purple' | 'orange';
 }
 
@@ -40,13 +48,14 @@ export interface NotificationItem {
   organization: string;
   metaLabel: string;
   metaValue: string;
+  href?: string;
   accent: 'blue' | 'green' | 'orange' | 'red' | 'purple';
 }
 
 export interface CategoryItem {
   title: string;
   count: string;
-  icon: LucideIcon;
+  icon: HomeIcon;
   tone: 'blue' | 'green' | 'purple' | 'orange';
 }
 
@@ -54,22 +63,23 @@ export interface StatItem {
   label: string;
   value: string;
   helper: string;
-  icon: LucideIcon;
+  icon: HomeIcon;
   tone: 'blue' | 'green' | 'purple' | 'orange';
 }
 
 export interface ToolItem {
   title: string;
   description: string;
-  icon: LucideIcon;
+  href: string;
+  icon: HomeIcon;
 }
 
 export const navigationItems: NavigationItem[] = [
   { label: 'Home', href: '/', icon: Building2 },
   { label: 'Latest Jobs', href: '/jobs', icon: BriefcaseBusiness },
-  { label: 'Admit Card', href: '/admit-card', icon: FileBadge },
+  { label: 'Admit Card', href: '/admit-cards', icon: FileBadge },
   { label: 'Results', href: '/results', icon: Trophy },
-  { label: 'Answer Key', href: '/answer-key', icon: ClipboardCheck },
+  { label: 'Answer Key', href: '/answer-keys', icon: ClipboardCheck },
   { label: 'Syllabus', href: '/syllabus', icon: BookOpen },
   { label: 'Schemes', href: '/schemes', icon: Landmark },
 ];
@@ -80,14 +90,39 @@ export const quickAccessItems: QuickAccessItem[] = [
   {
     label: 'Latest Jobs',
     description: '25,254+ Active',
+    href: '/jobs',
     icon: BriefcaseBusiness,
     tone: 'blue',
   },
-  { label: 'Admit Card', description: '1,245+ Available', icon: FileBadge, tone: 'green' },
-  { label: 'Results', description: '3,876+ Declared', icon: Trophy, tone: 'purple' },
-  { label: 'Answer Key', description: '742+ Available', icon: ClipboardCheck, tone: 'orange' },
-  { label: 'Syllabus', description: '1,345+ Available', icon: BookOpen, tone: 'blue' },
-  { label: 'All Exams', description: '2,540+ Exams', icon: Grid2X2, tone: 'blue' },
+  {
+    label: 'Admit Card',
+    description: '1,245+ Available',
+    href: '/admit-cards',
+    icon: FileBadge,
+    tone: 'green',
+  },
+  {
+    label: 'Results',
+    description: '3,876+ Declared',
+    href: '/results',
+    icon: Trophy,
+    tone: 'purple',
+  },
+  {
+    label: 'Answer Key',
+    description: '742+ Available',
+    href: '/answer-keys',
+    icon: ClipboardCheck,
+    tone: 'orange',
+  },
+  {
+    label: 'Syllabus',
+    description: '1,345+ Available',
+    href: '/syllabus',
+    icon: BookOpen,
+    tone: 'blue',
+  },
+  { label: 'All Exams', description: '2,540+ Exams', href: '/jobs', icon: Grid2X2, tone: 'blue' },
 ];
 
 export const latestJobs: NotificationItem[] = [
@@ -172,6 +207,7 @@ export const latestResults: NotificationItem[] = [
     organization: 'Railway Recruitment Board',
     metaLabel: 'Status',
     metaValue: 'OUT',
+    href: '/results',
     accent: 'red',
   },
   {
@@ -179,6 +215,7 @@ export const latestResults: NotificationItem[] = [
     organization: 'Uttar Pradesh Govt.',
     metaLabel: 'Status',
     metaValue: 'OUT',
+    href: '/results',
     accent: 'purple',
   },
   {
@@ -186,6 +223,7 @@ export const latestResults: NotificationItem[] = [
     organization: 'Staff Selection Commission',
     metaLabel: 'Status',
     metaValue: 'OUT',
+    href: '/results',
     accent: 'orange',
   },
   {
@@ -193,6 +231,7 @@ export const latestResults: NotificationItem[] = [
     organization: 'Uttar Pradesh Police',
     metaLabel: 'Status',
     metaValue: 'OUT',
+    href: '/results',
     accent: 'blue',
   },
   {
@@ -200,6 +239,7 @@ export const latestResults: NotificationItem[] = [
     organization: 'Bihar School Examination Board',
     metaLabel: 'Status',
     metaValue: 'OUT',
+    href: '/results',
     accent: 'green',
   },
 ];
@@ -208,9 +248,9 @@ export const categories: CategoryItem[] = [
   { title: 'SSC', count: '245+ Jobs', icon: Target, tone: 'orange' },
   { title: 'Railway', count: '320+ Jobs', icon: MonitorCheck, tone: 'blue' },
   { title: 'Banking', count: '185+ Jobs', icon: Landmark, tone: 'purple' },
-  { title: 'UP Police', count: '215+ Jobs', icon: ShieldCheck, tone: 'orange' },
+  { title: 'UP Police', count: '215+ Jobs', icon: BrandShieldIcon, tone: 'orange' },
   { title: 'Teaching', count: '280+ Jobs', icon: GraduationCap, tone: 'blue' },
-  { title: 'Defence', count: '120+ Jobs', icon: ShieldCheck, tone: 'green' },
+  { title: 'Defence', count: '120+ Jobs', icon: BrandShieldIcon, tone: 'green' },
   { title: 'Engineering', count: '150+ Jobs', icon: FileCheck2, tone: 'blue' },
   { title: 'All Categories', count: '1000+ Jobs', icon: Grid2X2, tone: 'blue' },
 ];
@@ -235,12 +275,27 @@ export const stats: StatItem[] = [
 ];
 
 export const importantTools: ToolItem[] = [
-  { title: 'Exam Calendar', description: 'Check Exam Dates', icon: CalendarDays },
-  { title: 'Application Tracker', description: 'Track Your Application', icon: MonitorCheck },
-  { title: 'Admit Card', description: 'Download Hall Ticket', icon: WalletCards },
-  { title: 'Results', description: 'Check Latest Results', icon: FileCheck2 },
-  { title: 'Answer Key', description: 'View and Download', icon: ClipboardCheck },
-  { title: 'Syllabus', description: 'Download Syllabus', icon: BookOpen },
+  { title: 'Exam Calendar', description: 'Check Exam Dates', href: '#', icon: CalendarDays },
+  {
+    title: 'Application Tracker',
+    description: 'Track Your Application',
+    href: '#',
+    icon: MonitorCheck,
+  },
+  {
+    title: 'Admit Card',
+    description: 'Download Hall Ticket',
+    href: '/admit-cards',
+    icon: WalletCards,
+  },
+  { title: 'Results', description: 'Check Latest Results', href: '/results', icon: FileCheck2 },
+  {
+    title: 'Answer Key',
+    description: 'View and Download',
+    href: '/answer-keys',
+    icon: ClipboardCheck,
+  },
+  { title: 'Syllabus', description: 'Download Syllabus', href: '/syllabus', icon: BookOpen },
 ];
 
 export const trustPoints = [
