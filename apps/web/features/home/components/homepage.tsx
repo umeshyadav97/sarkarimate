@@ -1,7 +1,6 @@
 import { CategoriesSection, StatsSection } from '@/features/home/components/categories-section';
 import { HeroSection } from '@/features/home/components/hero-section';
 import { HomeFooter } from '@/features/home/components/home-footer';
-import { HomeHeader } from '@/features/home/components/home-header';
 import { NotificationPanels } from '@/features/home/components/notification-panels';
 import { QuickAccessSection } from '@/features/home/components/quick-access-section';
 import { ImportantToolsSection } from '@/features/home/components/tools-section';
@@ -36,7 +35,6 @@ export function Homepage() {
           __html: JSON.stringify([websiteSchema, organizationSchema, ...newsArticles]),
         }}
       />
-      <HomeHeader />
       <main className="bg-[#F8FAFC] text-[#111827]">
         <HeroSection />
         <QuickAccessSection />

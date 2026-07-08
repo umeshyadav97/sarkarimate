@@ -3,6 +3,7 @@ import { Apple, Bell, Check, Mail, Play, Send, ShieldCheck } from 'lucide-react'
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { Button, Card, Input } from '@repo/ui';
 import { footerLinks, trustPoints } from '@/features/home/constants/homepage-data';
+import { legalFooterLinks } from '@/features/legal/constants/legal-pages';
 
 const socialLinks = [
   { label: 'WhatsApp', icon: FaWhatsapp, className: 'text-[#16A34A]' },
@@ -24,7 +25,7 @@ export function HomeFooter() {
               <ShieldCheck className="h-5 w-5" aria-hidden="true" />
             </span>
             <span>
-              <span className="block text-xl font-extrabold leading-none text-red-600">
+              <span className="block text-xl font-bold leading-none text-red-600">
                 Sarkari<span className="text-[#1D4ED8]">Mate</span>
               </span>
               <span className="text-xs font-medium text-slate-500">
@@ -53,15 +54,15 @@ export function HomeFooter() {
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
           <FooterColumn links={footerLinks.quickLinks} title="Quick Links" />
           <FooterColumn links={footerLinks.popularExams} title="Popular Exams" />
           <FooterColumn links={footerLinks.resources} title="Resources" />
-          <FooterColumn links={footerLinks.company} title="Company" />
+          <FooterColumn links={footerLinks.company} title="Company" useKnownRoutes />
         </div>
 
         <div>
-          <h2 className="text-xs font-extrabold text-[#111827]">Download App</h2>
+          <h2 className="text-xs font-bold text-[#111827]">Download App</h2>
           <p className="mt-2 text-xs font-medium leading-5 text-slate-600">
             Get instant updates on your mobile.
           </p>
@@ -75,17 +76,10 @@ export function HomeFooter() {
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 text-xs font-semibold text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>Copyright 2026 SarkariMate. All rights reserved.</p>
           <nav className="flex flex-wrap gap-x-4 gap-y-1" aria-label="Legal links">
-            {[
-              'About Us',
-              'Contact Us',
-              'Privacy Policy',
-              'Disclaimer',
-              'Terms & Conditions',
-              'Sitemap',
-            ].map((link) => (
-              <a key={link} href="#" className="hover:text-[#1D4ED8]">
-                {link}
-              </a>
+            {legalFooterLinks.map((link) => (
+              <Link key={link.label} href={link.href} className="hover:text-[#1D4ED8]">
+                {link.label}
+              </Link>
             ))}
           </nav>
           <p>Made with care for India</p>
@@ -97,14 +91,17 @@ export function HomeFooter() {
 
 function TrustNewsletterSection() {
   return (
-    <section className="mx-auto grid max-w-7xl gap-4 bg-white px-4 py-4 sm:px-6 lg:grid-cols-[0.78fr_1.42fr] lg:px-8">
-      <Card className="rounded-lg p-5 shadow-xs">
-        <h2 className="text-lg font-bold text-[#111827]">Why Choose SarkariMate?</h2>
-        <ul className="mt-3 space-y-1.5">
+    <section className="mx-auto grid max-w-full gap-3 bg-white px-4 py-4 sm:gap-4 sm:px-6 lg:grid-cols-[0.78fr_1.42fr] md:grid-cols-2 lg:px-8">
+      <Card className="rounded-lg p-4 shadow-xs sm:p-5">
+        <h2 className="text-base font-bold text-[#111827] sm:text-lg">Why Choose SarkariMate?</h2>
+        <ul className="mt-3 space-y-2 sm:space-y-1.5">
           {trustPoints.map((point) => (
-            <li key={point} className="flex items-start gap-2 text-xs font-semibold text-slate-700">
+            <li
+              key={point}
+              className="flex items-start gap-2 text-sm font-semibold leading-5 text-slate-700 sm:text-xs sm:leading-normal"
+            >
               <Check
-                className="mt-0.5 h-4 w-4 shrink-0 stroke-[3] text-[#16A34A]"
+                className="mt-0.5 h-4 w-4 shrink-0 stroke-[3] text-[#16A34A] sm:h-4 sm:w-4"
                 aria-hidden="true"
               />
               {point}
@@ -113,55 +110,79 @@ function TrustNewsletterSection() {
         </ul>
       </Card>
 
-      <Card className="grid items-center gap-6 rounded-lg p-5 shadow-xs md:grid-cols-[1fr_auto]">
-        <div>
-          <h2 className="text-lg font-extrabold text-[#111827]">Get Job Alerts on Email</h2>
-          <p className="mt-2 max-w-xl text-xs font-medium leading-5 text-slate-600">
-            Subscribe to get the latest job notifications, results and important updates directly in
-            your inbox.
-          </p>
-          <form className="mt-4 flex max-w-2xl gap-3">
-            <label className="sr-only" htmlFor="newsletter-email">
-              Email address
-            </label>
-            <Input
-              id="newsletter-email"
-              className="min-h-10 flex-1 text-sm"
-              placeholder="Enter your email address"
-              type="email"
-            />
-            <Button className="min-h-10 bg-[#1D4ED8] px-7 text-sm hover:bg-[#1E40AF]" type="submit">
-              Subscribe
-            </Button>
-          </form>
+      <Card className="grid items-center gap-4 rounded-lg p-4 shadow-xs sm:p-5  md:gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="min-w-0">
+            <h2 className="text-base font-bold text-[#111827] sm:text-lg">
+              Get Job Alerts on Email
+            </h2>
+            <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-slate-600 sm:text-xs sm:leading-5">
+              Subscribe to get the latest job notifications, results and important updates directly
+              in your inbox.
+            </p>
+          </div>
+          <div className="relative hidden h-28 w-32 place-items-center md:grid" aria-hidden="true">
+            <div className="absolute bottom-1 h-20 w-24 rotate-12 rounded-lg bg-blue-100" />
+            <Mail className="relative z-10 h-20 w-20 -rotate-12 text-blue-200" />
+            <Bell className="absolute right-4 top-0 z-20 h-12 w-12 rotate-12 fill-[#F59E0B] text-[#F59E0B]" />
+            <span className="absolute right-3 top-1 z-30 grid h-5 w-5 place-items-center rounded-full bg-[#DC2626] text-xs font-bold text-white">
+              1
+            </span>
+          </div>
         </div>
-        <div className="relative hidden h-28 w-32 place-items-center md:grid" aria-hidden="true">
-          <div className="absolute bottom-1 h-20 w-24 rotate-12 rounded-lg bg-blue-100" />
-          <Mail className="relative z-10 h-20 w-20 -rotate-12 text-blue-200" />
-          <Bell className="absolute right-4 top-0 z-20 h-12 w-12 rotate-12 fill-[#F59E0B] text-[#F59E0B]" />
-          <span className="absolute right-3 top-1 z-30 grid h-5 w-5 place-items-center rounded-full bg-[#DC2626] text-xs font-bold text-white">
-            1
-          </span>
-        </div>
+        <form className="mt-4 flex w-full max-w-2xl flex-col gap-3 sm:flex-row">
+          <label className="sr-only" htmlFor="newsletter-email">
+            Email address
+          </label>
+          <Input
+            id="newsletter-email"
+            className="min-h-11 w-full flex-1 text-sm sm:min-h-10"
+            placeholder="Enter your email address"
+            type="email"
+          />
+          <Button
+            className="min-h-11 w-full bg-[#1D4ED8] px-7 text-sm hover:bg-[#1E40AF] sm:min-h-10 sm:w-auto"
+            type="submit"
+          >
+            Subscribe
+          </Button>
+        </form>
       </Card>
     </section>
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: string[] }) {
+function FooterColumn({
+  title,
+  links,
+  useKnownRoutes = false,
+}: {
+  title: string;
+  links: string[];
+  useKnownRoutes?: boolean;
+}) {
   return (
     <div>
-      <h2 className="text-xs font-extrabold text-[#111827]">{title}</h2>
+      <h2 className="text-xs font-bold text-[#111827]">{title}</h2>
       <ul className="mt-2 space-y-1">
         {links.map((link) => (
           <li key={link}>
-            <a className="text-xs font-medium text-slate-600 hover:text-[#1D4ED8]" href="#">
-              {link}
-            </a>
+            <FooterColumnLink label={link} useKnownRoutes={useKnownRoutes} />
           </li>
         ))}
       </ul>
     </div>
+  );
+}
+
+function FooterColumnLink({ label, useKnownRoutes }: { label: string; useKnownRoutes: boolean }) {
+  const knownRoute = legalFooterLinks.find((link) => link.label === label);
+  const href = useKnownRoutes && knownRoute ? knownRoute.href : '#';
+
+  return (
+    <Link className="text-xs font-medium text-slate-600 hover:text-[#1D4ED8]" href={href}>
+      {label}
+    </Link>
   );
 }
 
@@ -182,7 +203,7 @@ function DownloadButton({
       <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
       <span>
         <span className="block text-[8px] font-semibold uppercase leading-none">{overline}</span>
-        <span className="block text-sm font-extrabold leading-tight">{label}</span>
+        <span className="block text-sm font-bold leading-tight">{label}</span>
       </span>
     </a>
   );

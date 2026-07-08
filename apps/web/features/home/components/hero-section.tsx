@@ -19,7 +19,7 @@ export function HeroSection() {
           <br />
           in One Place
         </h1>
-        <p className="sm:mt-3 mt-1 max-w-lg sm:text-base text-sm font-medium lg:leading-8 md:leading-6 leading-5 text-slate-600">
+        <p className="sm:mt-3 mt-1 max-w-lg sm:text-base text-sm font-medium lg:leading-7 md:leading-6 leading-5 text-slate-600">
           Latest job notifications, results, admit cards, answer keys, syllabus and more. All
           official, all in one place.
         </p>

@@ -4,10 +4,10 @@ import { SectionHeader } from '@/features/home/components/section-header';
 
 export function ImportantToolsSection() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-full px-4 py-2 sm:px-6 lg:px-8">
       <Card className="rounded-lg p-4">
         <SectionHeader actionLabel="" title="Important Tools" />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
           {importantTools.map((tool) => {
             const Icon = tool.icon;
 
@@ -21,7 +21,7 @@ export function ImportantToolsSection() {
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span>
-                  <span className="block text-sm font-extrabold text-[#111827]">{tool.title}</span>
+                  <span className="block text-sm font-bold text-[#111827]">{tool.title}</span>
                   <span className="mt-1 block text-xs font-semibold text-slate-500">
                     {tool.description}
                   </span>

@@ -87,7 +87,6 @@ export const quickAccessItems: QuickAccessItem[] = [
   { label: 'Results', description: '3,876+ Declared', icon: Trophy, tone: 'purple' },
   { label: 'Answer Key', description: '742+ Available', icon: ClipboardCheck, tone: 'orange' },
   { label: 'Syllabus', description: '1,345+ Available', icon: BookOpen, tone: 'blue' },
-  { label: 'Schemes', description: '1,905+ Schemes', icon: Landmark, tone: 'green' },
   { label: 'All Exams', description: '2,540+ Exams', icon: Grid2X2, tone: 'blue' },
 ];
 
@@ -270,7 +269,14 @@ export const footerLinks = {
     'Govt. Schemes',
     'Application Tracker',
   ],
-  company: ['About Us', 'Contact Us', 'Privacy Policy', 'Terms & Conditions', 'Disclaimer'],
+  company: [
+    'About Us',
+    'Contact Us',
+    'Privacy Policy',
+    'Terms & Conditions',
+    'Disclaimer',
+    'Sitemap',
+  ],
 };
 
 export const newsArticles = [
