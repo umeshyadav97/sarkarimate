@@ -1,11 +1,59 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Inter Regular';
+  src: url('/assets/fonts/Inter-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Bold';
+  src: url('/assets/fonts/Inter-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter SemiBold';
+  src: url('/assets/fonts/Inter-SemiBold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Medium';
+  src: url('/assets/fonts/Inter-Medium.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
+  --font-inter: 'Inter Regular', Arial, Helvetica, sans-serif;
+  --font-inter-medium: 'Inter Medium', 'Inter Regular', Arial, Helvetica, sans-serif;
+  --font-inter-semibold: 'Inter SemiBold', 'Inter Regular', Arial, Helvetica, sans-serif;
+  --font-inter-bold: 'Inter Bold', 'Inter SemiBold', Arial, Helvetica, sans-serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #f8fafc;
+  font-family: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+b,
+strong,
+.font-bold,
+.font-extrabold {
+  font-family: var(--font-inter-bold);
+}
+
+.font-semibold {
+  font-family: var(--font-inter-semibold);
+}
+
+.font-medium {
+  font-family: var(--font-inter-medium);
 }
