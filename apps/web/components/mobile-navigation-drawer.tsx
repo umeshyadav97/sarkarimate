@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, ShieldCheck, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { BrandShieldIcon } from '@/components/brand-shield-icon';
 import { navigationItems, type NavigationItem } from '@/components/site-navigation';
 
-export function MobileNavigationDrawer() {
+export function MobileNavigationDrawer({ activePathname }: { activePathname: string }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
 
@@ -36,8 +37,8 @@ export function MobileNavigationDrawer() {
           >
             <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
               <Link href="/" className="flex items-center gap-3" onClick={closeDrawer}>
-                <span className="grid h-10 w-10 place-items-center rounded-lg bg-blue-50 text-[#1D4ED8]">
-                  <ShieldCheck className="h-6 w-6" aria-hidden="true" />
+                <span className="grid h-10 w-10 place-items-center">
+                  <BrandShieldIcon className="h-7 w-7" aria-hidden="true" />
                 </span>
                 <span>
                   <span className="block text-xl font-bold leading-none text-red-600">
@@ -63,7 +64,12 @@ export function MobileNavigationDrawer() {
               aria-label="Mobile primary"
             >
               {navigationItems.map((item) => (
-                <MobileNavigationLink key={item.label} item={item} onNavigate={closeDrawer} />
+                <MobileNavigationLink
+                  key={item.label}
+                  item={item}
+                  pathname={activePathname}
+                  onNavigate={closeDrawer}
+                />
               ))}
             </nav>
 
@@ -79,13 +85,15 @@ export function MobileNavigationDrawer() {
 
 function MobileNavigationLink({
   item,
+  pathname,
   onNavigate,
 }: {
   item: NavigationItem;
+  pathname: string;
   onNavigate: () => void;
 }) {
   const Icon = item.icon;
-  const isActive = item.label === 'Home';
+  const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
 
   return (
     <Link

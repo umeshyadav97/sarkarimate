@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { quickAccessItems } from '@/features/home/constants/homepage-data';
 
 const toneClasses = {
@@ -18,9 +19,9 @@ export function QuickAccessSection() {
           const hasRowDivider = index < 3;
 
           return (
-            <a
+            <Link
               key={item.label}
-              href="#"
+              href={item.href}
               className={`relative flex min-h-34 flex-col items-center justify-center md:px-4 px-2 md:py-4 py-2 text-center transition-colors hover:bg-slate-50 ${
                 hasRowDivider ? 'border-b border-slate-200 lg:border-b-0' : ''
               }`}
@@ -49,7 +50,7 @@ export function QuickAccessSection() {
                   {item.description}
                 </span>
               </span>
-            </a>
+            </Link>
           );
         })}
       </div>
