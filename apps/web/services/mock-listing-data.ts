@@ -1,5 +1,7 @@
 import type { ListingItem } from '@/components/listing';
 
+const mockJobDetailHref = '/jobs/up-anganwadi-bharti-recruitment-2026';
+
 const titlesByEndpoint: Record<string, string[]> = {
   '/jobs': [
     'UP Police Constable Recruitment 2026',
@@ -84,7 +86,7 @@ export function getMockListingItems(endpoint: string): ListingItem[] {
       updatedDate: `${day} Jul ${year}`,
       year,
       state: states[index % states.length],
-      href: '#',
+      href: endpoint === '/jobs' ? mockJobDetailHref : '#',
     };
   });
 }

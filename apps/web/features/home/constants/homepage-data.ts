@@ -86,6 +86,8 @@ export const navigationItems: NavigationItem[] = [
 
 export const popularSearches = ['SSC CGL', 'UP Police', 'RRB NTPC', 'UP Anganwadi', 'Bihar Police'];
 
+const mockJobDetailHref = '/jobs/up-anganwadi-bharti-recruitment-2026';
+
 export const quickAccessItems: QuickAccessItem[] = [
   {
     label: 'Latest Jobs',
@@ -131,6 +133,7 @@ export const latestJobs: NotificationItem[] = [
     organization: 'Uttar Pradesh Government',
     metaLabel: 'Last Date',
     metaValue: 'District Wise',
+    href: mockJobDetailHref,
     accent: 'orange',
   },
   {
@@ -138,6 +141,7 @@ export const latestJobs: NotificationItem[] = [
     organization: 'Railway Recruitment Board',
     metaLabel: 'Last Date',
     metaValue: '28 Jul 2026',
+    href: mockJobDetailHref,
     accent: 'red',
   },
   {
@@ -145,6 +149,7 @@ export const latestJobs: NotificationItem[] = [
     organization: 'Staff Selection Commission',
     metaLabel: 'Last Date',
     metaValue: '04 Jul 2026',
+    href: mockJobDetailHref,
     accent: 'orange',
   },
   {
@@ -152,6 +157,7 @@ export const latestJobs: NotificationItem[] = [
     organization: 'Bihar Police Subordinate Services Commission',
     metaLabel: 'Last Date',
     metaValue: '20 Jul 2026',
+    href: mockJobDetailHref,
     accent: 'blue',
   },
   {
@@ -159,6 +165,7 @@ export const latestJobs: NotificationItem[] = [
     organization: 'Uttar Pradesh Police',
     metaLabel: 'Last Date',
     metaValue: '30 Jul 2026',
+    href: mockJobDetailHref,
     accent: 'green',
   },
 ];
@@ -169,6 +176,7 @@ export const upcomingDeadlines: NotificationItem[] = [
     organization: 'District Wise',
     metaLabel: 'Deadline',
     metaValue: '6 Days Left',
+    href: mockJobDetailHref,
     accent: 'green',
   },
   {
@@ -176,6 +184,7 @@ export const upcomingDeadlines: NotificationItem[] = [
     organization: 'Railway Recruitment Board',
     metaLabel: 'Deadline',
     metaValue: '10 Days Left',
+    href: mockJobDetailHref,
     accent: 'blue',
   },
   {
@@ -183,6 +192,7 @@ export const upcomingDeadlines: NotificationItem[] = [
     organization: 'BPSSC',
     metaLabel: 'Deadline',
     metaValue: '12 Days Left',
+    href: mockJobDetailHref,
     accent: 'purple',
   },
   {
@@ -190,6 +200,7 @@ export const upcomingDeadlines: NotificationItem[] = [
     organization: 'Staff Selection Commission',
     metaLabel: 'Deadline',
     metaValue: '16 Days Left',
+    href: mockJobDetailHref,
     accent: 'orange',
   },
   {
@@ -197,6 +208,7 @@ export const upcomingDeadlines: NotificationItem[] = [
     organization: 'Uttar Pradesh Police',
     metaLabel: 'Deadline',
     metaValue: '18 Days Left',
+    href: mockJobDetailHref,
     accent: 'red',
   },
 ];
