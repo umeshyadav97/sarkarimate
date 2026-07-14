@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { ListingPage, type ListingPageConfig } from '@/components/listing';
 
 interface ListingRouteProps {
@@ -5,5 +6,9 @@ interface ListingRouteProps {
 }
 
 export function ListingRoute({ config }: ListingRouteProps) {
-  return <ListingPage config={config} />;
+  return (
+    <Suspense fallback={null}>
+      <ListingPage config={config} />
+    </Suspense>
+  );
 }
