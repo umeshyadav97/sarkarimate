@@ -12,7 +12,7 @@ interface ListingTableProps {
 export function ListingTable({ actionLabel, columns, items, startIndex }: ListingTableProps) {
   if (items.length === 0) {
     return (
-      <div className="px-4 py-12 text-center">
+      <div className="px-4 py-8 text-center">
         <h2 className="text-lg font-bold text-[#111827]">No listings found</h2>
         <p className="mt-2 text-sm font-medium text-slate-600">
           Try changing your search or filters.

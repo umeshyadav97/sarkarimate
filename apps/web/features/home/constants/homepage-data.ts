@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 import { BrandShieldIcon } from '@/components/brand-shield-icon';
+import { homePageStore } from '@/features/home/store/homepage-store';
 
 type HomeIcon = ComponentType<
   SVGProps<SVGSVGElement> & {
@@ -55,6 +56,7 @@ export interface NotificationItem {
 export interface CategoryItem {
   title: string;
   count: string;
+  href: string;
   icon: HomeIcon;
   tone: 'blue' | 'green' | 'purple' | 'orange';
 }
@@ -84,194 +86,147 @@ export const navigationItems: NavigationItem[] = [
   { label: 'Schemes', href: '/schemes', icon: Landmark },
 ];
 
-export const popularSearches = ['SSC CGL', 'UP Police', 'RRB NTPC', 'UP Anganwadi', 'Bihar Police'];
+const quickAccessPresentation: Record<
+  (typeof homePageStore.quickAccess)[number]['type'],
+  { icon: HomeIcon; tone: QuickAccessItem['tone']; labelSuffix: string }
+> = {
+  jobs: { icon: BriefcaseBusiness, tone: 'blue', labelSuffix: 'Active' },
+  'admit-card': { icon: FileBadge, tone: 'green', labelSuffix: 'Available' },
+  result: { icon: Trophy, tone: 'purple', labelSuffix: 'Declared' },
+  'answer-key': { icon: ClipboardCheck, tone: 'orange', labelSuffix: 'Available' },
+  syllabus: { icon: BookOpen, tone: 'blue', labelSuffix: 'Available' },
+  // scheme: { icon: Landmark, tone: 'green', labelSuffix: 'Available' },
+  all: { icon: Grid2X2, tone: 'purple', labelSuffix: 'Exams' },
+};
 
-export const quickAccessItems: QuickAccessItem[] = [
-  {
-    label: 'Latest Jobs',
-    description: '25,254+ Active',
+const categoryPresentation: Record<string, { icon: HomeIcon; tone: CategoryItem['tone'] }> = {
+  ssc: { icon: Target, tone: 'orange' },
+  railway: { icon: MonitorCheck, tone: 'blue' },
+  banking: { icon: Landmark, tone: 'purple' },
+  upsc: { icon: BadgeCheck, tone: 'blue' },
+  'up-police': { icon: BrandShieldIcon, tone: 'orange' },
+  police: { icon: BrandShieldIcon, tone: 'orange' },
+  teaching: { icon: GraduationCap, tone: 'blue' },
+  defence: { icon: BrandShieldIcon, tone: 'green' },
+  engineering: { icon: FileCheck2, tone: 'blue' },
+  'state-jobs': { icon: Building2, tone: 'green' },
+  categories: { icon: Grid2X2, tone: 'blue' },
+  'all-categories': { icon: Grid2X2, tone: 'blue' },
+};
+
+function formatDisplayDate(date: string) {
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(`${date}T00:00:00`));
+}
+
+function normalizeHomepageHref(href: string) {
+  if (href === '/answer-key') {
+    return '/answer-keys';
+  }
+
+  if (href === '/categories') {
+    return '/jobs';
+  }
+
+  return href;
+}
+
+export const popularSearches = homePageStore.popularSearches;
+
+export const quickAccessItems: QuickAccessItem[] = homePageStore.quickAccess.map((item) => {
+  const presentation = quickAccessPresentation[item.type];
+
+  return {
+    label: item.label,
+    description: `${item.count} ${presentation.labelSuffix}`,
+    href: normalizeHomepageHref(item.href),
+    icon: presentation.icon,
+    tone: presentation.tone,
+  };
+});
+
+export const latestJobs: NotificationItem[] = homePageStore.latestJobs
+  .slice(0, 5)
+  .map((job, index) => ({
+    title: job.title,
+    organization: job.organization,
+    metaLabel: 'Last Date',
+    metaValue: formatDisplayDate(job.lastDate),
     href: '/jobs',
-    icon: BriefcaseBusiness,
+    accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
+  }));
+
+export const upcomingDeadlines: NotificationItem[] = homePageStore.upcomingDeadlines.map(
+  (deadline, index) => ({
+    title: deadline.title,
+    organization: deadline.organization,
+    metaLabel: 'Deadline',
+    metaValue: `${deadline.daysLeft} Days Left`,
+    href: '/jobs',
+    accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
+  }),
+);
+
+export const latestResults: NotificationItem[] = homePageStore.latestResults.map(
+  (result, index) => ({
+    title: result.title,
+    organization: result.organization,
+    metaLabel: 'Result Date',
+    metaValue: formatDisplayDate(result.resultDate),
+    href: '/results',
+    accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
+  }),
+);
+
+export const categories: CategoryItem[] = homePageStore.categories.map((category) => {
+  const slug = String(category.slug);
+  const presentation = categoryPresentation[slug] ?? {
+    icon: Grid2X2,
     tone: 'blue',
-  },
-  {
-    label: 'Admit Card',
-    description: '1,245+ Available',
-    href: '/admit-cards',
-    icon: FileBadge,
-    tone: 'green',
-  },
-  {
-    label: 'Results',
-    description: '3,876+ Declared',
-    href: '/results',
-    icon: Trophy,
-    tone: 'purple',
-  },
-  {
-    label: 'Answer Key',
-    description: '742+ Available',
-    href: '/answer-keys',
-    icon: ClipboardCheck,
-    tone: 'orange',
-  },
-  {
-    label: 'Syllabus',
-    description: '1,345+ Available',
-    href: '/syllabus',
-    icon: BookOpen,
-    tone: 'blue',
-  },
-  { label: 'All Exams', description: '2,540+ Exams', href: '/jobs', icon: Grid2X2, tone: 'blue' },
-];
+  };
+  const isAllCategories = slug === 'categories' || slug === 'all-categories';
 
-export const latestJobs: NotificationItem[] = [
-  {
-    title: 'UP Anganwadi Bharti Online Form 2026',
-    organization: 'Uttar Pradesh Government',
-    metaLabel: 'Last Date',
-    metaValue: 'District Wise',
-    accent: 'orange',
-  },
-  {
-    title: 'RRB Technician Recruitment 2026',
-    organization: 'Railway Recruitment Board',
-    metaLabel: 'Last Date',
-    metaValue: '28 Jul 2026',
-    accent: 'red',
-  },
-  {
-    title: 'SSC CGL 2026 Online Form',
-    organization: 'Staff Selection Commission',
-    metaLabel: 'Last Date',
-    metaValue: '04 Jul 2026',
-    accent: 'orange',
-  },
-  {
-    title: 'Bihar Police Sub Inspector SI 2026',
-    organization: 'Bihar Police Subordinate Services Commission',
-    metaLabel: 'Last Date',
-    metaValue: '20 Jul 2026',
-    accent: 'blue',
-  },
-  {
-    title: 'UP Police Constable Recruitment 2026',
-    organization: 'Uttar Pradesh Police',
-    metaLabel: 'Last Date',
-    metaValue: '30 Jul 2026',
-    accent: 'green',
-  },
-];
-
-export const upcomingDeadlines: NotificationItem[] = [
-  {
-    title: 'UP Anganwadi Bharti 2026',
-    organization: 'District Wise',
-    metaLabel: 'Deadline',
-    metaValue: '6 Days Left',
-    accent: 'green',
-  },
-  {
-    title: 'RRB Technician 2026',
-    organization: 'Railway Recruitment Board',
-    metaLabel: 'Deadline',
-    metaValue: '10 Days Left',
-    accent: 'blue',
-  },
-  {
-    title: 'Bihar Police SI 2026',
-    organization: 'BPSSC',
-    metaLabel: 'Deadline',
-    metaValue: '12 Days Left',
-    accent: 'purple',
-  },
-  {
-    title: 'SSC CGL 2026',
-    organization: 'Staff Selection Commission',
-    metaLabel: 'Deadline',
-    metaValue: '16 Days Left',
-    accent: 'orange',
-  },
-  {
-    title: 'UP Police Constable 2026',
-    organization: 'Uttar Pradesh Police',
-    metaLabel: 'Deadline',
-    metaValue: '18 Days Left',
-    accent: 'red',
-  },
-];
-
-export const latestResults: NotificationItem[] = [
-  {
-    title: 'RRB Group-D Result 2026',
-    organization: 'Railway Recruitment Board',
-    metaLabel: 'Status',
-    metaValue: 'OUT',
-    href: '/results',
-    accent: 'red',
-  },
-  {
-    title: 'UPSSSC PET 2025 Result',
-    organization: 'Uttar Pradesh Govt.',
-    metaLabel: 'Status',
-    metaValue: 'OUT',
-    href: '/results',
-    accent: 'purple',
-  },
-  {
-    title: 'SSC CGL Tier 1 Result 2026',
-    organization: 'Staff Selection Commission',
-    metaLabel: 'Status',
-    metaValue: 'OUT',
-    href: '/results',
-    accent: 'orange',
-  },
-  {
-    title: 'UP Police SI Result 2026',
-    organization: 'Uttar Pradesh Police',
-    metaLabel: 'Status',
-    metaValue: 'OUT',
-    href: '/results',
-    accent: 'blue',
-  },
-  {
-    title: 'Bihar DELED Result 2026',
-    organization: 'Bihar School Examination Board',
-    metaLabel: 'Status',
-    metaValue: 'OUT',
-    href: '/results',
-    accent: 'green',
-  },
-];
-
-export const categories: CategoryItem[] = [
-  { title: 'SSC', count: '245+ Jobs', icon: Target, tone: 'orange' },
-  { title: 'Railway', count: '320+ Jobs', icon: MonitorCheck, tone: 'blue' },
-  { title: 'Banking', count: '185+ Jobs', icon: Landmark, tone: 'purple' },
-  { title: 'UP Police', count: '215+ Jobs', icon: BrandShieldIcon, tone: 'orange' },
-  { title: 'Teaching', count: '280+ Jobs', icon: GraduationCap, tone: 'blue' },
-  { title: 'Defence', count: '120+ Jobs', icon: BrandShieldIcon, tone: 'green' },
-  { title: 'Engineering', count: '150+ Jobs', icon: FileCheck2, tone: 'blue' },
-  { title: 'All Categories', count: '1000+ Jobs', icon: Grid2X2, tone: 'blue' },
-];
+  return {
+    title: category.name,
+    count: `${category.count}+ Jobs`,
+    href: isAllCategories ? '/jobs' : `/jobs?category=${slug}`,
+    icon: presentation.icon,
+    tone: presentation.tone,
+  };
+});
 
 export const stats: StatItem[] = [
   {
     label: 'Total Job Posts',
-    value: '2,54,000+',
-    helper: 'All Time',
+    value: `${homePageStore.stats.totalJobs}+`,
+    helper: 'Available Now',
     icon: BriefcaseBusiness,
     tone: 'blue',
   },
   {
     label: 'Active Job Posts',
-    value: '25,254+',
+    value: `${homePageStore.stats.activeJobs}+`,
     helper: 'Currently Open',
     icon: FileBadge,
     tone: 'green',
   },
-  { label: 'Results Declared', value: '3,876+', helper: 'Till Now', icon: Trophy, tone: 'purple' },
-  { label: 'Active Users', value: '1M+', helper: 'Trusting Us', icon: Users, tone: 'orange' },
+  {
+    label: 'Results Declared',
+    value: `${homePageStore.stats.resultsDeclared}+`,
+    helper: 'Latest Updates',
+    icon: Trophy,
+    tone: 'purple',
+  },
+  {
+    label: 'Active Users',
+    value: `${homePageStore.stats.activeUsers}+`,
+    helper: 'Tracking Today',
+    icon: Users,
+    tone: 'orange',
+  },
 ];
 
 export const importantTools: ToolItem[] = [

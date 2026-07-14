@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "source": "static-seed",
+  "dataStatus": "seed-unverified",
+  "sourceNote": "Seed data based on screenshots shared in this conversation. Verify dates and official links before publishing.",
+  "message": "Upcoming deadlines fetched successfully.",
+  "data": {
+    "items": [
+      {
+        "id": "deadline-001",
+        "title": "UPSRTC Bus Conductor Online Form 2026",
+        "organization": "UPSRTC",
+        "slug": "upsrtc-bus-conductor-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/upsrtc-bus-conductor-online-form-2026"
+      },
+      {
+        "id": "deadline-002",
+        "title": "Railway RRB Technician Online Form 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "railway-rrb-technician-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/railway-rrb-technician-online-form-2026"
+      },
+      {
+        "id": "deadline-003",
+        "title": "SBI Assistant Manager Law and Deputy Manager Law Online Form 2026",
+        "organization": "State Bank of India",
+        "slug": "sbi-assistant-manager-law-deputy-manager-law-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/sbi-assistant-manager-law-deputy-manager-law-online-form-2026"
+      },
+      {
+        "id": "deadline-004",
+        "title": "UP Anganwadi Bharti Online Form 2026",
+        "organization": "Uttar Pradesh Government",
+        "slug": "up-anganwadi-bharti-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/up-anganwadi-bharti-online-form-2026"
+      },
+      {
+        "id": "deadline-005",
+        "title": "IDBI Bank Specialist Officer SO Online Form 2026",
+        "organization": "IDBI Bank",
+        "slug": "idbi-bank-specialist-officer-so-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/idbi-bank-specialist-officer-so-online-form-2026"
+      },
+      {
+        "id": "deadline-006",
+        "title": "UPSSSC OTR One Time Registration Online Form 2026",
+        "organization": "UPSSSC",
+        "slug": "upsssc-otr-one-time-registration-online-form-2026",
+        "category": "Registration",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/upsssc-otr-one-time-registration-online-form-2026"
+      },
+      {
+        "id": "deadline-007",
+        "title": "DSSSB Various Post Online Form 2026",
+        "organization": "DSSSB",
+        "slug": "dsssb-various-post-online-form-2026",
+        "category": "Jobs",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/dsssb-various-post-online-form-2026"
+      },
+      {
+        "id": "deadline-008",
+        "title": "IBPS PO MT XVII Online Form 2026",
+        "organization": "IBPS",
+        "slug": "ibps-po-mt-xvii-online-form-2026",
+        "category": "Banking",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/ibps-po-mt-xvii-online-form-2026"
+      },
+      {
+        "id": "deadline-009",
+        "title": "IBPS SO XVII Online Form 2026",
+        "organization": "IBPS",
+        "slug": "ibps-so-xvii-online-form-2026",
+        "category": "Banking",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/ibps-so-xvii-online-form-2026"
+      },
+      {
+        "id": "deadline-010",
+        "title": "NEET PG Online Form 2026",
+        "organization": "National Board of Examinations",
+        "slug": "neet-pg-online-form-2026",
+        "category": "Admission",
+        "lastDate": null,
+        "daysLeft": null,
+        "status": "verify-date",
+        "href": "/jobs/neet-pg-online-form-2026"
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 10,
+      "totalPages": 1
+    }
+  }
+}

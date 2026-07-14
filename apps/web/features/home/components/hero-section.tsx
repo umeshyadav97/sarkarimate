@@ -3,10 +3,24 @@ import { Badge } from '@repo/ui';
 import { popularSearches } from '@/features/home/constants/homepage-data';
 import { GovernmentBuildingVisual } from '@/features/home/components/government-building-visual';
 import { SearchInput } from '@/components/SearchInput';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function HeroSection() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
+
+  const handleSearch = () => {
+    const normalizedSearch = search.trim();
+
+    if (!normalizedSearch) {
+      router.push('/jobs');
+      return;
+    }
+
+    router.push(`/jobs?q=${encodeURIComponent(normalizedSearch)}`);
+  };
+
   return (
     <section className="mx-auto grid max-w-full items-center gap-8 px-4 py-4 sm:px-6 md:py-6 lg:py-9 md:grid-cols-[0.9fr_1.1fr] lg:px-8">
       <div className="min-w-0">
@@ -29,7 +43,7 @@ export function HeroSection() {
             placeholder="Search jobs, exams, departments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onSearch={() => console.log(search)}
+            onSearch={handleSearch}
           />
         </div>
       </div>
@@ -38,9 +52,9 @@ export function HeroSection() {
       </div>
       <div className="flex w-full flex-wrap items-center gap-3 md:col-span-2">
         <span className="mr-1 text-sm font-bold text-[#111827]">Popular Searches:</span>
-        {popularSearches.map((search) => (
-          <Badge key={search} className="bg-blue-50 text-sm font-bold text-[#1D4ED8]">
-            {search}
+        {popularSearches.map((popularSearch) => (
+          <Badge key={popularSearch} className="bg-blue-50 text-sm font-bold text-[#1D4ED8]">
+            {popularSearch}
           </Badge>
         ))}
       </div>

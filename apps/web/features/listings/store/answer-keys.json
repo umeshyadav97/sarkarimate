@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "source": "static-seed",
+  "dataStatus": "seed-unverified",
+  "sourceNote": "Seed data based on screenshots shared in this conversation. Verify dates and official links before publishing.",
+  "message": "Answer keys fetched successfully.",
+  "data": {
+    "items": [
+      {
+        "id": "answer-001",
+        "title": "UPSSSC Assistant Boring Technician Answer Key 2026",
+        "organization": "UPSSSC",
+        "slug": "upsssc-assistant-boring-technician-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/upsssc-assistant-boring-technician-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-002",
+        "title": "NTA NEET UG 2026 Re-Exam OMR Answer Sheet",
+        "organization": "National Testing Agency",
+        "slug": "nta-neet-ug-2026-re-exam-omr-answer-sheet",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/nta-neet-ug-2026-re-exam-omr-answer-sheet",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-003",
+        "title": "SSB HC Ministerial Answer Key 2026 Re-Open",
+        "organization": "Sashastra Seema Bal",
+        "slug": "ssb-hc-ministerial-answer-key-2026-re-open",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/ssb-hc-ministerial-answer-key-2026-re-open",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-004",
+        "title": "UPSSSC Teacher Cadre JTC Answer Key 2026",
+        "organization": "UPSSSC",
+        "slug": "upsssc-teacher-cadre-jtc-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/upsssc-teacher-cadre-jtc-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-005",
+        "title": "MPESB ADDET Answer Key 2026",
+        "organization": "MPESB",
+        "slug": "mpesb-addet-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/mpesb-addet-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-006",
+        "title": "Bihar BPSC Auditor Pre Answer Key 2026",
+        "organization": "BPSC",
+        "slug": "bihar-bpsc-auditor-pre-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/bihar-bpsc-auditor-pre-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-007",
+        "title": "NCL Various Post Answer Key 2026",
+        "organization": "Northern Coalfields Limited",
+        "slug": "ncl-various-post-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/ncl-various-post-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-008",
+        "title": "RRB Junior Engineer JE CBT 2 Answer Key 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-junior-engineer-je-cbt-2-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/rrb-junior-engineer-je-cbt-2-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-009",
+        "title": "AIBE 21 Final Answer Key 2026",
+        "organization": "Bar Council of India",
+        "slug": "aibe-21-final-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/aibe-21-final-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "answer-010",
+        "title": "BSNL Senior Executive Trainee Answer Key 2026",
+        "organization": "BSNL",
+        "slug": "bsnl-senior-executive-trainee-answer-key-2026",
+        "answerKeyDate": null,
+        "objectionLastDate": null,
+        "status": "released",
+        "href": "/answer-keys/bsnl-senior-executive-trainee-answer-key-2026",
+        "officialUrl": "#"
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 10,
+      "totalPages": 1
+    }
+  }
+}

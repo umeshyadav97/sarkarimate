@@ -9,6 +9,10 @@ const toneClasses = {
 };
 
 export function QuickAccessSection() {
+  const mobileItemsPerRow = 3;
+  const lastMobileRowStart =
+    quickAccessItems.length - (quickAccessItems.length % mobileItemsPerRow || mobileItemsPerRow);
+
   return (
     <section className="mx-auto max-w-full px-2 sm:px-4 lg:px-6" aria-label="Quick access">
       <div className="grid overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] grid-cols-3 md:grid-cols-3 lg:grid-cols-6">
@@ -16,13 +20,13 @@ export function QuickAccessSection() {
           const Icon = item.icon;
           const hasColumnDivider = index % 3 !== 2;
           const hasDesktopDivider = index < quickAccessItems.length - 1;
-          const hasRowDivider = index < 3;
+          const hasRowDivider = index < lastMobileRowStart;
 
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`relative flex min-h-34 flex-col items-center justify-center md:px-4 px-2 md:py-4 py-2 text-center transition-colors hover:bg-slate-50 ${
+              className={`relative flex min-h-34 flex-col items-center justify-center md:px-4 px-2 md:py-4  text-center transition-colors hover:bg-slate-50 ${
                 hasRowDivider ? 'border-b border-slate-200 lg:border-b-0' : ''
               }`}
             >
@@ -34,10 +38,10 @@ export function QuickAccessSection() {
                 />
               ) : null}
               <span
-                className={`grid lg:h-16 lg:w-16 md:h-14 md:w-14 h-8 w-8 place-items-center rounded-xl ring-1 ring-inset ring-current/10 ${toneClasses[item.tone]}`}
+                className={`grid lg:h-12 lg:w-12 md:h-10 md:w-10 h-8 w-8 place-items-center rounded-xl ring-1 ring-inset ring-current/10 ${toneClasses[item.tone]}`}
               >
                 <Icon
-                  className="lg:h-9 lg:w-9 md:h-6 md:w-6 h-4 w-4"
+                  className="lg:h-7 lg:w-7 md:h-5 md:w-5 h-4 w-4"
                   strokeWidth={1.5}
                   aria-hidden="true"
                 />
