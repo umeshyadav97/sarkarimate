@@ -1,4 +1,5 @@
 import { CategoriesSection, StatsSection } from '@/features/home/components/categories-section';
+import { HomeJobsDebug } from '@/features/home/components/home-jobs-debug';
 import { HeroSection } from '@/features/home/components/hero-section';
 import { NotificationPanels } from '@/features/home/components/notification-panels';
 import { QuickAccessSection } from '@/features/home/components/quick-access-section';
@@ -35,6 +36,7 @@ export function Homepage() {
         }}
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
+        <HomeJobsDebug />
         <HeroSection />
         <QuickAccessSection />
         <NotificationPanels />
