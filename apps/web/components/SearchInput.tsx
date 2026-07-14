@@ -58,6 +58,7 @@ export function SearchInput({
         <Search size={17} strokeWidth={2} className="mr-2.5 text-[#98A2B3]" />
 
         <input
+          suppressHydrationWarning
           id={id}
           name={name}
           type={type}
@@ -76,6 +77,7 @@ export function SearchInput({
 
       {showButton ? (
         <button
+          suppressHydrationWarning
           onClick={handleSearch}
           disabled={loading || disabled}
           className="
