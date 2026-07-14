@@ -8,7 +8,7 @@ interface InfiniteListProps {
 
 export function InfiniteList({ hasMore, isLoadingMore, sentinelRef }: InfiniteListProps) {
   return (
-    <div className="border-t border-slate-200 px-4 py-5 text-center" ref={sentinelRef}>
+    <div className="border-t border-slate-200 px-4 py-3 text-center" ref={sentinelRef}>
       {isLoadingMore ? (
         <div className="space-y-3" aria-label="Loading more listings">
           {[1, 2, 3].map((row) => (

@@ -22,13 +22,13 @@ export function ListingSidebar({
 }: ListingSidebarProps) {
   return (
     <aside className="space-y-6" aria-label="Listing sidebar">
-      <FilterCard
+      {/* <FilterCard
         config={config}
         draftFilters={draftFilters}
         onApply={onApplyFilters}
         onDraftFilterChange={onDraftFilterChange}
         onReset={onResetFilters}
-      />
+      /> */}
       <NewsletterCard config={config} />
       <NeedHelpCard config={config} />
     </aside>

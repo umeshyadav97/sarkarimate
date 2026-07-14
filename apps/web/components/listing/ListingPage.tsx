@@ -108,14 +108,18 @@ export function ListingPage({ config }: ListingPageProps) {
                 items={items}
                 startIndex={1}
               />
-              <div className="border-t border-slate-200 px-4 py-4 text-sm font-semibold text-slate-600">
-                {loadedSummary}
-              </div>
-              <InfiniteList
-                hasMore={hasMore}
-                isLoadingMore={isLoadingMore}
-                sentinelRef={sentinelRef}
-              />
+              {items.length > 0 ? (
+                <>
+                  <div className="border-t border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600">
+                    {loadedSummary}
+                  </div>
+                  <InfiniteList
+                    hasMore={hasMore}
+                    isLoadingMore={isLoadingMore}
+                    sentinelRef={sentinelRef}
+                  />
+                </>
+              ) : null}
             </>
           ) : null}
         </div>
