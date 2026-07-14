@@ -1,5 +1,60 @@
 import type { ListingItem, ListingQuery, ListingResponse } from '@/components/listing';
-import { getMockListingItems } from '@/services/mock-listing-data';
+import {
+  staticListApiResponses,
+  type StaticListEndpoint,
+} from '@/features/listings/store/static-list-api';
+
+type StaticApiItem = (typeof staticListApiResponses)[StaticListEndpoint]['data']['items'][number];
+
+function getStaticApiResponse(endpoint: string) {
+  return staticListApiResponses[endpoint as StaticListEndpoint] ?? staticListApiResponses['/jobs'];
+}
+
+function formatListingDate(date?: string | null) {
+  if (!date) {
+    return 'Recently Updated';
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(`${date}T00:00:00`));
+}
+
+function getItemDate(item: StaticApiItem) {
+  return (
+    item.updatedDate ??
+    item.releaseDate ??
+    item.examDate ??
+    item.resultDate ??
+    item.answerKeyDate ??
+    item.objectionLastDate ??
+    item.lastDate
+  );
+}
+
+function getItemYear(item: StaticApiItem) {
+  const date = getItemDate(item);
+
+  if (date) {
+    return new Date(`${date}T00:00:00`).getFullYear().toString();
+  }
+
+  return item.title.match(/\b(20\d{2})\b/)?.[1] ?? '2026';
+}
+
+function toListingItem(item: StaticApiItem): ListingItem {
+  return {
+    id: item.id,
+    title: item.title,
+    organization: item.organization,
+    updatedDate: formatListingDate(getItemDate(item)),
+    year: getItemYear(item),
+    state: item.state ?? 'All India',
+    href: item.href,
+  };
+}
 
 function applySearch(items: ListingItem[], search: string) {
   const normalizedSearch = search.trim().toLowerCase();
@@ -45,9 +100,10 @@ export async function getListingItems(query: ListingQuery): Promise<ListingRespo
     setTimeout(resolve, 350);
   });
 
-  const mockListingItems = getMockListingItems(query.endpoint);
+  const staticApiResponse = getStaticApiResponse(query.endpoint);
+  const staticListingItems = staticApiResponse.data.items.map(toListingItem);
   const filteredItems = applySort(
-    applyFilters(applySearch(mockListingItems, query.search), query),
+    applyFilters(applySearch(staticListingItems, query.search), query),
     query.sort,
   );
   const start = (query.page - 1) * query.pageSize;

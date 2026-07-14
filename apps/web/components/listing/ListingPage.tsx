@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FilterCard } from '@/components/listing/FilterCard';
 import { InfiniteList } from '@/components/listing/InfiniteList';
 import { ListingHero } from '@/components/listing/ListingHero';
@@ -13,6 +13,7 @@ import { NewsletterCard } from '@/components/listing/NewsletterCard';
 import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useListingItems } from '@/hooks/useListingItems';
+import { useSearchParams } from 'next/navigation';
 
 interface ListingPageProps {
   config: ListingPageConfig;
@@ -25,10 +26,15 @@ const initialFilters: ListingFilters = {
 };
 
 export function ListingPage({ config }: ListingPageProps) {
-  const [search, setSearch] = useState('');
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') ?? '');
   const [sort, setSort] = useState('latest');
   const [filters, setFilters] = useState<ListingFilters>(initialFilters);
   const [draftFilters, setDraftFilters] = useState<ListingFilters>(initialFilters);
+
+  useEffect(() => {
+    setSearch(searchParams.get('q') ?? '');
+  }, [searchParams]);
 
   const { items, total, hasMore, isLoading, isLoadingMore, error, loadMore } = useListingItems({
     endpoint: config.apiEndpoint,
@@ -102,14 +108,18 @@ export function ListingPage({ config }: ListingPageProps) {
                 items={items}
                 startIndex={1}
               />
-              <div className="border-t border-slate-200 px-4 py-4 text-sm font-semibold text-slate-600">
-                {loadedSummary}
-              </div>
-              <InfiniteList
-                hasMore={hasMore}
-                isLoadingMore={isLoadingMore}
-                sentinelRef={sentinelRef}
-              />
+              {items.length > 0 ? (
+                <>
+                  <div className="border-t border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600">
+                    {loadedSummary}
+                  </div>
+                  <InfiniteList
+                    hasMore={hasMore}
+                    isLoadingMore={isLoadingMore}
+                    sentinelRef={sentinelRef}
+                  />
+                </>
+              ) : null}
             </>
           ) : null}
         </div>

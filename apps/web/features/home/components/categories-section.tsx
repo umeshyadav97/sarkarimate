@@ -21,7 +21,7 @@ export function CategoriesSection() {
             return (
               <a
                 key={category.title}
-                href="#"
+                href={category.href}
                 className="rounded-lg border border-slate-200 md:p-4 p-2 text-center hover:border-blue-200 hover:bg-blue-50"
               >
                 <Icon
@@ -56,12 +56,12 @@ export function StatsSection() {
               className="flex items-center gap-4 border-slate-200 lg:border-r lg:last:border-r-0"
             >
               <span
-                className={`grid lg:h-16 lg:w-16 w-12 h-12 place-items-center rounded-lg ${stat.toneClass}`}
+                className={`grid lg:h-12 lg:w-12 w-10 h-10 place-items-center rounded-lg ${stat.toneClass}`}
               >
-                <Icon className="lg:h-8 lg:w-8 h-6 w-6" aria-hidden="true" strokeWidth={1.5} />
+                <Icon className="lg:h-7 lg:w-7 h-6 w-6" aria-hidden="true" strokeWidth={1.5} />
               </span>
               <div>
-                <p className={`lg:text-3xl text-xl font-bold ${stat.valueClass}`}>{stat.value}</p>
+                <p className={`lg:text-2xl text-md font-bold ${stat.valueClass}`}>{stat.value}</p>
                 <h3 className="mt-1 lg:text-base text-sm font-bold text-[#111827]">{stat.label}</h3>
                 <p className="mt-1 lg:text-sm text-xs font-semibold text-slate-500">
                   {stat.helper}

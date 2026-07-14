@@ -1,0 +1,117 @@
+{
+  "success": true,
+  "source": "static-seed",
+  "dataStatus": "seed-unverified",
+  "sourceNote": "Seed data based on screenshots shared in this conversation. Verify dates and official links before publishing.",
+  "message": "Results fetched successfully.",
+  "data": {
+    "items": [
+      {
+        "id": "result-001",
+        "title": "UPSSSC Assistant Boring Technician Answer Key 2026",
+        "organization": "UPSSSC",
+        "slug": "upsssc-assistant-boring-technician-answer-key-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/upsssc-assistant-boring-technician-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-002",
+        "title": "Indian Army Agniveer CEE Result 2026",
+        "organization": "Indian Army",
+        "slug": "indian-army-agniveer-cee-result-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/indian-army-agniveer-cee-result-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-003",
+        "title": "Magadh University UG 2nd Merit List 2026",
+        "organization": "Magadh University",
+        "slug": "magadh-university-ug-2nd-merit-list-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/magadh-university-ug-2nd-merit-list-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-004",
+        "title": "JPU UG 2nd Merit List 2026",
+        "organization": "Jai Prakash University",
+        "slug": "jpu-ug-2nd-merit-list-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/jpu-ug-2nd-merit-list-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-005",
+        "title": "NTA NEET UG 2026 Re-Exam OMR Answer Sheet",
+        "organization": "National Testing Agency",
+        "slug": "nta-neet-ug-2026-re-exam-omr-answer-sheet",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/nta-neet-ug-2026-re-exam-omr-answer-sheet",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-006",
+        "title": "RBI Officer Grade B Phase I Result with Marks 2026",
+        "organization": "Reserve Bank of India",
+        "slug": "rbi-officer-grade-b-phase-1-result-with-marks-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/rbi-officer-grade-b-phase-1-result-with-marks-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-007",
+        "title": "RRB Junior Engineer JE CBT 2 Answer Key 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-junior-engineer-je-cbt-2-answer-key-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/rrb-junior-engineer-je-cbt-2-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-008",
+        "title": "AIBE 21 Final Answer Key 2026",
+        "organization": "Bar Council of India",
+        "slug": "aibe-21-final-answer-key-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/aibe-21-final-answer-key-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-009",
+        "title": "DECE LE 2026 First Round Allotment Result",
+        "organization": "BCECEB",
+        "slug": "dece-le-2026-first-round-allotment-result",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/dece-le-2026-first-round-allotment-result",
+        "officialUrl": "#"
+      },
+      {
+        "id": "result-010",
+        "title": "RRB NTPC Graduate CBTST Result 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-ntpc-graduate-cbtst-result-2026",
+        "resultDate": null,
+        "status": "declared",
+        "href": "/results/rrb-ntpc-graduate-cbtst-result-2026",
+        "officialUrl": "#"
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 10,
+      "totalPages": 1
+    }
+  }
+}

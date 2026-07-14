@@ -1,0 +1,117 @@
+{
+  "success": true,
+  "source": "static-seed",
+  "dataStatus": "seed-unverified",
+  "sourceNote": "Seed data based on screenshots shared in this conversation. Verify dates and official links before publishing.",
+  "message": "Syllabus items fetched successfully.",
+  "data": {
+    "items": [
+      {
+        "id": "syllabus-001",
+        "title": "SSC CGL Syllabus 2026",
+        "organization": "SSC",
+        "slug": "ssc-cgl-syllabus-2026",
+        "examName": "SSC CGL",
+        "updatedDate": null,
+        "href": "/syllabus/ssc-cgl-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-002",
+        "title": "SSC CHSL Syllabus 2026",
+        "organization": "SSC",
+        "slug": "ssc-chsl-syllabus-2026",
+        "examName": "SSC CHSL",
+        "updatedDate": null,
+        "href": "/syllabus/ssc-chsl-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-003",
+        "title": "SSC MTS Syllabus 2026",
+        "organization": "SSC",
+        "slug": "ssc-mts-syllabus-2026",
+        "examName": "SSC MTS",
+        "updatedDate": null,
+        "href": "/syllabus/ssc-mts-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-004",
+        "title": "SSC GD Constable Syllabus 2026",
+        "organization": "SSC",
+        "slug": "ssc-gd-constable-syllabus-2026",
+        "examName": "SSC GD Constable",
+        "updatedDate": null,
+        "href": "/syllabus/ssc-gd-constable-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-005",
+        "title": "RRB NTPC Syllabus 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-ntpc-syllabus-2026",
+        "examName": "RRB NTPC",
+        "updatedDate": null,
+        "href": "/syllabus/rrb-ntpc-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-006",
+        "title": "RRB Group D Syllabus 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-group-d-syllabus-2026",
+        "examName": "RRB Group D",
+        "updatedDate": null,
+        "href": "/syllabus/rrb-group-d-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-007",
+        "title": "IBPS PO Syllabus 2026",
+        "organization": "IBPS",
+        "slug": "ibps-po-syllabus-2026",
+        "examName": "IBPS PO",
+        "updatedDate": null,
+        "href": "/syllabus/ibps-po-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-008",
+        "title": "IBPS Clerk Syllabus 2026",
+        "organization": "IBPS",
+        "slug": "ibps-clerk-syllabus-2026",
+        "examName": "IBPS Clerk",
+        "updatedDate": null,
+        "href": "/syllabus/ibps-clerk-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-009",
+        "title": "UP Police Constable Syllabus 2026",
+        "organization": "UP Police Recruitment Board",
+        "slug": "up-police-constable-syllabus-2026",
+        "examName": "UP Police Constable",
+        "updatedDate": null,
+        "href": "/syllabus/up-police-constable-syllabus-2026",
+        "downloadUrl": "#"
+      },
+      {
+        "id": "syllabus-010",
+        "title": "UPSC Civil Services Syllabus 2026",
+        "organization": "UPSC",
+        "slug": "upsc-civil-services-syllabus-2026",
+        "examName": "UPSC Civil Services",
+        "updatedDate": null,
+        "href": "/syllabus/upsc-civil-services-syllabus-2026",
+        "downloadUrl": "#"
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 10,
+      "totalPages": 1
+    }
+  }
+}

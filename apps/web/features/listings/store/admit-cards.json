@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "source": "static-seed",
+  "dataStatus": "seed-unverified",
+  "sourceNote": "Seed data based on screenshots shared in this conversation. Verify dates and official links before publishing.",
+  "message": "Admit cards fetched successfully.",
+  "data": {
+    "items": [
+      {
+        "id": "admit-001",
+        "title": "BPSSC Bihar Police Havildar Instructor Admit Card 2026",
+        "organization": "BPSSC",
+        "slug": "bpssc-bihar-police-havildar-instructor-admit-card-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/bpssc-bihar-police-havildar-instructor-admit-card-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-002",
+        "title": "NTA CSIR UGC NET June Admit Card 2026",
+        "organization": "National Testing Agency",
+        "slug": "nta-csir-ugc-net-june-admit-card-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/nta-csir-ugc-net-june-admit-card-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-003",
+        "title": "BPSSC Bihar Police Havildar Instructor Home Guard Rejection List 2026",
+        "organization": "BPSSC",
+        "slug": "bpssc-bihar-police-havildar-instructor-home-guard-rejection-list-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/bpssc-bihar-police-havildar-instructor-home-guard-rejection-list-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-004",
+        "title": "Bihar Police BPSSC ASI Technical Rejection List 2026",
+        "organization": "BPSSC",
+        "slug": "bihar-police-bpssc-asi-technical-rejection-list-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/bihar-police-bpssc-asi-technical-rejection-list-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-005",
+        "title": "Railway RRB Group D Application Status 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "railway-rrb-group-d-application-status-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/railway-rrb-group-d-application-status-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-006",
+        "title": "RRB Ministerial and Isolated Category Admit Card 2026",
+        "organization": "Railway Recruitment Board",
+        "slug": "rrb-ministerial-isolated-category-admit-card-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/rrb-ministerial-isolated-category-admit-card-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-007",
+        "title": "AIIMS CRE 5th Group B and C Application Status 2026",
+        "organization": "AIIMS",
+        "slug": "aiims-cre-5th-group-b-c-application-status-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/aiims-cre-5th-group-b-c-application-status-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-008",
+        "title": "IB MTS Tier II Admit Card 2026",
+        "organization": "Intelligence Bureau",
+        "slug": "ib-mts-tier-2-admit-card-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/ib-mts-tier-2-admit-card-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-009",
+        "title": "JSSC Field Worker Exam City Details 2026",
+        "organization": "JSSC",
+        "slug": "jssc-field-worker-exam-city-details-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/jssc-field-worker-exam-city-details-2026",
+        "officialUrl": "#"
+      },
+      {
+        "id": "admit-010",
+        "title": "UPSC CAPF AC Admit Card 2026",
+        "organization": "UPSC",
+        "slug": "upsc-capf-ac-admit-card-2026",
+        "examDate": null,
+        "releaseDate": null,
+        "status": "released",
+        "href": "/admit-cards/upsc-capf-ac-admit-card-2026",
+        "officialUrl": "#"
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total": 10,
+      "totalPages": 1
+    }
+  }
+}
