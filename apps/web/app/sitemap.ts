@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { legalPageRoutes } from '@/features/legal/constants/legal-pages';
 import { getCommonDetailStaticParams } from '@/services/job-detail.service';
+import { getPreparationSitemapEntries } from '@/services/preparation.service';
 
 const siteUrl = 'https://sarkarimate.com';
 const lastModified = new Date('2026-07-15T00:00:00+05:30');
@@ -11,7 +12,7 @@ const staticRoutes = [
   '/admit-cards',
   '/results',
   '/answer-keys',
-  '/syllabus',
+  '/preparation',
   '/schemes',
   ...Object.values(legalPageRoutes),
 ];
@@ -31,5 +32,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...detailPages];
+  return [...staticPages, ...detailPages, ...getPreparationSitemapEntries()];
 }

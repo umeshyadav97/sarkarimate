@@ -14,7 +14,7 @@ const listingHrefByPageType: Record<DetailPageType, string> = {
   results: '/results',
   'admit-cards': '/admit-cards',
   'answer-keys': '/answer-keys',
-  syllabus: '/syllabus',
+  syllabus: '/preparation',
   schemes: '/schemes',
 };
 
@@ -162,7 +162,7 @@ function mapStaticListItemToDetailPageData(
 }
 
 function getSearchableDetailPageTypes(): DetailPageType[] {
-  return ['admit-cards', 'results', 'answer-keys', 'syllabus'];
+  return ['admit-cards', 'results', 'answer-keys'];
 }
 
 function getKeyInformation(pageType: DetailPageType, item: StaticListItem) {
@@ -279,9 +279,16 @@ function getStatusTone(status?: string): DetailPageData['status']['tone'] {
 }
 
 function formatDisplayDate(date: string) {
+  const normalizedDate = date.includes('T') ? date : `${date}T00:00:00`;
+  const parsedDate = new Date(normalizedDate);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return 'Recently Updated';
+  }
+
   return new Intl.DateTimeFormat('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(`${date}T00:00:00`));
+  }).format(parsedDate);
 }

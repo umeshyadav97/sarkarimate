@@ -21,6 +21,6 @@ export const navigationItems: NavigationItem[] = [
   { label: 'Admit Card', href: '/admit-cards', icon: FileBadge },
   { label: 'Results', href: '/results', icon: Trophy },
   { label: 'Answer Key', href: '/answer-keys', icon: ClipboardCheck },
-  { label: 'Syllabus', href: '/syllabus', icon: BookOpen },
+  { label: 'Syllabus', href: '/preparation', icon: BookOpen },
   { label: 'Schemes', href: '/schemes', icon: Landmark },
 ];

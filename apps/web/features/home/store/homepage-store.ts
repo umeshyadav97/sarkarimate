@@ -28,7 +28,7 @@ export const homePageStore = {
     {
       label: 'Syllabus',
       count: '8',
-      href: '/syllabus',
+      href: '/preparation',
       type: 'syllabus',
     },
     // {

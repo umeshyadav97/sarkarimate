@@ -134,7 +134,7 @@ export const detailPageConfigs: Record<DetailPageType, DetailPageConfig> = {
   },
   syllabus: {
     pageType: 'syllabus',
-    listingHref: '/syllabus',
+    listingHref: '/preparation',
     listingLabel: 'Syllabus',
     atGlanceTitle: 'Job Summary',
     actionTitle: 'View Syllabus',

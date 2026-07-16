@@ -325,7 +325,7 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
           { label: 'Results', href: '/results' },
           { label: 'Admit Cards', href: '/admit-cards' },
           { label: 'Answer Keys', href: '/answer-keys' },
-          { label: 'Syllabus', href: '/syllabus' },
+          { label: 'Syllabus', href: '/preparation' },
         ],
       },
       {

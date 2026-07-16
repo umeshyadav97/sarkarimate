@@ -171,7 +171,7 @@ export const syllabusListingConfig = createListingConfig({
     alt: 'Study illustration for syllabus updates',
   },
   searchPlaceholder: 'Search by exam, post or organization...',
-  apiEndpoint: '/syllabus',
+  apiEndpoint: '/preparation',
   pageType: 'syllabus',
   actionLabel: 'View Syllabus',
   sidebar: {
@@ -183,7 +183,7 @@ export const syllabusListingConfig = createListingConfig({
   seo: {
     title: 'Syllabus | SarkariMate',
     description: 'Latest government exam syllabus, exam pattern and study updates.',
-    canonical: '/syllabus',
+    canonical: '/preparation',
   },
 });
 

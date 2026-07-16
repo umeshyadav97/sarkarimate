@@ -35,7 +35,7 @@ const titlesByEndpoint: Record<string, string[]> = {
     'HSSC CET Group C Answer Key 2026',
     'MPESB Group 4 Answer Key 2026',
   ],
-  '/syllabus': [
+  '/preparation': [
     'SSC CGL 2026 Syllabus',
     'UP Police Constable Syllabus 2026',
     'RRB Technician Syllabus 2026',
