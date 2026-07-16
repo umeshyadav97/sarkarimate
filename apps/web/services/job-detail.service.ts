@@ -1,68 +1,287 @@
 import type { DetailPageData, DetailPageType } from '@/components/job-detail/types';
-import { jobDetailMock } from '@/data/job-detail.mock';
+import {
+  staticListApiResponses,
+  type StaticListItem,
+} from '@/features/listings/store/static-list-api';
+import { mapJobDetailsResponse } from '@/services/job-detail.mapper';
+import { getJobDetails, getJobDetailsStaticSlugs } from '@/services/jobs';
 
-const mockDataByRoute: Partial<Record<DetailPageType, Record<string, DetailPageData>>> = {
-  jobs: {
-    [jobDetailMock.slug]: jobDetailMock,
-  },
+const detailDataByRoute: Partial<Record<DetailPageType, Record<string, DetailPageData>>> = {};
+const seedDate = '2026-07-14';
+const detailHrefPrefix = '/job-details';
+const listingHrefByPageType: Record<DetailPageType, string> = {
+  jobs: '/jobs',
+  results: '/results',
+  'admit-cards': '/admit-cards',
+  'answer-keys': '/answer-keys',
+  syllabus: '/syllabus',
+  schemes: '/schemes',
 };
 
 export async function getDetailPageData(
   pageType: DetailPageType,
   slug: string,
 ): Promise<DetailPageData | null> {
-  const routeData = mockDataByRoute[pageType];
+  if (pageType === 'jobs') {
+    const jobDetails = await getJobDetails(slug);
+    return jobDetails ? mapJobDetailsResponse(jobDetails) : null;
+  }
+
+  const listItem = getStaticListItem(pageType, slug);
+
+  if (listItem) {
+    return mapStaticListItemToDetailPageData(pageType, listItem);
+  }
+
+  const routeData = detailDataByRoute[pageType];
   const exactMatch = routeData?.[slug];
 
   if (exactMatch) {
     return exactMatch;
   }
 
-  if (pageType === 'jobs') {
-    return createMockJobDetailForSlug(slug);
+  return null;
+}
+
+export async function getCommonDetailPageData(slug: string): Promise<DetailPageData | null> {
+  const jobDetails = await getJobDetails(slug);
+
+  if (jobDetails) {
+    return mapJobDetailsResponse(jobDetails);
+  }
+
+  for (const pageType of getSearchableDetailPageTypes()) {
+    const listItem = getStaticListItem(pageType, slug);
+
+    if (listItem) {
+      return mapStaticListItemToDetailPageData(pageType, listItem);
+    }
   }
 
   return null;
 }
 
+export function getCommonDetailStaticParams() {
+  const slugs = [
+    ...getJobDetailsStaticSlugs(),
+    ...getSearchableDetailPageTypes().flatMap((pageType) => {
+      const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
+      return listResponse?.data.items.map((item) => item.slug) ?? [];
+    }),
+  ];
+
+  return Array.from(new Set(slugs)).map((slug) => ({ slug }));
+}
+
 export async function getDetailPageStaticParams(pageType: DetailPageType) {
-  const routeData = mockDataByRoute[pageType] ?? {};
+  if (pageType === 'jobs') {
+    return getJobDetailsStaticSlugs().map((slug) => ({ slug }));
+  }
+
+  const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
+
+  if (listResponse) {
+    return listResponse.data.items.map((item) => ({ slug: item.slug }));
+  }
+
+  const routeData = detailDataByRoute[pageType] ?? {};
   return Object.keys(routeData).map((slug) => ({ slug }));
 }
 
-function createMockJobDetailForSlug(slug: string): DetailPageData {
-  const title = createTitleFromSlug(slug);
-  const canonical = `/jobs/${slug}`;
+function getStaticListItem(pageType: DetailPageType, slug: string) {
+  const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
+  return listResponse?.data.items.find((item) => item.slug === slug);
+}
+
+function mapStaticListItemToDetailPageData(
+  pageType: DetailPageType,
+  item: StaticListItem,
+): DetailPageData {
+  const listingHref = listingHrefByPageType[pageType];
+  const canonical = `${detailHrefPrefix}/${item.slug}`;
+  const dateItems = getDateItems(item);
+  const overviewDescription = createOverviewDescription(pageType, item);
+  const importantLinks = getImportantLinks(item);
 
   return {
-    ...jobDetailMock,
-    slug,
-    title,
+    pageType,
+    slug: item.slug,
+    title: item.title,
+    status: {
+      label: getStatusLabel(item.status),
+      tone: getStatusTone(item.status),
+    },
+    organization: item.organization,
+    location: item.state ?? 'All India',
+    postedDate: seedDate,
+    updatedDate: seedDate,
     breadcrumbs: [
       { label: 'Home', href: '/' },
-      { label: 'Jobs', href: '/jobs' },
-      { label: jobDetailMock.location, href: '/jobs?state=Uttar%20Pradesh' },
-      { label: title, href: canonical },
+      { label: getListingLabel(pageType), href: listingHref },
+      { label: item.title, href: canonical },
     ],
+    keyInformation: getKeyInformation(pageType, item),
+    alert: overviewDescription,
+    actions: importantLinks.map((link, index) => ({
+      label: link.label,
+      href: link.href,
+      variant: index === 0 ? 'primary' : 'secondary',
+    })),
+    about: {
+      title: getAboutTitle(pageType),
+      body: [overviewDescription],
+    },
+    importantDates: dateItems,
+    vacancy: {
+      title: '',
+      columns: [],
+      rows: [],
+    },
+    eligibility: item.qualification ? [item.qualification] : [],
+    howToApply: [],
+    ageLimit: [],
+    ageLimitNote: '',
+    applicationFee: [],
+    applicationFeeNote: '',
+    selectionProcess: [],
+    importantLinks,
+    faqs: [],
+    timeline: dateItems.map((date, index) => ({
+      title: date.label,
+      date: date.value,
+      status: index === 0 ? 'active' : 'upcoming',
+    })),
+    relatedContent: [],
     seo: {
-      ...jobDetailMock.seo,
-      title,
+      title: item.title,
+      description: overviewDescription,
       canonical,
-      description: `Check ${title} details including important dates, eligibility, age limit, vacancy, application fee and official links.`,
+      keywords: [item.organization, getListingLabel(pageType)],
     },
   };
 }
 
-function createTitleFromSlug(slug: string) {
-  return slug
-    .split('-')
-    .filter(Boolean)
-    .map((word) => {
-      if (/^\d+$/.test(word)) {
-        return word;
-      }
+function getSearchableDetailPageTypes(): DetailPageType[] {
+  return ['admit-cards', 'results', 'answer-keys', 'syllabus'];
+}
 
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    })
-    .join(' ');
+function getKeyInformation(pageType: DetailPageType, item: StaticListItem) {
+  const dateItems = getDateItems(item);
+  const items = [
+    ...dateItems,
+    item.category ? { label: 'Category', value: item.category, tone: 'slate' as const } : null,
+    item.state ? { label: 'State', value: item.state, tone: 'slate' as const } : null,
+    item.qualification
+      ? { label: 'Qualification', value: item.qualification, tone: 'green' as const }
+      : null,
+    item.status
+      ? { label: 'Status', value: getStatusLabel(item.status), tone: 'green' as const }
+      : null,
+  ].filter((value): value is NonNullable<typeof value> => Boolean(value));
+
+  if (items.length > 0) {
+    return items;
+  }
+
+  return [{ label: getListingLabel(pageType), value: item.organization, tone: 'slate' as const }];
+}
+
+function getDateItems(item: StaticListItem) {
+  const rawDates = [
+    { label: 'Last Date', value: item.lastDate },
+    { label: 'Exam Date', value: item.examDate },
+    { label: 'Release Date', value: item.releaseDate },
+    { label: 'Result Date', value: item.resultDate },
+    { label: 'Answer Key Date', value: item.answerKeyDate },
+    { label: 'Objection Last Date', value: item.objectionLastDate },
+    { label: 'Updated Date', value: item.updatedDate },
+  ];
+
+  return rawDates
+    .filter((date): date is { label: string; value: string } => Boolean(date.value))
+    .map((date) => ({
+      label: date.label,
+      value: formatDisplayDate(date.value),
+      tone: date.label.includes('Last') ? ('red' as const) : ('slate' as const),
+    }));
+}
+
+function getImportantLinks(item: StaticListItem) {
+  const links = [
+    'notificationUrl' in item && item.notificationUrl
+      ? { label: 'Official Notification', href: item.notificationUrl }
+      : null,
+    'officialUrl' in item && item.officialUrl
+      ? { label: 'Official Website', href: item.officialUrl }
+      : null,
+    'downloadUrl' in item && item.downloadUrl
+      ? { label: 'Download', href: item.downloadUrl }
+      : null,
+  ];
+
+  return links.filter((link): link is { label: string; href: string } => Boolean(link));
+}
+
+function createOverviewDescription(pageType: DetailPageType, item: StaticListItem) {
+  return `${item.organization} has published ${item.title}. Check the official details, important links and latest update before taking action.`;
+}
+
+function getAboutTitle(pageType: DetailPageType) {
+  if (pageType === 'results') {
+    return 'About This Result';
+  }
+
+  if (pageType === 'admit-cards') {
+    return 'About This Admit Card';
+  }
+
+  if (pageType === 'answer-keys') {
+    return 'About This Answer Key';
+  }
+
+  if (pageType === 'syllabus') {
+    return 'About This Syllabus';
+  }
+
+  return 'About This Update';
+}
+
+function getListingLabel(pageType: DetailPageType) {
+  const labels: Record<DetailPageType, string> = {
+    jobs: 'Jobs',
+    results: 'Results',
+    'admit-cards': 'Admit Cards',
+    'answer-keys': 'Answer Keys',
+    syllabus: 'Syllabus',
+    schemes: 'Schemes',
+  };
+
+  return labels[pageType];
+}
+
+function getStatusLabel(status?: string) {
+  if (!status) {
+    return 'Published';
+  }
+
+  return status
+    .split('-')
+    .join(' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function getStatusTone(status?: string): DetailPageData['status']['tone'] {
+  if (status === 'active' || status === 'released' || status === 'declared') {
+    return 'green';
+  }
+
+  return 'slate';
+}
+
+function formatDisplayDate(date: string) {
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(`${date}T00:00:00`));
 }

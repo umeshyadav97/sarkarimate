@@ -2,6 +2,7 @@
 
 import { Copy, Share2 } from 'lucide-react';
 import { FaFacebookF, FaWhatsapp } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
 import { useShare } from '@/hooks/useShare';
 
 interface ShareCardProps {
@@ -12,8 +13,14 @@ interface ShareCardProps {
 }
 
 export function ShareCard({ heading, title, description, canonicalPath }: ShareCardProps) {
+  const [hasMounted, setHasMounted] = useState(false);
   const { copied, share } = useShare();
+  const displayCopied = hasMounted && copied;
   const url = `https://sarkarimate.com${canonicalPath}`;
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <aside className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -40,7 +47,7 @@ export function ShareCard({ heading, title, description, canonicalPath }: ShareC
           type="button"
           onClick={() => void share({ title, text: description, url })}
           className="grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-700 outline-none hover:bg-blue-50 hover:text-[#1D4ED8] focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
-          aria-label={copied ? 'Link copied' : 'Copy or share link'}
+          aria-label={displayCopied ? 'Link copied' : 'Copy or share link'}
         >
           <Copy className="h-5 w-5" aria-hidden="true" />
         </button>

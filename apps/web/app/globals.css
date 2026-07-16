@@ -33,3 +33,27 @@ strong,
 .font-medium {
   font-family: var(--font-inter-medium);
 }
+
+.deadline-carousel-track {
+  animation: deadline-slide 28s linear infinite;
+}
+
+.deadline-carousel-mask:hover .deadline-carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes deadline-slide {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deadline-carousel-track {
+    animation: none;
+  }
+}

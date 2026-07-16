@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Languages } from 'lucide-react';
@@ -21,7 +22,7 @@ export function SiteHeader() {
       <div className="bg-[#073b82] text-white">
         <div className="mx-auto flex max-w-full items-center justify-between px-4 py-2 text-xs font-semibold sm:px-6 lg:px-8">
           <p className="flex items-center gap-2">
-            <BrandShieldIcon className="h-4 w-4" aria-hidden="true" />
+            <BrandShieldIcon className="h-4 w-4" variant="dark" aria-hidden="true" />
             Welcome to SarkariMate - Your Trusted Government Jobs Partner
           </p>
           <div className="hidden items-center gap-5 md:flex">
@@ -34,10 +35,18 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-full items-center gap-5 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-full items-center gap-5 px-4 py-2 sm:px-6 lg:px-8">
         <Link href="/" className="flex min-w-fit items-center gap-3" aria-label="SarkariMate home">
-          <span className="grid h-11 w-11 place-items-center flex items-center justify-center rounded-lg bg-blue-50 text-[#1D4ED8]">
-            <BrandShieldIcon className="h-12 w-12" aria-hidden="true" />
+          <span className="flex h-14 w-14 items-center justify-center overflow-hidden">
+            <Image
+              src="/assets/images/brand-logo-2.png"
+              alt=""
+              width={100}
+              height={100}
+              className="h-14 w-14 object-contain"
+              priority
+              aria-hidden="true"
+            />
           </span>
           <span>
             <span className="block text-2xl font-bold leading-none text-red-600">

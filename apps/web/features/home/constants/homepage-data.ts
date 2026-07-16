@@ -14,13 +14,21 @@ import {
   ListChecks,
   MonitorCheck,
   Newspaper,
+  School,
   Target,
   Trophy,
+  TrainFront,
   Users,
   WalletCards,
 } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 import { BrandShieldIcon } from '@/components/brand-shield-icon';
+import {
+  DefenceBadgeIcon,
+  PoliceBadgeIcon,
+  SscEmblemIcon,
+} from '@/features/home/components/category-icons';
+import admitCardsResponse from '@/features/listings/store/admit-cards.json';
 import { homePageStore } from '@/features/home/store/homepage-store';
 
 type HomeIcon = ComponentType<
@@ -76,6 +84,41 @@ export interface ToolItem {
   icon: HomeIcon;
 }
 
+export interface DeadlineItem {
+  title: string;
+  date: string;
+  daysLeft: string;
+  href: string;
+}
+
+export interface HomeGuideContent {
+  title: string;
+  paragraphs: string[];
+  badges: string[];
+  image: {
+    src: string;
+    alt: string;
+  };
+}
+
+export interface HomeFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface TrustReason {
+  title: string;
+  description: string;
+  icon: HomeIcon;
+}
+
+export interface DisclaimerContent {
+  title: string;
+  description: string;
+}
+
+const admitCardItems = admitCardsResponse.data.items;
+
 export const navigationItems: NavigationItem[] = [
   { label: 'Home', href: '/', icon: Building2 },
   { label: 'Latest Jobs', href: '/jobs', icon: BriefcaseBusiness },
@@ -100,15 +143,15 @@ const quickAccessPresentation: Record<
 };
 
 const categoryPresentation: Record<string, { icon: HomeIcon; tone: CategoryItem['tone'] }> = {
-  ssc: { icon: Target, tone: 'orange' },
-  railway: { icon: MonitorCheck, tone: 'blue' },
+  ssc: { icon: SscEmblemIcon, tone: 'orange' },
+  railway: { icon: TrainFront, tone: 'blue' },
   banking: { icon: Landmark, tone: 'purple' },
   upsc: { icon: BadgeCheck, tone: 'blue' },
   'up-police': { icon: BrandShieldIcon, tone: 'orange' },
-  police: { icon: BrandShieldIcon, tone: 'orange' },
-  teaching: { icon: GraduationCap, tone: 'blue' },
-  defence: { icon: BrandShieldIcon, tone: 'green' },
-  engineering: { icon: FileCheck2, tone: 'blue' },
+  police: { icon: PoliceBadgeIcon, tone: 'blue' },
+  teaching: { icon: School, tone: 'blue' },
+  defence: { icon: DefenceBadgeIcon, tone: 'blue' },
+  engineering: { icon: MonitorCheck, tone: 'blue' },
   'state-jobs': { icon: Building2, tone: 'green' },
   categories: { icon: Grid2X2, tone: 'blue' },
   'all-categories': { icon: Grid2X2, tone: 'blue' },
@@ -155,20 +198,29 @@ export const latestJobs: NotificationItem[] = homePageStore.latestJobs
     organization: job.organization,
     metaLabel: 'Last Date',
     metaValue: formatDisplayDate(job.lastDate),
-    href: '/jobs',
+    href: `/job-details/${job.slug}`,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
 
-export const upcomingDeadlines: NotificationItem[] = homePageStore.upcomingDeadlines.map(
-  (deadline, index) => ({
+export const upcomingDeadlines: DeadlineItem[] = homePageStore.upcomingDeadlines.map(
+  (deadline) => ({
     title: deadline.title,
-    organization: deadline.organization,
-    metaLabel: 'Deadline',
-    metaValue: `${deadline.daysLeft} Days Left`,
-    href: '/jobs',
-    accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
+    date: formatDisplayDate(deadline.lastDate),
+    daysLeft: `${deadline.daysLeft} Days Left`,
+    href: `/job-details/${deadline.slug}`,
   }),
 );
+
+export const latestAdmitCards: NotificationItem[] = admitCardItems
+  .slice(0, 5)
+  .map((admitCard, index) => ({
+    title: admitCard.title,
+    organization: admitCard.organization,
+    metaLabel: 'Status',
+    metaValue: admitCard.status === 'released' ? 'Released' : admitCard.status,
+    href: `/job-details/${admitCard.slug}`,
+    accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
+  }));
 
 export const latestResults: NotificationItem[] = homePageStore.latestResults.map(
   (result, index) => ({
@@ -176,8 +228,19 @@ export const latestResults: NotificationItem[] = homePageStore.latestResults.map
     organization: result.organization,
     metaLabel: 'Result Date',
     metaValue: formatDisplayDate(result.resultDate),
-    href: '/results',
+    href: `/job-details/${result.slug}`,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
+  }),
+);
+
+export const oldUpcomingDeadlines: NotificationItem[] = homePageStore.upcomingDeadlines.map(
+  (deadline, index) => ({
+    title: deadline.title,
+    organization: deadline.organization,
+    metaLabel: 'Deadline',
+    metaValue: `${deadline.daysLeft} Days Left`,
+    href: `/job-details/${deadline.slug}`,
+    accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }),
 );
 
@@ -261,6 +324,88 @@ export const trustPoints = [
   'AI assistant for your help',
   'No registration required',
 ];
+
+export const governmentJobsGuide: HomeGuideContent = {
+  title: 'Government Jobs Guide',
+  paragraphs: [
+    'SarkariMate is your trusted platform for the latest Government Job notifications, Admit Cards, Results, Answer Keys, Syllabus, Exam Dates and Admissions across India. We cover recruitment from top organizations including SSC, UPSC, Railway, Banking, Defence, Police, Teaching, PSU and various State Government departments.',
+    'We simplify complex govt job notifications and present them in easy-to-understand language. Each job post includes important details such as eligibility criteria, age limit, application fee, vacancy details, selection process, salary structure and important dates.',
+    'Candidates can apply directly through the official website links provided with each notification. We aim to save your time and help you never miss an important update.',
+    'Whether you are looking for 10th pass jobs, 12th pass jobs, graduate level jobs or Post Graduate level jobs, SarkariMate has everything you need to stay ahead in your preparation.',
+  ],
+  badges: ['100% Free Access', 'Official Links Only', 'Fast & Reliable Updates', 'Mobile Friendly'],
+  image: {
+    src: '/assets/images/latest-job.png',
+    alt: 'Government jobs checklist illustration',
+  },
+};
+
+export const homeFaqs: HomeFaqItem[] = [
+  {
+    question: 'What is SarkariMate?',
+    answer:
+      'SarkariMate is an information portal for government jobs, admit cards, results, answer keys, syllabus and exam updates.',
+  },
+  {
+    question: 'How can I download admit cards?',
+    answer:
+      'Open the Admit Cards section, choose your exam update, and use the official link provided on the detail page.',
+  },
+  {
+    question: 'Is SarkariMate an official government website?',
+    answer:
+      'No. SarkariMate is an independent information portal and is not affiliated with any government department.',
+  },
+  {
+    question: 'How can I check my exam results?',
+    answer:
+      'Visit the Results section, search for your exam, and follow the official result link from the detail page.',
+  },
+  {
+    question: 'How often are notifications updated?',
+    answer:
+      'We update listings regularly so candidates can track important government exam and recruitment updates in one place.',
+  },
+  {
+    question: 'Which government exams are covered?',
+    answer:
+      'We cover SSC, UPSC, Railway, Banking, Defence, Police, Teaching, PSU, State Government exams and related updates.',
+  },
+];
+
+export const trustReasons: TrustReason[] = [
+  {
+    title: 'Official Notification Links',
+    description: 'Direct links to official websites',
+    icon: ClipboardCheck,
+  },
+  {
+    title: 'Verified Information',
+    description: 'Accurate and verified updates',
+    icon: BrandShieldIcon,
+  },
+  {
+    title: 'Easy to Understand',
+    description: 'Simple and clear explanations',
+    icon: Users,
+  },
+  {
+    title: 'Daily Updates',
+    description: 'Timely and fast notifications',
+    icon: CalendarDays,
+  },
+  {
+    title: 'Mobile Friendly',
+    description: 'Best experience on mobile',
+    icon: MonitorCheck,
+  },
+];
+
+export const disclaimerContent: DisclaimerContent = {
+  title: 'Disclaimer',
+  description:
+    'SarkariMate is an independent informational platform and is not affiliated with any Government organization or department. All information provided on this website is for general informational purposes only. Candidates are advised to verify all details from the official notification and the respective department website before applying. We are not responsible for any errors or omissions.',
+};
 
 export const footerLinks = {
   quickLinks: ['Latest Jobs', 'Admit Card', 'Results', 'Answer Key', 'Syllabus', 'Exam Calendar'],
