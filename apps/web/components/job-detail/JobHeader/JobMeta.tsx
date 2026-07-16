@@ -7,21 +7,33 @@ interface JobMetaProps {
   updatedDate: string;
 }
 
-function formatDate(value: string) {
+function formatDate(value?: string) {
+  if (!value) {
+    return null;
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
   return new Intl.DateTimeFormat('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(value));
+  }).format(date);
 }
 
 export function JobMeta({ organization, location, postedDate, updatedDate }: JobMetaProps) {
+  const postedDateLabel = formatDate(postedDate);
+  const updatedDateLabel = formatDate(updatedDate);
   const items = [
     { label: organization, icon: Building2 },
     { label: location, icon: MapPin },
-    { label: `Posted On: ${formatDate(postedDate)}`, icon: Clock3 },
-    { label: `Updated On: ${formatDate(updatedDate)}`, icon: CalendarClock },
-  ];
+    postedDateLabel ? { label: `Posted On: ${postedDateLabel}`, icon: Clock3 } : null,
+    updatedDateLabel ? { label: `Updated On: ${updatedDateLabel}`, icon: CalendarClock } : null,
+  ].filter((item): item is { label: string; icon: typeof Building2 } => Boolean(item));
 
   return (
     <dl className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-slate-600">

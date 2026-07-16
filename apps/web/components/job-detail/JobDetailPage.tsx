@@ -16,6 +16,7 @@ import { ActionCard } from '@/components/job-detail/Overview/ActionCard';
 import { AtGlanceCard } from '@/components/job-detail/Overview/AtGlanceCard';
 import { RelatedContentCard } from '@/components/job-detail/Sidebar/RelatedContentCard';
 import { SectionTabs } from '@/components/job-detail/Tabs/SectionTabs';
+import { getVisibleDetailConfig } from '@/services/job-detail.mapper';
 import type {
   DetailPageConfig,
   DetailPageData,
@@ -28,32 +29,41 @@ interface JobDetailPageProps {
 }
 
 export function JobDetailPage({ config, data }: JobDetailPageProps) {
-  const actions = getConfiguredActions(data.actions, config.actionButtonLabels);
+  const visibleConfig = getVisibleDetailConfig(config, data);
+  const actions = getConfiguredActions(data.actions, visibleConfig.actionButtonLabels);
 
   return (
     <main className="bg-[#F8FAFC] text-[#111827]">
       <JobHeader data={data} />
 
       <section className="mx-auto grid w-full max-w-full items-start gap-4 px-4 py-5 sm:gap-6 sm:px-6 sm:py-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,0.72fr)] lg:grid-cols-[minmax(0,2.6fr)_minmax(300px,1fr)] lg:px-8">
-        <AtGlanceCard title={config.atGlanceTitle} items={data.keyInformation} alert={data.alert} />
-        <ActionCard
-          title={config.actionTitle}
-          description={config.actionDescription}
-          actions={actions}
-        />
+        {data.keyInformation.length > 0 ? (
+          <AtGlanceCard
+            title={visibleConfig.atGlanceTitle}
+            items={data.keyInformation}
+            alert={data.alert}
+          />
+        ) : null}
+        {actions.length > 0 ? (
+          <ActionCard
+            title={visibleConfig.actionTitle}
+            description={visibleConfig.actionDescription}
+            actions={actions}
+          />
+        ) : null}
       </section>
 
-      <SectionTabs sections={config.sections} />
+      <SectionTabs sections={visibleConfig.sections} />
 
       <section className="mx-auto grid w-full max-w-full gap-5 px-4 py-5 sm:px-6 lg:grid-cols-[minmax(0,3fr)_minmax(280px,1fr)] lg:px-8">
         <div className="grid gap-4">
           <DetailMainSections
-            config={config}
+            config={visibleConfig}
             data={data}
             renderSection={(section) => renderStandaloneSection(section, data)}
           />
         </div>
-        <DetailSidebar actions={actions} config={config} data={data} />
+        <DetailSidebar actions={actions} config={visibleConfig} data={data} />
       </section>
 
       <section className="mx-auto grid w-full max-w-full gap-4 px-4 pb-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">

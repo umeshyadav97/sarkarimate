@@ -5,7 +5,7 @@ import resultsResponse from './results.json';
 import syllabusResponse from './syllabus.json';
 import upcomingDeadlinesResponse from './upcoming-deadlines.json';
 
-type StaticListItem = {
+export type StaticListItem = {
   id: string;
   title: string;
   organization: string;
@@ -24,7 +24,7 @@ type StaticListItem = {
   updatedDate?: string | null;
 };
 
-type StaticListResponse = {
+export type StaticListResponse = {
   success: boolean;
   source: string;
   dataStatus: string;

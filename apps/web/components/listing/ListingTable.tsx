@@ -28,7 +28,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
           <thead className="bg-slate-50 text-xs font-bold uppercase text-[#111827]">
             <tr>
               {columns.map((column) => (
-                <th key={column.key} className="px-5 py-4">
+                <th key={column.key} className={column.key === 'index' ? 'pl-4 py-4' : 'px-5 py-4'}>
                   {column.label}
                 </th>
               ))}
@@ -37,7 +37,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
           <tbody className="divide-y divide-slate-200">
             {items.map((item, index) => (
               <tr key={item.id} className="bg-white">
-                <td className="p-4 text-sm font-bold text-[#111827]">{startIndex + index}</td>
+                <td className="py-4 pl-4 text-sm font-bold text-[#111827]">{startIndex + index}</td>
                 <td className="p-4">
                   <Link
                     className="text-sm font-bold text-[#073b82] hover:text-[#1D4ED8]"

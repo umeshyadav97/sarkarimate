@@ -52,7 +52,7 @@ function toListingItem(item: StaticApiItem): ListingItem {
     updatedDate: formatListingDate(getItemDate(item)),
     year: getItemYear(item),
     state: item.state ?? 'All India',
-    href: item.href,
+    href: `/job-details/${item.slug}`,
   };
 }
 

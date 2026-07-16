@@ -22,7 +22,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="mx-auto grid max-w-full items-center gap-8 px-4 py-4 sm:px-6 md:py-6 lg:py-9 md:grid-cols-[0.9fr_1.1fr] lg:px-8">
+    <section className="mx-auto grid max-w-full items-center gap-6 px-4 py-4 sm:px-6 md:py-1s md:grid-cols-[0.9fr_1.1fr] lg:px-8">
       <div className="min-w-0">
         <h1 className="max-w-xl text-2xl font-bold lg:leading-13 md:leading-11 leading-8 text-[#111827] md:text-4xl lg:text-5xl">
           Find Every{' '}

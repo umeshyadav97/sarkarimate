@@ -83,7 +83,7 @@ export function SiteFooter() {
               aria-label="SarkariMate home"
             >
               <span className="grid h-10 w-10 place-items-center rounded-lg bg-white/10 ring-1 ring-white/15 transition-colors group-hover:bg-white/15">
-                <BrandShieldIcon className="h-9 w-9" aria-hidden="true" />
+                <BrandShieldIcon className="h-9 w-9" variant="dark" aria-hidden="true" />
               </span>
               <span>
                 <span className="block text-xl font-bold leading-none text-white">

@@ -1,0 +1,175 @@
+{
+  "success": true,
+  "message": "Job details fetched successfully",
+  "data": {
+    "id": "upsssc-auditor-assistant-accountant-2026",
+    "type": "job",
+    "slug": "upsssc-auditor-assistant-accountant-2026",
+    "title": "UPSSSC Auditor / Assistant Accountant Recruitment 2026",
+    "organization": "Uttar Pradesh Subordinate Service Selection Commission",
+    "organizationShort": "UPSSSC",
+    "status": "Application Open",
+    "badgeColor": "green",
+    "postedOn": "2026-07-14",
+    "updatedOn": "2026-07-14",
+    "shareEnabled": true,
+    "saveEnabled": true,
+    "hero": {
+      "summary": "UPSSSC has invited online applications for Auditor and Assistant Accountant Recruitment 2026. A total of 1,829 vacancies have been announced."
+    },
+    "quickFacts": [
+      {
+        "icon": "calendar",
+        "label": "Last Date",
+        "value": "03 Aug 2026"
+      },
+      {
+        "icon": "users",
+        "label": "Posts",
+        "value": "1,829"
+      },
+      {
+        "icon": "age",
+        "label": "Age Limit",
+        "value": "21 - 40 Years"
+      },
+      {
+        "icon": "education",
+        "label": "Qualification",
+        "value": "B.Com"
+      },
+      {
+        "icon": "money",
+        "label": "Application Fee",
+        "value": "Rs 25"
+      }
+    ],
+    "overview": {
+      "title": "About This Recruitment",
+      "description": "UPSSSC has released the official notification for Auditor and Assistant Accountant Recruitment 2026. Eligible candidates can apply online before the last date."
+    },
+    "importantDates": [
+      {
+        "label": "Application Start",
+        "value": "14 Jul 2026"
+      },
+      {
+        "label": "Last Date",
+        "value": "03 Aug 2026"
+      },
+      {
+        "label": "Fee Payment",
+        "value": "03 Aug 2026"
+      },
+      {
+        "label": "Correction",
+        "value": "10 Aug 2026"
+      },
+      {
+        "label": "Exam Date",
+        "value": "Notify Later"
+      },
+      {
+        "label": "Admit Card",
+        "value": "Before Exam"
+      }
+    ],
+    "vacancy": {
+      "title": "Vacancy Details",
+      "totalPosts": 1829,
+      "columns": ["Post", "Vacancies"],
+      "rows": [
+        {
+          "post": "Auditor",
+          "vacancies": 223
+        },
+        {
+          "post": "Assistant Accountant",
+          "vacancies": 1606
+        }
+      ]
+    },
+    "eligibility": [
+      "Bachelor Degree in Commerce (B.Com)",
+      "UPSSSC PET 2025 Qualified",
+      "O Level Certificate",
+      "Read official notification for complete eligibility"
+    ],
+    "ageLimit": {
+      "minimum": "21 Years",
+      "maximum": "40 Years",
+      "asOn": "01 Jul 2026",
+      "relaxation": "As per UPSSSC recruitment rules."
+    },
+    "applicationFee": [
+      {
+        "category": "General / OBC / EWS",
+        "fee": "Rs 25"
+      },
+      {
+        "category": "SC / ST",
+        "fee": "Rs 25"
+      },
+      {
+        "category": "PwD",
+        "fee": "Rs 25"
+      }
+    ],
+    "selectionProcess": [
+      "Preliminary Examination",
+      "Mains Examination",
+      "Document Verification",
+      "Final Merit List"
+    ],
+    "howToApply": [
+      "Visit the official UPSSSC website.",
+      "Complete registration.",
+      "Fill the application form.",
+      "Upload required documents.",
+      "Pay application fee.",
+      "Submit and print the application."
+    ],
+    "importantLinks": [
+      {
+        "title": "Apply Online",
+        "url": "https://upsssc.gov.in/",
+        "type": "primary"
+      },
+      {
+        "title": "Official Notification",
+        "url": "https://upsssc.gov.in/",
+        "type": "secondary"
+      },
+      {
+        "title": "Official Website",
+        "url": "https://upsssc.gov.in/",
+        "type": "secondary"
+      }
+    ],
+    "faq": [
+      {
+        "question": "When is the last date to apply?",
+        "answer": "03 August 2026."
+      },
+      {
+        "question": "What is the age limit?",
+        "answer": "21 to 40 years as on 01 July 2026."
+      }
+    ],
+    "related": [
+      {
+        "title": "UP Police Recruitment 2026",
+        "slug": "up-police-recruitment-2026"
+      },
+      {
+        "title": "SSC CGL Recruitment 2026",
+        "slug": "ssc-cgl-recruitment-2026"
+      }
+    ],
+    "seo": {
+      "title": "UPSSSC Auditor Recruitment 2026",
+      "description": "Apply online for UPSSSC Auditor & Assistant Accountant Recruitment 2026.",
+      "keywords": ["UPSSSC", "Auditor", "Government Job"]
+    }
+  }
+}

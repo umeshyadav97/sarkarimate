@@ -1,21 +1,13 @@
 import Link from 'next/link';
-import { ArrowRight, Circle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Card } from '@repo/ui';
 import {
+  latestAdmitCards,
   latestJobs,
   latestResults,
   type NotificationItem,
-  upcomingDeadlines,
 } from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
-
-const accentClasses = {
-  blue: 'bg-blue-100 text-[#1D4ED8]',
-  green: 'bg-green-100 text-[#16A34A]',
-  orange: 'bg-orange-100 text-[#F59E0B]',
-  purple: 'bg-violet-100 text-violet-600',
-  red: 'bg-red-100 text-[#DC2626]',
-};
 
 const metaClasses = {
   Status: 'bg-green-50 text-[#16A34A]',
@@ -25,7 +17,7 @@ const metaClasses = {
 
 export function NotificationPanels() {
   return (
-    <section className="mx-auto grid max-w-full gap-5 px-4 py-5 sm:px-6 lg:grid-cols-3 md:grid-cols-2 lg:px-8">
+    <section className="mx-auto grid max-w-full grid-cols-1 gap-5 px-4 py-5 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 lg:px-8">
       <NotificationPanel
         actionHref="/jobs"
         actionLabel="View All Jobs"
@@ -39,10 +31,10 @@ export function NotificationPanels() {
         title="Latest Results"
       />
       <NotificationPanel
-        actionHref="#"
-        actionLabel="View All Deadlines"
-        items={upcomingDeadlines}
-        title="Upcoming Deadlines"
+        actionHref="/admit-cards"
+        actionLabel="View All Admit Cards"
+        items={latestAdmitCards}
+        title="Latest Admit Cards"
       />
     </section>
   );
@@ -61,18 +53,10 @@ function NotificationPanel({
 }) {
   return (
     <Card className="rounded-lg border-slate-200 p-4 shadow-sm">
-      <SectionHeader title={title} />
+      <SectionHeader title={title} actionHref={actionHref} />
       <div className="divide-y divide-slate-100">
         {items.map((item) => (
-          <article
-            key={item.title}
-            className="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-4"
-          >
-            <span
-              className={`grid h-7 w-7 place-items-center rounded-full ${accentClasses[item.accent]}`}
-            >
-              <Circle className="h-3 w-3 fill-current" aria-hidden="true" />
-            </span>
+          <article key={item.title} className="grid grid-cols-[1fr_auto] items-center gap-3 py-4">
             <div>
               {item.href ? (
                 <Link

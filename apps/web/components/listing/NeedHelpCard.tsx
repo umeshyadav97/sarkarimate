@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { CircleHelp } from 'lucide-react';
 import type { ListingPageConfig } from '@/components/listing/types';
 
@@ -24,12 +25,12 @@ export function NeedHelpCard({ config }: NeedHelpCardProps) {
           </p>
         </div>
       </div>
-      <a
+      <Link
         className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#1D4ED8] px-4 text-sm font-bold text-[#1D4ED8] transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-100"
         href="/contact-us"
       >
         Contact
-      </a>
+      </Link>
     </section>
   );
 }

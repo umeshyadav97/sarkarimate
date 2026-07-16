@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export function useScrollSpy(sectionIds: string[]) {
-  const [activeId, setActiveId] = useState(sectionIds[0] ?? '');
+  const [activeId, setActiveId] = useState('');
 
   useEffect(() => {
     const observers = sectionIds
