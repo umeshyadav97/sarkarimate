@@ -29,7 +29,7 @@ import {
   SscEmblemIcon,
 } from '@/features/home/components/category-icons';
 import admitCardsResponse from '@/features/listings/store/admit-cards.json';
-import { homePageStore } from '@/features/home/store/homepage-store';
+import { homePageStore, type HomePageStore } from '@/features/home/store/homepage-store';
 
 type HomeIcon = ComponentType<
   SVGProps<SVGSVGElement> & {
@@ -117,6 +117,18 @@ export interface DisclaimerContent {
   description: string;
 }
 
+export interface HomepageViewData {
+  popularSearches: string[];
+  quickAccessItems: QuickAccessItem[];
+  latestJobs: NotificationItem[];
+  upcomingDeadlines: DeadlineItem[];
+  latestAdmitCards: NotificationItem[];
+  latestResults: NotificationItem[];
+  oldUpcomingDeadlines: NotificationItem[];
+  categories: CategoryItem[];
+  stats: StatItem[];
+}
+
 const admitCardItems = admitCardsResponse.data.items;
 
 export const navigationItems: NavigationItem[] = [
@@ -130,13 +142,16 @@ export const navigationItems: NavigationItem[] = [
 ];
 
 const quickAccessPresentation: Record<
-  (typeof homePageStore.quickAccess)[number]['type'],
+  string,
   { icon: HomeIcon; tone: QuickAccessItem['tone']; labelSuffix: string }
 > = {
   jobs: { icon: BriefcaseBusiness, tone: 'blue', labelSuffix: 'Active' },
+  latest_job: { icon: BriefcaseBusiness, tone: 'blue', labelSuffix: 'Active' },
   'admit-card': { icon: FileBadge, tone: 'green', labelSuffix: 'Available' },
+  admit_card: { icon: FileBadge, tone: 'green', labelSuffix: 'Available' },
   result: { icon: Trophy, tone: 'purple', labelSuffix: 'Declared' },
   'answer-key': { icon: ClipboardCheck, tone: 'orange', labelSuffix: 'Available' },
+  answer_key: { icon: ClipboardCheck, tone: 'orange', labelSuffix: 'Available' },
   syllabus: { icon: BookOpen, tone: 'blue', labelSuffix: 'Available' },
   // scheme: { icon: Landmark, tone: 'green', labelSuffix: 'Available' },
   all: { icon: Grid2X2, tone: 'purple', labelSuffix: 'Exams' },
@@ -158,11 +173,33 @@ const categoryPresentation: Record<string, { icon: HomeIcon; tone: CategoryItem[
 };
 
 function formatDisplayDate(date: string) {
+  const parsedDate = parseHomepageDate(date);
+
+  if (!parsedDate) {
+    return date;
+  }
+
   return new Intl.DateTimeFormat('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(`${date}T00:00:00`));
+  }).format(parsedDate);
+}
+
+function parseHomepageDate(date: string) {
+  const normalizedDate = date.trim();
+  const indianDateMatch = normalizedDate.match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
+
+  if (indianDateMatch) {
+    const [, day, month, year] = indianDateMatch;
+    return new Date(`${year}-${month}-${day}T00:00:00`);
+  }
+
+  const parsedDate = new Date(
+    normalizedDate.includes('T') ? normalizedDate : `${normalizedDate}T00:00:00`,
+  );
+
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
 }
 
 function normalizeHomepageHref(href: string) {
@@ -177,23 +214,34 @@ function normalizeHomepageHref(href: string) {
   return href;
 }
 
-export const popularSearches = homePageStore.popularSearches;
+function mapPopularSearches(store: HomePageStore) {
+  return Array.isArray(store.popularSearches)
+    ? [...store.popularSearches]
+    : defaultHomepageViewData.popularSearches;
+}
 
-export const quickAccessItems: QuickAccessItem[] = homePageStore.quickAccess.map((item) => {
-  const presentation = quickAccessPresentation[item.type];
+function mapQuickAccessItems(store: HomePageStore): QuickAccessItem[] {
+  const quickAccess = Array.isArray(store.quickAccess)
+    ? store.quickAccess
+    : homePageStore.quickAccess;
 
-  return {
-    label: item.label,
-    description: `${item.count} ${presentation.labelSuffix}`,
-    href: normalizeHomepageHref(item.href),
-    icon: presentation.icon,
-    tone: presentation.tone,
-  };
-});
+  return quickAccess.map((item) => {
+    const presentation = quickAccessPresentation[item.type] ?? quickAccessPresentation.all;
 
-export const latestJobs: NotificationItem[] = homePageStore.latestJobs
-  .slice(0, 5)
-  .map((job, index) => ({
+    return {
+      label: item.label,
+      description: `${item.count} ${presentation.labelSuffix}`,
+      href: normalizeHomepageHref(item.href),
+      icon: presentation.icon,
+      tone: presentation.tone,
+    };
+  });
+}
+
+function mapLatestJobs(store: HomePageStore): NotificationItem[] {
+  const latestJobs = Array.isArray(store.latestJobs) ? store.latestJobs : homePageStore.latestJobs;
+
+  return latestJobs.slice(0, 5).map((job, index) => ({
     title: job.title,
     organization: job.organization,
     metaLabel: 'Last Date',
@@ -201,19 +249,24 @@ export const latestJobs: NotificationItem[] = homePageStore.latestJobs
     href: `/job-details/${job.slug}`,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
+}
 
-export const upcomingDeadlines: DeadlineItem[] = homePageStore.upcomingDeadlines.map(
-  (deadline) => ({
+function mapUpcomingDeadlines(store: HomePageStore): DeadlineItem[] {
+  const upcomingDeadlines = Array.isArray(store.upcomingDeadlines)
+    ? store.upcomingDeadlines
+    : homePageStore.upcomingDeadlines;
+
+  return upcomingDeadlines.map((deadline) => ({
     title: deadline.title,
     date: formatDisplayDate(deadline.lastDate),
-    daysLeft: `${deadline.daysLeft} Days Left`,
+    daysLeft:
+      typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
     href: `/job-details/${deadline.slug}`,
-  }),
-);
+  }));
+}
 
-export const latestAdmitCards: NotificationItem[] = admitCardItems
-  .slice(0, 5)
-  .map((admitCard, index) => ({
+function mapLatestAdmitCards(): NotificationItem[] {
+  return admitCardItems.slice(0, 5).map((admitCard, index) => ({
     title: admitCard.title,
     organization: admitCard.organization,
     metaLabel: 'Status',
@@ -221,76 +274,120 @@ export const latestAdmitCards: NotificationItem[] = admitCardItems
     href: `/job-details/${admitCard.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
+}
 
-export const latestResults: NotificationItem[] = homePageStore.latestResults.map(
-  (result, index) => ({
+function mapLatestResults(store: HomePageStore): NotificationItem[] {
+  const latestResults = Array.isArray(store.latestResults)
+    ? store.latestResults
+    : homePageStore.latestResults;
+
+  return latestResults.map((result, index) => ({
     title: result.title,
     organization: result.organization,
     metaLabel: 'Result Date',
     metaValue: formatDisplayDate(result.resultDate),
     href: `/job-details/${result.slug}`,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
-  }),
-);
+  }));
+}
 
-export const oldUpcomingDeadlines: NotificationItem[] = homePageStore.upcomingDeadlines.map(
-  (deadline, index) => ({
+function mapOldUpcomingDeadlines(store: HomePageStore): NotificationItem[] {
+  const upcomingDeadlines = Array.isArray(store.upcomingDeadlines)
+    ? store.upcomingDeadlines
+    : homePageStore.upcomingDeadlines;
+
+  return upcomingDeadlines.map((deadline, index) => ({
     title: deadline.title,
     organization: deadline.organization,
     metaLabel: 'Deadline',
-    metaValue: `${deadline.daysLeft} Days Left`,
+    metaValue:
+      typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
     href: `/job-details/${deadline.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
-  }),
-);
+  }));
+}
 
-export const categories: CategoryItem[] = homePageStore.categories.map((category) => {
-  const slug = String(category.slug);
-  const presentation = categoryPresentation[slug] ?? {
-    icon: Grid2X2,
-    tone: 'blue',
-  };
-  const isAllCategories = slug === 'categories' || slug === 'all-categories';
+function mapCategories(store: HomePageStore): CategoryItem[] {
+  const categories = Array.isArray(store.categories) ? store.categories : homePageStore.categories;
 
+  return categories.map((category) => {
+    const slug = String(category.slug);
+    const presentation = categoryPresentation[slug] ?? {
+      icon: Grid2X2,
+      tone: 'blue',
+    };
+    const isAllCategories = slug === 'categories' || slug === 'all-categories';
+
+    return {
+      title: category.name,
+      count: `${category.count}+ Jobs`,
+      href: isAllCategories ? '/jobs' : `/jobs?category=${slug}`,
+      icon: presentation.icon,
+      tone: presentation.tone,
+    };
+  });
+}
+
+function mapStats(store: HomePageStore): StatItem[] {
+  const stats = store.stats ?? homePageStore.stats;
+
+  return [
+    {
+      label: 'Total Job Posts',
+      value: `${stats.totalJobs}+`,
+      helper: 'Available Now',
+      icon: BriefcaseBusiness,
+      tone: 'blue',
+    },
+    {
+      label: 'Active Job Posts',
+      value: `${stats.activeJobs ?? stats.totalJobs}+`,
+      helper: 'Currently Open',
+      icon: FileBadge,
+      tone: 'green',
+    },
+    {
+      label: 'Results Declared',
+      value: `${stats.resultsDeclared}+`,
+      helper: 'Latest Updates',
+      icon: Trophy,
+      tone: 'purple',
+    },
+    {
+      label: 'Active Users',
+      value: `${stats.activeUsers ?? 0}+`,
+      helper: 'Tracking Today',
+      icon: Users,
+      tone: 'orange',
+    },
+  ];
+}
+
+export function createHomepageViewData(store: HomePageStore): HomepageViewData {
   return {
-    title: category.name,
-    count: `${category.count}+ Jobs`,
-    href: isAllCategories ? '/jobs' : `/jobs?category=${slug}`,
-    icon: presentation.icon,
-    tone: presentation.tone,
+    popularSearches: mapPopularSearches(store),
+    quickAccessItems: mapQuickAccessItems(store),
+    latestJobs: mapLatestJobs(store),
+    upcomingDeadlines: mapUpcomingDeadlines(store),
+    latestAdmitCards: mapLatestAdmitCards(),
+    latestResults: mapLatestResults(store),
+    oldUpcomingDeadlines: mapOldUpcomingDeadlines(store),
+    categories: mapCategories(store),
+    stats: mapStats(store),
   };
-});
+}
 
-export const stats: StatItem[] = [
-  {
-    label: 'Total Job Posts',
-    value: `${homePageStore.stats.totalJobs}+`,
-    helper: 'Available Now',
-    icon: BriefcaseBusiness,
-    tone: 'blue',
-  },
-  {
-    label: 'Active Job Posts',
-    value: `${homePageStore.stats.activeJobs}+`,
-    helper: 'Currently Open',
-    icon: FileBadge,
-    tone: 'green',
-  },
-  {
-    label: 'Results Declared',
-    value: `${homePageStore.stats.resultsDeclared}+`,
-    helper: 'Latest Updates',
-    icon: Trophy,
-    tone: 'purple',
-  },
-  {
-    label: 'Active Users',
-    value: `${homePageStore.stats.activeUsers}+`,
-    helper: 'Tracking Today',
-    icon: Users,
-    tone: 'orange',
-  },
-];
+export const defaultHomepageViewData = createHomepageViewData(homePageStore);
+
+export const popularSearches = defaultHomepageViewData.popularSearches;
+export const quickAccessItems = defaultHomepageViewData.quickAccessItems;
+export const latestJobs = defaultHomepageViewData.latestJobs;
+export const upcomingDeadlines = defaultHomepageViewData.upcomingDeadlines;
+export const latestAdmitCards = defaultHomepageViewData.latestAdmitCards;
+export const latestResults = defaultHomepageViewData.latestResults;
+export const oldUpcomingDeadlines = defaultHomepageViewData.oldUpcomingDeadlines;
+export const categories = defaultHomepageViewData.categories;
+export const stats = defaultHomepageViewData.stats;
 
 export const importantTools: ToolItem[] = [
   { title: 'Exam Calendar', description: 'Check Exam Dates', href: '#', icon: CalendarDays },
