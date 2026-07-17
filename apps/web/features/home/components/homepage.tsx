@@ -51,7 +51,9 @@ const faqSchema = {
 
 export function Homepage() {
   const { data } = useHomePage();
-  const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
+  // const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
+  const homepageData = data ? createHomepageViewData(data) : null;
+  console.log('Homepage data:', data);
 
   return (
     <>
@@ -63,16 +65,16 @@ export function Homepage() {
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
         {/* <HomeJobsDebug /> */}
-        <HeroSection popularSearches={homepageData.popularSearches} />
-        <QuickAccessSection items={homepageData.quickAccessItems} />
+        <HeroSection popularSearches={homepageData?.popularSearches} />
+        <QuickAccessSection items={homepageData?.quickAccessItems} />
         <NotificationPanels
-          latestAdmitCards={homepageData.latestAdmitCards}
-          latestJobs={homepageData.latestJobs}
-          latestResults={homepageData.latestResults}
+          latestAdmitCards={homepageData?.latestAdmitCards}
+          latestJobs={homepageData?.latestJobs}
+          latestResults={homepageData?.latestResults}
         />
-        {/* <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} /> */}
-        <CategoriesSection categories={homepageData.categories} />
-        <StatsSection stats={homepageData.stats} />
+        <DeadlinesCarousel deadlines={homepageData?.upcomingDeadlines} />
+        <CategoriesSection categories={homepageData?.categories} />
+        <StatsSection stats={homepageData?.stats} />
         <ImportantToolsSection />
         <HomeContentSections />
       </main>
