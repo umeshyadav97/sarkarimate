@@ -1,4 +1,70 @@
-export const homePageStore = {
+export type HomeQuickAccessType =
+  | 'jobs'
+  | 'latest_job'
+  | 'admit-card'
+  | 'admit_card'
+  | 'result'
+  | 'answer-key'
+  | 'answer_key'
+  | 'syllabus'
+  | 'all';
+
+export interface HomeQuickAccessEntry {
+  label: string;
+  count: string;
+  href: string;
+  type: HomeQuickAccessType;
+}
+
+export interface HomeJobEntry {
+  title: string;
+  organization: string;
+  slug: string;
+  lastDate: string;
+  status: string;
+}
+
+export interface HomeDeadlineEntry {
+  title: string;
+  organization: string;
+  slug: string;
+  lastDate: string;
+  daysLeft: number;
+}
+
+export interface HomeResultEntry {
+  title: string;
+  organization: string;
+  slug: string;
+  resultDate: string;
+}
+
+export interface HomeCategoryEntry {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+export interface HomeStats {
+  totalJobs: number;
+  activeJobs?: number;
+  resultsDeclared: number;
+  activeUsers?: number;
+  admitCards?: number;
+  answerKeys?: number;
+}
+
+export interface HomePageStore {
+  popularSearches: string[];
+  quickAccess: HomeQuickAccessEntry[];
+  latestJobs: HomeJobEntry[];
+  upcomingDeadlines: HomeDeadlineEntry[];
+  latestResults: HomeResultEntry[];
+  categories: HomeCategoryEntry[];
+  stats: HomeStats;
+}
+
+export const homePageStore: HomePageStore = {
   popularSearches: ['SSC CGL', 'UP Police', 'RRB NTPC', 'UP Anganwadi', 'Bihar Police', 'IBPS PO'],
   quickAccess: [
     {
@@ -272,6 +338,4 @@ export const homePageStore = {
     resultsDeclared: 10,
     activeUsers: 0,
   },
-} as const;
-
-export type HomePageStore = typeof homePageStore;
+};

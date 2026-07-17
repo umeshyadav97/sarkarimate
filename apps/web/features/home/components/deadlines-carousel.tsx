@@ -1,13 +1,22 @@
 import Link from 'next/link';
 import { CalendarDays } from 'lucide-react';
-import { upcomingDeadlines } from '@/features/home/constants/homepage-data';
+import {
+  upcomingDeadlines as defaultUpcomingDeadlines,
+  type DeadlineItem,
+} from '@/features/home/constants/homepage-data';
 
-const repeatedDeadlines = [...upcomingDeadlines, ...upcomingDeadlines];
+interface DeadlinesCarouselProps {
+  deadlines?: DeadlineItem[];
+}
 
-export function DeadlinesCarousel() {
-  if (upcomingDeadlines.length === 0) {
+export function DeadlinesCarousel({
+  deadlines = defaultUpcomingDeadlines,
+}: DeadlinesCarouselProps) {
+  if (deadlines.length === 0) {
     return null;
   }
+
+  const repeatedDeadlines = [...deadlines, ...deadlines];
 
   return (
     <section className="mx-auto max-w-full px-4 py-3 sm:px-6 lg:px-8" aria-labelledby="deadlines">

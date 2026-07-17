@@ -1,3 +1,5 @@
+'use client';
+
 import { CategoriesSection, StatsSection } from '@/features/home/components/categories-section';
 import { DeadlinesCarousel } from '@/features/home/components/deadlines-carousel';
 import { HomeContentSections } from '@/features/home/components/home-content-sections';
@@ -5,7 +7,14 @@ import { HeroSection } from '@/features/home/components/hero-section';
 import { NotificationPanels } from '@/features/home/components/notification-panels';
 import { QuickAccessSection } from '@/features/home/components/quick-access-section';
 import { ImportantToolsSection } from '@/features/home/components/tools-section';
-import { homeFaqs, newsArticles } from '@/features/home/constants/homepage-data';
+import {
+  createHomepageViewData,
+  defaultHomepageViewData,
+  homeFaqs,
+  newsArticles,
+} from '@/features/home/constants/homepage-data';
+import { useHomePage } from '@/hooks/useHomePage';
+import { HomeJobsDebug } from './home-jobs-debug';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -41,6 +50,9 @@ const faqSchema = {
 };
 
 export function Homepage() {
+  const { data } = useHomePage();
+  const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
+
   return (
     <>
       <script
@@ -50,12 +62,17 @@ export function Homepage() {
         }}
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
-        <HeroSection />
-        <QuickAccessSection />
-        <NotificationPanels />
-        <DeadlinesCarousel />
-        <CategoriesSection />
-        <StatsSection />
+        <HomeJobsDebug />
+        <HeroSection popularSearches={homepageData.popularSearches} />
+        <QuickAccessSection items={homepageData.quickAccessItems} />
+        <NotificationPanels
+          latestAdmitCards={homepageData.latestAdmitCards}
+          latestJobs={homepageData.latestJobs}
+          latestResults={homepageData.latestResults}
+        />
+        <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} />
+        <CategoriesSection categories={homepageData.categories} />
+        <StatsSection stats={homepageData.stats} />
         <ImportantToolsSection />
         <HomeContentSections />
       </main>

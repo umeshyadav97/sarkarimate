@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import { quickAccessItems } from '@/features/home/constants/homepage-data';
+import {
+  quickAccessItems as defaultQuickAccessItems,
+  type QuickAccessItem,
+} from '@/features/home/constants/homepage-data';
 
 const toneClasses = {
   blue: 'bg-blue-50 text-[#1D4ED8]',
@@ -8,18 +11,21 @@ const toneClasses = {
   purple: 'bg-violet-50 text-violet-600',
 };
 
-export function QuickAccessSection() {
+interface QuickAccessSectionProps {
+  items?: QuickAccessItem[];
+}
+
+export function QuickAccessSection({ items = defaultQuickAccessItems }: QuickAccessSectionProps) {
   const mobileItemsPerRow = 3;
-  const lastMobileRowStart =
-    quickAccessItems.length - (quickAccessItems.length % mobileItemsPerRow || mobileItemsPerRow);
+  const lastMobileRowStart = items.length - (items.length % mobileItemsPerRow || mobileItemsPerRow);
 
   return (
     <section className="mx-auto max-w-full px-2 sm:px-4 lg:px-6" aria-label="Quick access">
       <div className="grid overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_6px_22px_rgba(15,23,42,0.06)] grid-cols-3 md:grid-cols-3 lg:grid-cols-6">
-        {quickAccessItems.map((item, index) => {
+        {items.map((item, index) => {
           const Icon = item.icon;
           const hasColumnDivider = index % 3 !== 2;
-          const hasDesktopDivider = index < quickAccessItems.length - 1;
+          const hasDesktopDivider = index < items.length - 1;
           const hasRowDivider = index < lastMobileRowStart;
 
           return (
