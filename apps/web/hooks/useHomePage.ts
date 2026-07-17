@@ -16,8 +16,9 @@ export function useHomePage() {
       try {
         setIsLoading(true);
         setError(null);
-
+        console.log('Loading homepage...');
         const homeData = await getHomePageData(controller.signal);
+        console.log('Received:', homeData);
 
         if (!controller.signal.aborted) {
           setData(homeData);

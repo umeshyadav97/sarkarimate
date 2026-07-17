@@ -54,7 +54,7 @@ export function Homepage() {
   // const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
   const homepageData = data ? createHomepageViewData(data) : null;
   console.log('Homepage data:', data);
-
+  console.log('Homepage view data:', process.env.NEXT_PUBLIC_API_URL);
   return (
     <>
       <script

@@ -34,22 +34,31 @@ export async function apiRequest<TData>(
     }
   });
 
-  const response = await fetch(url.toString(), {
-    cache: 'no-store',
-    ...init,
-    headers: {
-      ...(init.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
-      ...init.headers,
-    },
-  });
+  try {
+    const response = await fetch(url.toString(), {
+      cache: 'no-store',
+      ...init,
+      headers: {
+        ...(init.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+        ...init.headers,
+      },
+    });
 
-  const result = await response.json().catch(() => null);
+    console.log('Status:', response.status);
 
-  if (!response.ok) {
-    throw new ApiRequestError(result?.message || 'Something went wrong', response.status);
+    const result = await response.json().catch(() => null);
+
+    console.log('Response:', result);
+
+    if (!response.ok) {
+      throw new ApiRequestError(result?.message || 'Something went wrong', response.status);
+    }
+
+    return (result?.data ?? result?.message ?? result) as TData;
+  } catch (err) {
+    console.error('Fetch Error:', err);
+    throw err;
   }
-
-  return (result?.data ?? result?.message ?? result) as TData;
 }
 
 function createBody(body?: ApiBody) {
