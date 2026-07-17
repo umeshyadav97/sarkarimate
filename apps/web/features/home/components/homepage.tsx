@@ -62,7 +62,7 @@ export function Homepage() {
         }}
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
-        <HomeJobsDebug />
+        {/* <HomeJobsDebug /> */}
         <HeroSection popularSearches={homepageData.popularSearches} />
         <QuickAccessSection items={homepageData.quickAccessItems} />
         <NotificationPanels
@@ -70,7 +70,7 @@ export function Homepage() {
           latestJobs={homepageData.latestJobs}
           latestResults={homepageData.latestResults}
         />
-        <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} />
+        {/* <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} /> */}
         <CategoriesSection categories={homepageData.categories} />
         <StatsSection stats={homepageData.stats} />
         <ImportantToolsSection />
