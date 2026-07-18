@@ -281,7 +281,7 @@ function mapLatestResults(store: HomePageStore): NotificationItem[] {
     ? store.latestResults
     : homePageStore.latestResults;
 
-  return latestResults.map((result, index) => ({
+  return latestResults.slice(0, 5).map((result, index) => ({
     title: result.title,
     organization: result.organization,
     metaLabel: 'Result Date',

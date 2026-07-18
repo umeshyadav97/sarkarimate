@@ -1,105 +1,97 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getListingItems } from '@/services/listing.service';
-import type { ListingFilters, ListingItem } from '@/components/listing/types';
+import { useCallback, useEffect, useState } from 'react';
+import { getJobs } from '@/services/jobs.service';
+import type { ApiJob, JobsQueryParams } from '@/features/jobs/types';
 
 const PAGE_SIZE = 20;
+const DEFAULT_FILTERS: UseListingItemsOptions['filters'] = {};
 
 interface UseListingItemsOptions {
-  endpoint: string;
-  search: string;
-  sort: string;
-  filters: ListingFilters;
+  search?: string;
+  sort?: 'latest' | 'oldest' | 'views' | 'featured';
+  filters?: Omit<JobsQueryParams, 'page' | 'limit' | 'search' | 'sort'>;
 }
 
-export function useListingItems({ endpoint, search, sort, filters }: UseListingItemsOptions) {
-  const [items, setItems] = useState<ListingItem[]>([]);
+export function useListingItems({
+  search = '',
+  sort = 'latest',
+  filters = DEFAULT_FILTERS,
+}: UseListingItemsOptions) {
+  const [items, setItems] = useState<ApiJob[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const querySignature = useMemo(
-    () => JSON.stringify({ endpoint, search, sort, filters }),
-    [endpoint, filters, search, sort],
-  );
-
   useEffect(() => {
-    let isActive = true;
+    let isMounted = true;
 
-    async function loadInitialItems() {
+    async function fetchItems() {
       setIsLoading(true);
       setError(null);
       setPage(1);
 
       try {
-        const response = await getListingItems({
-          endpoint,
+        const response = await getJobs({
           page: 1,
-          pageSize: PAGE_SIZE,
+          limit: PAGE_SIZE,
           search,
           sort,
-          filters,
+          ...filters,
         });
 
-        if (isActive) {
-          setItems(response.items);
-          setTotal(response.total);
-          setHasMore(response.hasMore);
-        }
-      } catch (caughtError) {
-        console.error(caughtError);
+        if (!isMounted) return;
 
-        if (isActive) {
-          setError('Unable to load listings right now. Please try again.');
+        setItems(response.jobs);
+        setTotal(response.pagination.total);
+        setHasMore(response.pagination.hasNextPage);
+      } catch {
+        if (isMounted) {
+          setError('Unable to load listings.');
         }
       } finally {
-        if (isActive) {
+        if (isMounted) {
           setIsLoading(false);
         }
       }
     }
 
-    loadInitialItems();
+    fetchItems();
 
     return () => {
-      isActive = false;
+      isMounted = false;
     };
-  }, [endpoint, filters, querySignature, search, sort]);
+  }, [filters, search, sort]);
 
   const loadMore = useCallback(async () => {
-    if (!hasMore || isLoading || isLoadingMore) {
-      return;
-    }
+    if (!hasMore || isLoading || isLoadingMore) return;
 
     const nextPage = page + 1;
+
     setIsLoadingMore(true);
-    setError(null);
 
     try {
-      const response = await getListingItems({
-        endpoint,
+      const response = await getJobs({
         page: nextPage,
-        pageSize: PAGE_SIZE,
+        limit: PAGE_SIZE,
         search,
         sort,
-        filters,
+        ...filters,
       });
 
-      setItems((currentItems) => [...currentItems, ...response.items]);
-      setTotal(response.total);
-      setHasMore(response.hasMore);
+      setItems((prev) => [...prev, ...response.jobs]);
+      setTotal(response.pagination.total);
+      setHasMore(response.pagination.hasNextPage);
       setPage(nextPage);
-    } catch (caughtError) {
-      console.error(caughtError);
-      setError('Unable to load more listings right now. Please try again.');
+    } catch {
+      setError('Unable to load more listings.');
     } finally {
       setIsLoadingMore(false);
     }
-  }, [endpoint, filters, hasMore, isLoading, isLoadingMore, page, search, sort]);
+  }, [page, hasMore, isLoading, isLoadingMore, search, sort, filters]);
 
   return {
     items,
