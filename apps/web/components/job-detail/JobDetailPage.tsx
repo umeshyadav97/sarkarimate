@@ -36,7 +36,7 @@ export function JobDetailPage({ config, data }: JobDetailPageProps) {
     <main className="bg-[#F8FAFC] text-[#111827]">
       <JobHeader data={data} />
 
-      <section className="mx-auto grid w-full max-w-full items-start gap-4 px-4 py-5 sm:gap-6 sm:px-6 sm:py-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,0.72fr)] lg:grid-cols-[minmax(0,2.6fr)_minmax(300px,1fr)] lg:px-8">
+      <section className="mx-auto grid w-full max-w-full items-start gap-4 px-4 py-5 sm:gap-6 sm:px-6 sm:py-6 lg:grid-cols-[minmax(0,2.6fr)_minmax(300px,1fr)] lg:px-8">
         {data.keyInformation.length > 0 ? (
           <AtGlanceCard
             title={visibleConfig.atGlanceTitle}

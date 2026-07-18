@@ -47,13 +47,17 @@ export interface JobsResponse {
 export interface JobsQueryParams extends Record<string, string | number | boolean | undefined> {
   page?: number;
   limit?: number;
+
   search?: string;
   category?: string;
   department?: string;
   state?: string;
   applicationStatus?: string;
-  sections?: string;
+
+  type?: 'jobs' | 'admit-cards' | 'results' | 'answer-keys';
+
   isFeatured?: boolean;
   isTrending?: boolean;
+
   sort?: 'latest' | 'oldest' | 'views' | 'featured';
 }

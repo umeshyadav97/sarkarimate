@@ -11,6 +11,7 @@ import { ListingToolbar } from '@/components/listing/ListingToolbar';
 import { NeedHelpCard } from '@/components/listing/NeedHelpCard';
 import { NewsletterCard } from '@/components/listing/NewsletterCard';
 import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
+import type { ApiJob, JobsQueryParams } from '@/features/jobs/types';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useListingItems } from '@/hooks/useListingItems';
 import { useSearchParams } from 'next/navigation';
@@ -25,10 +26,56 @@ const initialFilters: ListingFilters = {
   organization: 'all',
 };
 
+type ListingSort = NonNullable<JobsQueryParams['sort']>;
+type ListingType = NonNullable<JobsQueryParams['type']>;
+
+function getFilterValue(value: string) {
+  return value === 'all' ? undefined : value;
+}
+
+function getJobDate(job: ApiJob) {
+  return job.updatedAt ?? job.publishedAt ?? job.createdAt;
+}
+
+function formatListingDate(date?: string) {
+  if (!date) {
+    return 'Recently Updated';
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(date));
+}
+
+function getListingYear(job: ApiJob) {
+  const jobDate = getJobDate(job);
+
+  if (jobDate) {
+    return new Date(jobDate).getFullYear().toString();
+  }
+
+  return job.title.match(/\b(20\d{2})\b/)?.[1] ?? '';
+}
+
+function toListingItem(job: ApiJob) {
+  return {
+    id: job._id,
+    detailId: job._id,
+    title: job.title,
+    organization: job.organization,
+    updatedDate: formatListingDate(getJobDate(job)),
+    year: getListingYear(job),
+    state: job.state || 'All India',
+    href: `/job-details/${job.slug}`,
+  };
+}
+
 export function ListingPage({ config }: ListingPageProps) {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get('q') ?? '');
-  const [sort, setSort] = useState('latest');
+  const [sort, setSort] = useState<ListingSort>('latest');
   const [filters, setFilters] = useState<ListingFilters>(initialFilters);
   const [draftFilters, setDraftFilters] = useState<ListingFilters>(initialFilters);
 
@@ -36,12 +83,23 @@ export function ListingPage({ config }: ListingPageProps) {
     setSearch(searchParams.get('q') ?? '');
   }, [searchParams]);
 
+  const apiFilters = useMemo(
+    () => ({
+      type: config.pageType as ListingType,
+      state: getFilterValue(filters.state),
+      organization: getFilterValue(filters.organization),
+      year: getFilterValue(filters.year),
+    }),
+    [config.pageType, filters],
+  );
+
   const { items, total, hasMore, isLoading, isLoadingMore, error, loadMore } = useListingItems({
-    endpoint: config.apiEndpoint,
     search,
     sort,
-    filters,
+    filters: apiFilters,
   });
+
+  const listingItems = useMemo(() => items.map((item) => toListingItem(item)), [items]);
 
   const sentinelRef = useInfiniteScroll({
     hasMore,
@@ -54,8 +112,8 @@ export function ListingPage({ config }: ListingPageProps) {
       return 'No listings available';
     }
 
-    return `Showing ${items.length} of ${total} listings`;
-  }, [items.length, total]);
+    return `Showing ${listingItems.length} of ${total} listings`;
+  }, [listingItems.length, total]);
 
   const handleDraftFilterChange = useCallback((key: keyof ListingFilters, value: string) => {
     setDraftFilters((currentFilters) => ({ ...currentFilters, [key]: value }));
@@ -88,7 +146,7 @@ export function ListingPage({ config }: ListingPageProps) {
             searchPlaceholder={config.searchPlaceholder}
             sort={sort}
             onSearchChange={setSearch}
-            onSortChange={setSort}
+            onSortChange={(value) => setSort(value as ListingSort)}
           />
 
           {error ? (
@@ -105,10 +163,10 @@ export function ListingPage({ config }: ListingPageProps) {
               <ListingTable
                 actionLabel={config.actionLabel}
                 columns={config.columns}
-                items={items}
+                items={listingItems}
                 startIndex={1}
               />
-              {items.length > 0 ? (
+              {listingItems.length > 0 ? (
                 <>
                   <div className="border-t border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600">
                     {loadedSummary}

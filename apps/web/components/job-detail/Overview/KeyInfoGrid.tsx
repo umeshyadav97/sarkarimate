@@ -1,9 +1,11 @@
 import {
   BadgeIndianRupee,
+  BriefcaseBusiness,
   CalendarDays,
+  CircleCheck,
   GraduationCap,
+  Hourglass,
   ShieldCheck,
-  UserRound,
   Venus,
 } from 'lucide-react';
 import type { DetailKeyInfo } from '@/components/job-detail/types';
@@ -49,11 +51,15 @@ function getVisualTreatment(label: string): { icon: typeof CalendarDays; tone: V
   }
 
   if (normalizedLabel.includes('post') || normalizedLabel.includes('vacancy')) {
-    return { icon: UserRound, tone: 'blue' };
+    return { icon: BriefcaseBusiness, tone: 'blue' };
   }
 
   if (normalizedLabel.includes('age')) {
-    return { icon: UserRound, tone: 'orange' };
+    return { icon: Hourglass, tone: 'orange' };
+  }
+
+  if (normalizedLabel.includes('status')) {
+    return { icon: CircleCheck, tone: 'green' };
   }
 
   if (normalizedLabel.includes('qualification')) {
@@ -73,7 +79,7 @@ function getVisualTreatment(label: string): { icon: typeof CalendarDays; tone: V
 
 export function KeyInfoGrid({ items }: KeyInfoGridProps) {
   return (
-    <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <dl className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => {
         const { icon: Icon, tone } = getVisualTreatment(item.label);
         const valueTone = item.tone === 'red' ? 'red' : item.tone === 'slate' ? 'slate' : tone;

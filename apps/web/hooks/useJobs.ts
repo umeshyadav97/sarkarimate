@@ -1,7 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { getJobBySlug, getJobs } from '@/services/jobs.service';
+import {
+  getJobListingItemBySlug,
+  getJobListingItems,
+} from '@/services/listing/job-listing.service';
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
 
 interface AsyncState<TData> {
@@ -23,7 +26,7 @@ export function useJobs(params: JobsQueryParams = {}): AsyncState<JobsResponse> 
     try {
       setIsLoading(true);
       setError(null);
-      setData(await getJobs(params));
+      setData(await getJobListingItems(params));
     } catch (caughtError) {
       setError(getErrorMessage(caughtError));
     } finally {
@@ -58,7 +61,7 @@ export function useJob(slug: string): AsyncState<ApiJob> {
     try {
       setIsLoading(true);
       setError(null);
-      setData(await getJobBySlug(slug));
+      setData(await getJobListingItemBySlug(slug));
     } catch (caughtError) {
       setError(getErrorMessage(caughtError));
     } finally {

@@ -51,9 +51,7 @@ const faqSchema = {
 
 export function Homepage() {
   const { data } = useHomePage();
-  // const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
-  const homepageData = data ? createHomepageViewData(data) : null;
-  console.log('Homepage data:', data);
+  const homepageData = data ? createHomepageViewData(data) : defaultHomepageViewData;
 
   return (
     <>
