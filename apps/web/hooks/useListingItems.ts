@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { getJobs } from '@/services/jobs.service';
+import { getJobListingItems } from '@/services/listing/job-listing.service';
 import type { ApiJob, JobsQueryParams } from '@/features/jobs/types';
 
 const PAGE_SIZE = 20;
@@ -35,7 +35,7 @@ export function useListingItems({
       setPage(1);
 
       try {
-        const response = await getJobs({
+        const response = await getJobListingItems({
           page: 1,
           limit: PAGE_SIZE,
           search,
@@ -74,7 +74,7 @@ export function useListingItems({
     setIsLoadingMore(true);
 
     try {
-      const response = await getJobs({
+      const response = await getJobListingItems({
         page: nextPage,
         limit: PAGE_SIZE,
         search,

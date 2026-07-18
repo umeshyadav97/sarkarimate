@@ -83,7 +83,13 @@ export function DetailMainSections({ config, data, renderSection }: DetailMainSe
           return (
             <div key={section.id} className="grid gap-4">
               {data.timeline.length > 0 ? (
-                <TimelineSection id="timeline" title={config.timelineTitle} items={data.timeline} />
+                <div className="lg:hidden">
+                  <TimelineSection
+                    id="timeline"
+                    title={config.timelineTitle}
+                    items={data.timeline}
+                  />
+                </div>
               ) : null}
               {data.vacancy.rows.length > 0 ? (
                 <VacancySection id={section.id} title={section.label} vacancy={data.vacancy} />

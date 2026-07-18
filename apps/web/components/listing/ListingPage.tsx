@@ -62,6 +62,7 @@ function getListingYear(job: ApiJob) {
 function toListingItem(job: ApiJob) {
   return {
     id: job._id,
+    detailId: job._id,
     title: job.title,
     organization: job.organization,
     updatedDate: formatListingDate(getJobDate(job)),

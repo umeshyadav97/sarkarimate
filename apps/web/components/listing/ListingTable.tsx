@@ -2,11 +2,27 @@ import Link from 'next/link';
 import { FileText } from 'lucide-react';
 import type { ListingColumn, ListingItem } from '@/components/listing/types';
 
+const detailIdCachePrefix = 'sarkarimate:job-detail-id:';
+
 interface ListingTableProps {
   actionLabel: string;
   columns: ListingColumn[];
   items: ListingItem[];
   startIndex: number;
+}
+
+function cacheDetailId(item: ListingItem) {
+  if (!item.detailId) {
+    return;
+  }
+
+  const slug = item.href.split('/').filter(Boolean).at(-1);
+
+  if (!slug) {
+    return;
+  }
+
+  window.localStorage.setItem(`${detailIdCachePrefix}${slug}`, item.detailId);
 }
 
 export function ListingTable({ actionLabel, columns, items, startIndex }: ListingTableProps) {
@@ -42,6 +58,9 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
                   <Link
                     className="text-sm font-bold text-[#073b82] hover:text-[#1D4ED8]"
                     href={item.href}
+                    onClick={() => cacheDetailId(item)}
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
                     {item.title}
                   </Link>
@@ -52,6 +71,9 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
                   <Link
                     className="inline-flex min-h-9 w-full min-w-24 items-center justify-center whitespace-nowrap rounded-md border border-[#1D4ED8] px-4 text-sm font-bold text-[#1D4ED8] transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-100"
                     href={item.href}
+                    onClick={() => cacheDetailId(item)}
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
                     {actionLabel}
                   </Link>
@@ -71,7 +93,13 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
             {/* <span className="inline-flex items-center justify-center rounded-lg bg-blue-50 p-2 text-sm font-bold text-[#111827]">
               #{startIndex + index}
             </span> */}
-            <Link className="block text-base font-bold leading-6 text-[#071B3D]" href={item.href}>
+            <Link
+              className="block text-base font-bold leading-6 text-[#071B3D]"
+              href={item.href}
+              onClick={() => cacheDetailId(item)}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               {item.title}
             </Link>
             <dl className="mt-2 grid grid-cols-2 border-t border-slate-200 pt-2">
@@ -87,6 +115,9 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
             <Link
               className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-3 whitespace-nowrap rounded-lg border-1 border-[#1D4ED8] px-4 text-sm font-bold text-[#1D4ED8]"
               href={item.href}
+              onClick={() => cacheDetailId(item)}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <FileText className="h-5 w-5" aria-hidden="true" />
               {actionLabel}

@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://sarkarimate-api.vercel.app';
 
 export class ApiRequestError extends Error {
   constructor(
@@ -44,11 +44,7 @@ export async function apiRequest<TData>(
       },
     });
 
-    console.log('Status:', response.status);
-
     const result = await response.json().catch(() => null);
-
-    console.log('Response:', result);
 
     if (!response.ok) {
       throw new ApiRequestError(result?.message || 'Something went wrong', response.status);
@@ -56,7 +52,6 @@ export async function apiRequest<TData>(
 
     return (result?.data ?? result?.message ?? result) as TData;
   } catch (err) {
-    console.error('Fetch Error:', err);
     throw err;
   }
 }

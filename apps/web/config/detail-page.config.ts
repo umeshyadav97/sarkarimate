@@ -29,7 +29,7 @@ export const detailPageConfigs: Record<DetailPageType, DetailPageConfig> = {
       { id: 'how-to-apply', label: 'How To Apply' },
       { id: 'faq', label: 'FAQ' },
     ],
-    sidebarWidgets: ['related', 'share'],
+    sidebarWidgets: ['timeline', 'related', 'share'],
     embeddedSections: {
       ageLimitTitle: 'Age Limit (As on 01 July 2026)',
       applicationFeeTitle: 'Application Fee',

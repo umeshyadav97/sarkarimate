@@ -18,45 +18,48 @@ const detailHrefPrefix = '/job-details';
 export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPageData {
   const job = response.data;
   const canonical = `${detailHrefPrefix}/${job.slug}`;
-  const importantDates = mapKeyInfo(job.importantDates);
+  const importantDates = mapImportantDates(job);
   const applicationFee = mapKeyInfo(
-    job.applicationFee?.map((fee) => ({
+    (job.applicationFees ?? job.applicationFee)?.map((fee) => ({
       label: fee.category,
       value: fee.fee,
     })),
   );
   const ageLimit = mapAgeLimit(job);
+  const overviewDescription =
+    job.overview?.description ?? job.shortDescription ?? getDescriptionPreview(job.description);
+  const overviewTitle = job.overview?.title ?? 'About This Recruitment';
 
   return {
     pageType: 'jobs',
     slug: job.slug,
     title: job.title,
     status: {
-      label: job.status ?? '',
-      tone: mapStatusTone(job.badgeColor),
+      label: job.status ?? job.applicationStatus ?? '',
+      tone: mapStatusTone(job.badgeColor, job.applicationStatus ?? job.status),
     },
     organization: job.organizationShort ?? job.organization,
     location: getLocation(job),
-    postedDate: job.postedOn ?? '',
-    updatedDate: job.updatedOn ?? '',
+    postedDate: formatMaybeDate(job.postedOn ?? job.publishedAt),
+    updatedDate: formatMaybeDate(job.updatedOn ?? job.updatedAt),
     breadcrumbs: [
       { label: 'Home', href: '/' },
       { label: 'Jobs', href: jobListingHref },
       { label: job.title, href: canonical },
     ],
-    keyInformation: mapQuickFacts(job.quickFacts),
-    alert: job.hero?.summary,
+    keyInformation: mapQuickFacts(job),
+    alert: job.hero?.summary ?? overviewDescription,
     actions: mapActions(job.importantLinks),
     about: {
-      title: job.overview?.title ?? '',
-      body: job.overview?.description ? [job.overview.description] : [],
+      title: overviewTitle,
+      body: overviewDescription ? [overviewDescription] : [],
     },
     importantDates,
     vacancy: mapVacancy(job),
-    eligibility: job.eligibility ?? [],
-    howToApply: job.howToApply ?? [],
+    eligibility: mapEligibility(job),
+    howToApply: job.howToApply?.length ? job.howToApply : extractHowToApply(job.description),
     ageLimit,
-    ageLimitNote: job.ageLimit?.relaxation ?? '',
+    ageLimitNote: mapAgeLimitNote(job),
     applicationFee,
     applicationFeeNote: '',
     selectionProcess: mapTimelineItems(job.selectionProcess),
@@ -86,8 +89,9 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
         ]
       : [],
     seo: {
-      title: job.seo?.title ?? job.title,
-      description: job.seo?.description ?? job.hero?.summary ?? job.title,
+      title: job.seo?.title ?? job.seo?.metaTitle ?? job.title,
+      description:
+        job.seo?.description ?? job.seo?.metaDescription ?? job.hero?.summary ?? job.title,
       canonical,
       keywords: job.seo?.keywords,
     },
@@ -152,35 +156,52 @@ export function getVisibleDetailConfig(config: DetailPageConfig, data: DetailPag
   };
 }
 
-function mapQuickFacts(facts: JobDetailsApiData['quickFacts']): DetailKeyInfo[] {
+function mapQuickFacts(job: JobDetailsApiData): DetailKeyInfo[] {
+  const ageLimitValue = getAgeLimitSummary(job);
+  const liveFacts = [
+    job.lastDate ? { label: 'Last Date', value: job.lastDate } : null,
+    job.totalPosts ? { label: 'Total Posts', value: String(job.totalPosts) } : null,
+    ageLimitValue ? { label: 'Age Limit', value: ageLimitValue } : null,
+    job.applicationStatus ? { label: 'Status', value: job.applicationStatus } : null,
+  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
+
+  const facts = job.quickFacts?.length ? job.quickFacts : liveFacts;
+
   return (
     facts?.map((fact) => ({
       label: fact.label,
       value: fact.value,
-      tone: getToneForLabel(fact.label),
+      tone: getToneForFact(fact.label, fact.value),
     })) ?? []
   );
 }
 
-function mapKeyInfo(items?: { label: string; value: string }[]): DetailKeyInfo[] {
+function mapKeyInfo(items?: { label?: string; value?: string }[]): DetailKeyInfo[] {
   return (
-    items?.map((item) => ({
-      label: item.label,
-      value: item.value,
-      tone: getToneForLabel(item.label),
-    })) ?? []
+    items
+      ?.filter((item): item is { label: string; value: string } =>
+        Boolean(item.label && item.value),
+      )
+      .map((item) => ({
+        label: item.label,
+        value: item.value,
+        tone: getToneForLabel(item.label),
+      })) ?? []
   );
 }
 
 function mapAgeLimit(job: JobDetailsApiData): DetailKeyInfo[] {
   const items: DetailKeyInfo[] = [];
 
-  if (job.ageLimit?.minimum) {
-    items.push({ label: 'Minimum Age', value: job.ageLimit.minimum, tone: 'green' });
+  const minimumAge = job.ageLimit?.minimum ?? numberToString(job.minimumAge);
+  const maximumAge = job.ageLimit?.maximum ?? numberToString(job.maximumAge);
+
+  if (minimumAge) {
+    items.push({ label: 'Minimum Age', value: minimumAge, tone: 'green' });
   }
 
-  if (job.ageLimit?.maximum) {
-    items.push({ label: 'Maximum Age', value: job.ageLimit.maximum, tone: 'green' });
+  if (maximumAge) {
+    items.push({ label: 'Maximum Age', value: maximumAge, tone: 'green' });
   }
 
   if (job.ageLimit?.asOn) {
@@ -191,6 +212,27 @@ function mapAgeLimit(job: JobDetailsApiData): DetailKeyInfo[] {
 }
 
 function mapVacancy(job: JobDetailsApiData): DetailPageData['vacancy'] {
+  if (job.vacancies?.length) {
+    const columns: DetailTableColumn[] = [
+      { key: 'postName', label: 'Post Name' },
+      { key: 'totalPosts', label: 'Total Posts' },
+      { key: 'qualification', label: 'Qualification' },
+    ];
+
+    return {
+      title: `Vacancy Details${job.totalPosts ? ` Total: ${job.totalPosts} Posts` : ''}`,
+      columns,
+      rows: job.vacancies.map((vacancy, index) => ({
+        id: `${job.slug}-vacancy-${index + 1}`,
+        values: {
+          postName: vacancy.postName,
+          totalPosts: vacancy.totalPosts,
+          qualification: vacancy.qualification,
+        },
+      })),
+    };
+  }
+
   const columns = mapVacancyColumns(job.vacancy?.columns);
 
   return {
@@ -228,17 +270,47 @@ function mapTimelineItems(items?: string[]): DetailTimelineItem[] {
 
 function mapActions(links: JobDetailsApiData['importantLinks']): DetailAction[] {
   return (
-    links?.map((link) => ({
-      label: link.title,
+    links?.map((link, index) => ({
+      label: getActionLabel(link, index),
       href: link.url,
-      variant: link.type === 'primary' ? 'primary' : 'secondary',
+      variant: index === 0 || link.type === 'primary' || link.isPrimary ? 'primary' : 'secondary',
     })) ?? []
   );
 }
 
-function mapStatusTone(tone?: string): DetailPageData['status']['tone'] {
+function getActionLabel(
+  link: NonNullable<JobDetailsApiData['importantLinks']>[number],
+  index: number,
+) {
+  const normalizedTitle = link.title.toLowerCase();
+  const normalizedType = link.type?.toLowerCase();
+
+  if (normalizedType === 'official' || normalizedTitle.includes('official website')) {
+    return 'Official Website';
+  }
+
+  if (
+    normalizedTitle.includes('notification') ||
+    normalizedTitle.includes('notice') ||
+    normalizedTitle.includes('pdf')
+  ) {
+    return 'Official Notification';
+  }
+
+  if (index === 0) {
+    return 'Apply Online';
+  }
+
+  return link.title;
+}
+
+function mapStatusTone(tone?: string, status?: string): DetailPageData['status']['tone'] {
   if (tone === 'green' || tone === 'red' || tone === 'orange' || tone === 'blue') {
     return tone;
+  }
+
+  if (status?.toLowerCase() === 'open') {
+    return 'green';
   }
 
   return 'slate';
@@ -258,12 +330,155 @@ function getToneForLabel(label: string): DetailKeyInfo['tone'] {
   return 'slate';
 }
 
+function getToneForFact(label: string, value: string): DetailKeyInfo['tone'] {
+  if (label.toLowerCase().includes('status')) {
+    return mapStatusTone(undefined, value);
+  }
+
+  return getToneForLabel(label);
+}
+
+function getAgeLimitSummary(job: JobDetailsApiData) {
+  const minimumAge = job.ageLimit?.minimum ?? numberToString(job.minimumAge);
+  const maximumAge = job.ageLimit?.maximum ?? numberToString(job.maximumAge);
+
+  if (minimumAge && maximumAge) {
+    return `${minimumAge} - ${maximumAge}`;
+  }
+
+  return minimumAge ?? maximumAge;
+}
+
 function getLocation(job: JobDetailsApiData) {
+  if (job.category?.name) {
+    return job.category.name;
+  }
+
   if (job.organization.toLowerCase().includes('uttar pradesh')) {
     return 'Uttar Pradesh';
   }
 
   return 'All India';
+}
+
+function mapImportantDates(job: JobDetailsApiData): DetailKeyInfo[] {
+  const dateByTitle: Record<string, string | undefined> = {
+    'application start': job.applicationStartDate,
+    'last date': job.lastDate,
+    'exam date': job.examDate,
+    'admit card': job.admitCardDate,
+    'answer key': job.answerKeyDate,
+  };
+
+  if (job.importantDates?.length) {
+    const mappedDates = job.importantDates
+      .map<DetailKeyInfo | null>((date) => {
+        const label = date.title ?? date.label;
+
+        if (!label) {
+          return null;
+        }
+
+        const value =
+          'value' in date && date.value
+            ? date.value
+            : (dateByTitle[label.toLowerCase()] ?? date.status);
+
+        return value ? { label, value, tone: getToneForLabel(label) } : null;
+      })
+      .filter((date): date is DetailKeyInfo => Boolean(date));
+
+    if (mappedDates.length) {
+      return mappedDates;
+    }
+  }
+
+  return mapKeyInfo([
+    { label: 'Application Start', value: job.applicationStartDate },
+    { label: 'Last Date', value: job.lastDate },
+    { label: 'Exam Date', value: job.examDate },
+    { label: 'Admit Card', value: job.admitCardDate },
+    { label: 'Answer Key', value: job.answerKeyDate },
+  ]);
+}
+
+function mapEligibility(job: JobDetailsApiData) {
+  if (job.eligibility?.length) {
+    return job.eligibility;
+  }
+
+  if (job.qualifications?.length) {
+    return job.qualifications;
+  }
+
+  return (
+    job.qualification
+      ?.split('|')
+      .map((item) => item.trim())
+      .filter(Boolean) ?? []
+  );
+}
+
+function mapAgeLimitNote(job: JobDetailsApiData) {
+  if (job.ageLimit?.relaxation) {
+    return job.ageLimit.relaxation;
+  }
+
+  return job.ageRelaxations?.map((item) => `${item.category}: ${item.relaxation}`).join(' ') ?? '';
+}
+
+function extractHowToApply(description?: string) {
+  if (!description) {
+    return [];
+  }
+
+  const howToApplyStart = description.indexOf('How to Fill');
+
+  if (howToApplyStart === -1) {
+    return [];
+  }
+
+  return description
+    .slice(howToApplyStart)
+    .split('.')
+    .map((item) => item.trim())
+    .filter((item) => item.length > 20)
+    .slice(0, 8);
+}
+
+function getDescriptionPreview(description?: string) {
+  if (!description) {
+    return '';
+  }
+
+  return (
+    description
+      .split('\n')
+      .find((line) => line.trim().length > 40)
+      ?.trim() ?? description
+  );
+}
+
+function formatMaybeDate(date?: string) {
+  if (!date) {
+    return '';
+  }
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(parsedDate);
+}
+
+function numberToString(value?: number) {
+  return typeof value === 'number' ? `${value} Years` : undefined;
 }
 
 function toCamelCase(value: string) {

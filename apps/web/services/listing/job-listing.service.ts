@@ -1,6 +1,13 @@
-import type { HomePageStore } from '@/features/home/store/homepage-store';
+import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
 import { api } from '@/services/api-client';
 
-export function getJobListingData(signal?: AbortSignal) {
-  return api.get<HomePageStore>('/api/v1/jobs/latest-job', { page: 1, limit: 20 }, { signal });
+export function getJobListingItems(params: JobsQueryParams = {}) {
+  return api.get<JobsResponse>('/api/v1/jobs', {
+    ...params,
+  });
+}
+
+export async function getJobListingItemBySlug(slug: string) {
+  const response = await api.get<{ job: ApiJob }>(`/api/v1/jobs/${slug}`);
+  return response.job;
 }

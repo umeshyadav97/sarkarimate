@@ -1,11 +1,25 @@
 import type { DetailPageData, DetailPageType } from '@/components/job-detail/types';
+import jobDetailsResponse from '@/features/jobs/store/job-details.json';
+import type {
+  JobDetailsApiData,
+  JobDetailsApiResponse,
+} from '@/features/jobs/types/job-details-api.types';
+import jobsListResponse from '@/features/listings/store/jobs.json';
 import {
   staticListApiResponses,
   type StaticListItem,
 } from '@/features/listings/store/static-list-api';
+import { api } from '@/services/api-client';
 import { mapJobDetailsResponse } from '@/services/job-detail.mapper';
-import { getJobDetails, getJobDetailsStaticSlugs } from '@/services/jobs';
+import { getJobListingItemBySlug } from '@/services/listing/job-listing.service';
 
+const detailIdCachePrefix = 'sarkarimate:job-detail-id:';
+const localJobDetailsResponse = jobDetailsResponse as JobDetailsApiResponse;
+const localJobsListResponse = jobsListResponse as {
+  data: {
+    items: StaticJobListItem[];
+  };
+};
 const detailDataByRoute: Partial<Record<DetailPageType, Record<string, DetailPageData>>> = {};
 const seedDate = '2026-07-14';
 const detailHrefPrefix = '/job-details';
@@ -17,6 +31,46 @@ const listingHrefByPageType: Record<DetailPageType, string> = {
   syllabus: '/syllabus',
   schemes: '/schemes',
 };
+
+interface StaticJobListItem {
+  id: string;
+  title: string;
+  organization: string;
+  slug: string;
+  category: string;
+  state: string;
+  qualification: string;
+  lastDate: string | null;
+  status: string;
+  href: string;
+  officialUrl: string;
+  notificationUrl: string;
+}
+
+export async function getJobDetails(identifier: string): Promise<JobDetailsApiResponse | null> {
+  try {
+    const detailsIdentifier = isObjectId(identifier)
+      ? identifier
+      : (getCachedJobId(identifier) ?? (await getJobIdFromSlug(identifier)));
+
+    if (detailsIdentifier) {
+      return createJobDetailsResponse(await getLiveJobDetails(detailsIdentifier));
+    }
+  } catch {
+    // Use local fallback for offline/dev API failures.
+  }
+
+  return getLocalJobDetails(identifier);
+}
+
+export function getJobDetailsStaticSlugs() {
+  return Array.from(
+    new Set([
+      localJobDetailsResponse.data.slug,
+      ...localJobsListResponse.data.items.map((job) => job.slug),
+    ]),
+  );
+}
 
 export async function getDetailPageData(
   pageType: DetailPageType,
@@ -91,6 +145,100 @@ export async function getDetailPageStaticParams(pageType: DetailPageType) {
 function getStaticListItem(pageType: DetailPageType, slug: string) {
   const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
   return listResponse?.data.items.find((item) => item.slug === slug);
+}
+
+async function getJobIdFromSlug(slug: string) {
+  const job = await getJobListingItemBySlug(slug);
+  return job._id;
+}
+
+function getLiveJobDetails(id: string) {
+  return api.get<JobDetailsApiData>(`/api/v1/jobs/details/${id}`);
+}
+
+function createJobDetailsResponse(data: JobDetailsApiData): JobDetailsApiResponse {
+  return {
+    success: true,
+    message: 'Job details fetched successfully',
+    data,
+  };
+}
+
+function isObjectId(value: string) {
+  return /^[a-f\d]{24}$/i.test(value);
+}
+
+function getCachedJobId(slug: string) {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  return window.localStorage.getItem(`${detailIdCachePrefix}${slug}`);
+}
+
+function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
+  if (
+    localJobDetailsResponse.data.slug === identifier ||
+    localJobDetailsResponse.data.id === identifier ||
+    localJobDetailsResponse.data._id === identifier
+  ) {
+    return localJobDetailsResponse;
+  }
+
+  const listedJob = localJobsListResponse.data.items.find(
+    (job) => job.slug === identifier || job.id === identifier,
+  );
+
+  if (!listedJob) {
+    return null;
+  }
+
+  return createJobDetailsResponseFromListItem(listedJob);
+}
+
+function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetailsApiResponse {
+  const lastDateValue = job.lastDate ? formatDisplayDate(job.lastDate) : 'Check Notification';
+
+  return {
+    success: true,
+    message: 'Job details fetched successfully',
+    data: {
+      id: job.slug,
+      type: 'job',
+      slug: job.slug,
+      title: job.title,
+      organization: job.organization,
+      organizationShort: job.organization,
+      status: job.status === 'active' ? 'Application Open' : job.status,
+      badgeColor: job.status === 'active' ? 'green' : 'slate',
+      postedOn: seedDate,
+      updatedOn: seedDate,
+      hero: {
+        summary: `${job.organization} has released an update for ${job.title}. Candidates should check the official notification before applying.`,
+      },
+      quickFacts: [
+        { icon: 'calendar', label: 'Last Date', value: lastDateValue },
+        { icon: 'education', label: 'Qualification', value: job.qualification },
+        { icon: 'briefcase', label: 'Category', value: job.category },
+        { icon: 'location', label: 'State', value: job.state },
+      ],
+      overview: {
+        title: 'About This Recruitment',
+        description: `${job.title} is listed under ${job.category}. Review eligibility, important links and official notification details before taking action.`,
+      },
+      importantDates: [{ label: 'Last Date', value: lastDateValue }],
+      eligibility: [job.qualification],
+      importantLinks: [
+        { title: 'Official Notification', url: job.notificationUrl, type: 'secondary' },
+        { title: 'Official Website', url: job.officialUrl, type: 'secondary' },
+      ],
+      seo: {
+        title: job.title,
+        description: `Check details for ${job.title}.`,
+        keywords: [job.organization, job.category, 'Government Job'],
+      },
+    },
+  };
 }
 
 function mapStaticListItemToDetailPageData(
