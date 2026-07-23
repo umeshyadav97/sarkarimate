@@ -1,3 +1,4 @@
+import { FormattedDetailValue } from '@/components/job-detail/Common/FormattedDetailValue';
 import type { DetailKeyInfo } from '@/components/job-detail/types';
 
 interface KeyValueListProps {
@@ -25,7 +26,7 @@ export function KeyValueList({ items, columns = 'two' }: KeyValueListProps) {
           <dd
             className={`min-w-0 whitespace-normal break-words text-sm font-bold sm:shrink-0 sm:whitespace-nowrap ${valueToneClasses[item.tone ?? 'slate']}`}
           >
-            {item.value}
+            <FormattedDetailValue value={item.value} />
           </dd>
         </div>
       ))}
