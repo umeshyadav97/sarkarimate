@@ -1,5 +1,6 @@
 export interface ListingItem {
   id: string;
+  detailId?: string;
   title: string;
   organization: string;
   updatedDate: string;

@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Card } from '@repo/ui';
 import {
-  latestAdmitCards,
-  latestJobs,
-  latestResults,
+  latestAdmitCards as defaultLatestAdmitCards,
+  latestJobs as defaultLatestJobs,
+  latestResults as defaultLatestResults,
   type NotificationItem,
 } from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
@@ -15,7 +15,17 @@ const metaClasses = {
   'Last Date': 'text-[#DC2626]',
 };
 
-export function NotificationPanels() {
+interface NotificationPanelsProps {
+  latestJobs?: NotificationItem[];
+  latestResults?: NotificationItem[];
+  latestAdmitCards?: NotificationItem[];
+}
+
+export function NotificationPanels({
+  latestJobs = defaultLatestJobs,
+  latestResults = defaultLatestResults,
+  latestAdmitCards = defaultLatestAdmitCards,
+}: NotificationPanelsProps) {
   return (
     <section className="mx-auto grid max-w-full grid-cols-1 gap-5 px-4 py-5 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 lg:px-8">
       <NotificationPanel

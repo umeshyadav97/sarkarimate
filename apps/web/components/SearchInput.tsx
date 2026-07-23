@@ -94,6 +94,7 @@ export function SearchInput({
             hover:bg-[#1D4ED8]
             active:scale-[0.98]
             disabled:opacity-60
+            cursor-pointer
           "
           type="button"
         >

@@ -56,7 +56,7 @@ const footerRouteByLabel: Record<string, string> = {
   Results: '/results',
   'Answer Key': '/answer-keys',
   'Answer Keys': '/answer-keys',
-  Syllabus: '/preparation',
+  Syllabus: '/syllabus',
   'Govt. Schemes': '/schemes',
   'Government Schemes': '/schemes',
 };

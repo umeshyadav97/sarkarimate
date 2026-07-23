@@ -46,13 +46,13 @@ export const staticListApiResponses: Record<string, StaticListResponse> = {
   '/api/v1/admit-cards': admitCardsResponse,
   '/api/v1/results': resultsResponse,
   '/api/v1/answer-keys': answerKeysResponse,
-  '/api/v1/preparation': syllabusResponse,
+  '/api/v1/syllabus': syllabusResponse,
   '/api/v1/deadlines': upcomingDeadlinesResponse,
   '/jobs': jobsResponse,
   '/admit-cards': admitCardsResponse,
   '/results': resultsResponse,
   '/answer-keys': answerKeysResponse,
-  '/preparation': syllabusResponse,
+  '/syllabus': syllabusResponse,
   '/deadlines': upcomingDeadlinesResponse,
 };
 

@@ -83,22 +83,22 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
       {
         title: 'General Support / सामान्य सहायता',
         body: [
-          'For general questions, feedback or help, email us at support@sarkarimate.com.',
-          'सामान्य सहायता या सुझाव के लिए support@sarkarimate.com पर ईमेल करें।',
+          'For general questions, feedback or help, email us at sarkarimate.official@gmail.com.',
+          'सामान्य सहायता या सुझाव के लिए sarkarimate.official@gmail.com पर ईमेल करें।',
         ],
       },
       {
         title: 'Report Incorrect Information / गलत जानकारी बताएं',
         body: [
-          'If any job, result, admit card, answer key or date looks incorrect, send the page link and correct details to corrections@sarkarimate.com.',
-          'अगर कोई नौकरी, रिजल्ट, एडमिट कार्ड, आंसर की या तारीख गलत लगे, तो page link और सही जानकारी corrections@sarkarimate.com पर भेजें।',
+          'If any job, result, admit card, answer key or date looks incorrect, send the page link and correct details to sarkarimate.official@gmail.com.',
+          'अगर कोई नौकरी, रिजल्ट, एडमिट कार्ड, आंसर की या तारीख गलत लगे, तो page link और सही जानकारी sarkarimate.official@gmail.com पर भेजें।',
         ],
       },
       {
         title: 'Business Enquiry / बिजनेस संपर्क',
         body: [
-          'For partnership, media or business enquiries, contact business@sarkarimate.com.',
-          'Partnership, media या business enquiry के लिए business@sarkarimate.com पर ईमेल करें।',
+          'For partnership, media or business enquiries, contact sarkarimate.official@gmail.com.',
+          'Partnership, media या business enquiry के लिए sarkarimate.official@gmail.com पर ईमेल करें।',
         ],
       },
       {
@@ -110,9 +110,9 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
       },
     ],
     links: [
-      { label: 'Support Email', href: 'mailto:support@sarkarimate.com' },
-      { label: 'Report Correction', href: 'mailto:corrections@sarkarimate.com' },
-      { label: 'Business Enquiry', href: 'mailto:business@sarkarimate.com' },
+      { label: 'Support Email', href: 'mailto:sarkarimate.official@gmail.com' },
+      { label: 'Report Correction', href: 'mailto:sarkarimate.official@gmail.com' },
+      { label: 'Business Enquiry', href: 'mailto:sarkarimate.official@gmail.com' },
     ],
   },
 
@@ -180,8 +180,8 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
       {
         title: 'Contact / संपर्क',
         body: [
-          'For privacy-related questions, email privacy@sarkarimate.com.',
-          'Privacy से जुड़े सवालों के लिए privacy@sarkarimate.com पर ईमेल करें।',
+          'For privacy-related questions, email sarkarimate.official@gmail.com.',
+          'Privacy से जुड़े सवालों के लिए sarkarimate.official@gmail.com पर ईमेल करें।',
         ],
       },
     ],
@@ -325,7 +325,7 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
           { label: 'Results', href: '/results' },
           { label: 'Admit Cards', href: '/admit-cards' },
           { label: 'Answer Keys', href: '/answer-keys' },
-          { label: 'Syllabus', href: '/preparation' },
+          { label: 'Syllabus', href: '/syllabus' },
         ],
       },
       {

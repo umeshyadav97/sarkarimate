@@ -1,12 +1,16 @@
 'use client';
 import { Badge } from '@repo/ui';
-import { popularSearches } from '@/features/home/constants/homepage-data';
+import { popularSearches as defaultPopularSearches } from '@/features/home/constants/homepage-data';
 import { GovernmentBuildingVisual } from '@/features/home/components/government-building-visual';
 import { SearchInput } from '@/components/SearchInput';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export function HeroSection() {
+interface HeroSectionProps {
+  popularSearches?: string[];
+}
+
+export function HeroSection({ popularSearches = defaultPopularSearches }: HeroSectionProps) {
   const router = useRouter();
   const [search, setSearch] = useState('');
 

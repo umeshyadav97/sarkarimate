@@ -35,8 +35,8 @@ const quickLinks = [
   },
   {
     label: 'Syllabus',
-    href: '/preparation',
-    description: 'Exam patterns and preparation topics',
+    href: '/syllabus',
+    description: 'Exam patterns and syllabus topics',
     icon: BookOpen,
     className: 'border-emerald-100 bg-emerald-50 text-[#047857]',
   },

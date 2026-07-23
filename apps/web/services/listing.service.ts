@@ -57,6 +57,8 @@ function getItemYear(item: StaticApiItem) {
 }
 
 function toListingItem(item: StaticApiItem): ListingItem {
+  const href = item.href.startsWith('/syllabus/') ? item.href : `/${item.slug}`;
+
   return {
     id: item.id,
     title: item.title,
@@ -64,7 +66,7 @@ function toListingItem(item: StaticApiItem): ListingItem {
     updatedDate: formatListingDate(getItemDate(item)),
     year: getItemYear(item),
     state: item.state ?? 'All India',
-    href: item.href ?? `/job-details/${item.slug}`,
+    href,
   };
 }
 

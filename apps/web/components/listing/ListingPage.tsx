@@ -11,8 +11,8 @@ import { ListingToolbar } from '@/components/listing/ListingToolbar';
 import { NeedHelpCard } from '@/components/listing/NeedHelpCard';
 import { NewsletterCard } from '@/components/listing/NewsletterCard';
 import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
+import { useConfiguredListingItems } from '@/hooks/useConfiguredListingItems';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { useListingItems } from '@/hooks/useListingItems';
 import { useSearchParams } from 'next/navigation';
 
 interface ListingPageProps {
@@ -36,8 +36,17 @@ export function ListingPage({ config }: ListingPageProps) {
     setSearch(searchParams.get('q') ?? '');
   }, [searchParams]);
 
-  const { items, total, hasMore, isLoading, isLoadingMore, error, loadMore } = useListingItems({
+  const {
+    items: listingItems,
+    total,
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    error,
+    loadMore,
+  } = useConfiguredListingItems({
     endpoint: config.apiEndpoint,
+    pageType: config.pageType,
     search,
     sort,
     filters,
@@ -54,8 +63,8 @@ export function ListingPage({ config }: ListingPageProps) {
       return 'No listings available';
     }
 
-    return `Showing ${items.length} of ${total} listings`;
-  }, [items.length, total]);
+    return `Showing ${listingItems.length} of ${total} listings`;
+  }, [listingItems.length, total]);
 
   const handleDraftFilterChange = useCallback((key: keyof ListingFilters, value: string) => {
     setDraftFilters((currentFilters) => ({ ...currentFilters, [key]: value }));
@@ -105,10 +114,10 @@ export function ListingPage({ config }: ListingPageProps) {
               <ListingTable
                 actionLabel={config.actionLabel}
                 columns={config.columns}
-                items={items}
+                items={listingItems}
                 startIndex={1}
               />
-              {items.length > 0 ? (
+              {listingItems.length > 0 ? (
                 <>
                   <div className="border-t border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600">
                     {loadedSummary}

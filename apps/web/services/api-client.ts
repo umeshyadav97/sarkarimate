@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://sarkarimate-api.vercel.app';
 
 export class ApiRequestError extends Error {
   constructor(
@@ -34,22 +34,26 @@ export async function apiRequest<TData>(
     }
   });
 
-  const response = await fetch(url.toString(), {
-    cache: 'no-store',
-    ...init,
-    headers: {
-      ...(init.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
-      ...init.headers,
-    },
-  });
+  try {
+    const response = await fetch(url.toString(), {
+      cache: 'no-store',
+      ...init,
+      headers: {
+        ...(init.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+        ...init.headers,
+      },
+    });
 
-  const result = await response.json().catch(() => null);
+    const result = await response.json().catch(() => null);
 
-  if (!response.ok) {
-    throw new ApiRequestError(result?.message || 'Something went wrong', response.status);
+    if (!response.ok) {
+      throw new ApiRequestError(result?.message || 'Something went wrong', response.status);
+    }
+
+    return (result?.data ?? result?.message ?? result) as TData;
+  } catch (err) {
+    throw err;
   }
-
-  return (result?.data ?? result?.message ?? result) as TData;
 }
 
 function createBody(body?: ApiBody) {

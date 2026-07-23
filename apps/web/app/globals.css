@@ -35,7 +35,7 @@ strong,
 }
 
 .deadline-carousel-track {
-  animation: deadline-slide 28s linear infinite;
+  animation: deadline-slide 68s linear infinite;
 }
 
 .deadline-carousel-mask:hover .deadline-carousel-track {

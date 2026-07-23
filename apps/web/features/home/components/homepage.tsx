@@ -1,11 +1,20 @@
+'use client';
+
 import { CategoriesSection, StatsSection } from '@/features/home/components/categories-section';
 import { DeadlinesCarousel } from '@/features/home/components/deadlines-carousel';
 import { HomeContentSections } from '@/features/home/components/home-content-sections';
 import { HeroSection } from '@/features/home/components/hero-section';
+import { HomepageSkeleton } from '@/features/home/components/homepage-skeleton';
 import { NotificationPanels } from '@/features/home/components/notification-panels';
 import { QuickAccessSection } from '@/features/home/components/quick-access-section';
 import { ImportantToolsSection } from '@/features/home/components/tools-section';
-import { homeFaqs, newsArticles } from '@/features/home/constants/homepage-data';
+import {
+  createHomepageViewData,
+  homeFaqs,
+  newsArticles,
+} from '@/features/home/constants/homepage-data';
+import { useHomePage } from '@/hooks/useHomePage';
+import { HomeJobsDebug } from './home-jobs-debug';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -41,6 +50,9 @@ const faqSchema = {
 };
 
 export function Homepage() {
+  const { data, isLoading, error } = useHomePage();
+  const homepageData = data ? createHomepageViewData(data) : null;
+
   return (
     <>
       <script
@@ -50,15 +62,41 @@ export function Homepage() {
         }}
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
-        <HeroSection />
-        <QuickAccessSection />
-        <NotificationPanels />
-        <DeadlinesCarousel />
-        <CategoriesSection />
-        <StatsSection />
-        <ImportantToolsSection />
-        <HomeContentSections />
+        {/* <HomeJobsDebug /> */}
+        {isLoading ? (
+          <HomepageSkeleton />
+        ) : homepageData ? (
+          <>
+            <HeroSection popularSearches={homepageData.popularSearches} />
+            <QuickAccessSection items={homepageData.quickAccessItems} />
+            <NotificationPanels
+              latestAdmitCards={homepageData.latestAdmitCards}
+              latestJobs={homepageData.latestJobs}
+              latestResults={homepageData.latestResults}
+            />
+            <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} />
+            <CategoriesSection categories={homepageData.categories} />
+            <StatsSection stats={homepageData.stats} />
+            <ImportantToolsSection />
+            <HomeContentSections />
+          </>
+        ) : (
+          <HomepageError message={error} />
+        )}
       </main>
     </>
+  );
+}
+
+function HomepageError({ message }: { message: string | null }) {
+  return (
+    <section className="mx-auto max-w-2xl px-4 py-12 text-center sm:px-6 lg:px-8">
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h1 className="text-2xl font-bold text-[#111827]">Unable to load homepage</h1>
+        <p className="mt-3 text-sm font-semibold text-slate-600">
+          {message ?? 'Please refresh the page or try again later.'}
+        </p>
+      </div>
+    </section>
   );
 }

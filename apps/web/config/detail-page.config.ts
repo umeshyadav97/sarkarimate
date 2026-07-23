@@ -29,7 +29,7 @@ export const detailPageConfigs: Record<DetailPageType, DetailPageConfig> = {
       { id: 'how-to-apply', label: 'How To Apply' },
       { id: 'faq', label: 'FAQ' },
     ],
-    sidebarWidgets: ['related', 'share'],
+    sidebarWidgets: ['timeline', 'related', 'share'],
     embeddedSections: {
       ageLimitTitle: 'Age Limit (As on 01 July 2026)',
       applicationFeeTitle: 'Application Fee',
@@ -134,11 +134,11 @@ export const detailPageConfigs: Record<DetailPageType, DetailPageConfig> = {
   },
   syllabus: {
     pageType: 'syllabus',
-    listingHref: '/preparation',
+    listingHref: '/syllabus',
     listingLabel: 'Syllabus',
     atGlanceTitle: 'Job Summary',
     actionTitle: 'View Syllabus',
-    actionDescription: 'Check syllabus, topics, and official preparation details.',
+    actionDescription: 'Check syllabus, topics, and official syllabus details.',
     actionButtonLabels: ['View Syllabus', 'Official Website'],
     timelineTitle: 'Key Dates',
     shareTitle: 'Share',

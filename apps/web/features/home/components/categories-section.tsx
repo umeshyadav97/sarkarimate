@@ -1,5 +1,10 @@
 import { Card } from '@repo/ui';
-import { categories, stats } from '@/features/home/constants/homepage-data';
+import {
+  categories as defaultCategories,
+  stats as defaultStats,
+  type CategoryItem,
+  type StatItem,
+} from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
 
 const toneClasses = {
@@ -9,7 +14,11 @@ const toneClasses = {
   purple: 'text-violet-600',
 };
 
-export function CategoriesSection() {
+interface CategoriesSectionProps {
+  categories?: CategoryItem[];
+}
+
+export function CategoriesSection({ categories = defaultCategories }: CategoriesSectionProps) {
   return (
     <section className="mx-auto max-w-full px-4 py-2 sm:px-6 lg:px-8">
       <Card className="rounded-lg p-4">
@@ -43,7 +52,31 @@ export function CategoriesSection() {
   );
 }
 
-export function StatsSection() {
+interface StatsSectionProps {
+  stats?: StatItem[];
+}
+
+export function StatsSection({ stats = defaultStats }: StatsSectionProps) {
+  const statsWithIcons = stats.map((stat) => ({
+    ...stat,
+    toneClass:
+      stat.tone === 'green'
+        ? 'bg-green-50 text-[#16A34A]'
+        : stat.tone === 'purple'
+          ? 'bg-violet-50 text-violet-600'
+          : stat.tone === 'orange'
+            ? 'bg-orange-50 text-[#F59E0B]'
+            : 'bg-blue-50 text-[#1D4ED8]',
+    valueClass:
+      stat.tone === 'green'
+        ? 'text-[#16A34A]'
+        : stat.tone === 'purple'
+          ? 'text-violet-600'
+          : stat.tone === 'orange'
+            ? 'text-orange-600'
+            : 'text-[#1D4ED8]',
+  }));
+
   return (
     <section className="mx-auto max-w-full px-4 py-4 sm:px-6 lg:px-8">
       <div className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-2 lg:grid-cols-4">
@@ -74,23 +107,3 @@ export function StatsSection() {
     </section>
   );
 }
-
-const statsWithIcons = stats.map((stat) => ({
-  ...stat,
-  toneClass:
-    stat.tone === 'green'
-      ? 'bg-green-50 text-[#16A34A]'
-      : stat.tone === 'purple'
-        ? 'bg-violet-50 text-violet-600'
-        : stat.tone === 'orange'
-          ? 'bg-orange-50 text-[#F59E0B]'
-          : 'bg-blue-50 text-[#1D4ED8]',
-  valueClass:
-    stat.tone === 'green'
-      ? 'text-[#16A34A]'
-      : stat.tone === 'purple'
-        ? 'text-violet-600'
-        : stat.tone === 'orange'
-          ? 'text-orange-600'
-          : 'text-[#1D4ED8]',
-}));

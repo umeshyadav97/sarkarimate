@@ -12,7 +12,7 @@ interface ImportantDatesSectionProps {
 
 export function ImportantDatesSection({ id, title, items }: ImportantDatesSectionProps) {
   return (
-    <SectionCard id={id}>
+    <SectionCard id={id} className="hidden md:block">
       <SectionHeading title={title} icon={CalendarCheck} />
       <KeyValueList columns="one" items={items} />
     </SectionCard>

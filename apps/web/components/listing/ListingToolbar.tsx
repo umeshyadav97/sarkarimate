@@ -12,7 +12,8 @@ interface ListingToolbarProps {
 const sortOptions = [
   { label: 'Latest First', value: 'latest' },
   { label: 'Oldest First', value: 'oldest' },
-  { label: 'Alphabetical', value: 'alphabetical' },
+  { label: 'Most Viewed', value: 'views' },
+  { label: 'Featured', value: 'featured' },
 ];
 
 export function ListingToolbar({
