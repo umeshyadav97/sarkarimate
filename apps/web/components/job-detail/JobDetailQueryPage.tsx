@@ -13,7 +13,7 @@ interface JobDetailQueryPageProps {
 
 export function JobDetailQueryPage({ config, slug }: JobDetailQueryPageProps) {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['job-details', slug],
+    queryKey: ['job-detail', slug],
     queryFn: () => getJobDetails(slug),
     retry: 1,
   });

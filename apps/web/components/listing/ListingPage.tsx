@@ -68,7 +68,7 @@ function toListingItem(job: ApiJob) {
     updatedDate: formatListingDate(getJobDate(job)),
     year: getListingYear(job),
     state: job.state || 'All India',
-    href: `/job-details/${job.slug}`,
+    href: `/${job.slug}`,
   };
 }
 

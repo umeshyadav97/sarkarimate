@@ -22,5 +22,5 @@ export const navigationItems: NavigationItem[] = [
   { label: 'Results', href: '/results', icon: Trophy },
   { label: 'Answer Key', href: '/answer-keys', icon: ClipboardCheck },
   { label: 'Syllabus', href: '/syllabus', icon: BookOpen },
-  { label: 'Schemes', href: '/schemes', icon: Landmark },
+  // { label: 'Schemes', href: '/schemes', icon: Landmark },
 ];

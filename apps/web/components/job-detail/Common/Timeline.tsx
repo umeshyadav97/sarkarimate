@@ -20,8 +20,8 @@ export function Timeline({ items, variant = 'vertical' }: TimelineProps) {
         </div>
         <div className="hidden overflow-x-auto pb-1 md:block">
           <ol className="relative grid min-w-[760px] grid-cols-6 gap-4 pt-8 before:absolute before:left-0 before:right-0 before:top-4 before:h-px before:bg-slate-200">
-            {items.map((item) => (
-              <li key={`${item.title}-${item.date}`} className="relative min-w-0 text-center">
+            {items.map((item, index) => (
+              <li key={`${index}-${item.status}`} className="relative min-w-0 text-center">
                 <span
                   className={`absolute left-1/2 top-[-1.45rem] z-10 h-4 w-4 -translate-x-1/2 rounded-full ring-4 ${dotClasses[item.status]}`}
                   aria-hidden="true"
@@ -52,8 +52,8 @@ export function Timeline({ items, variant = 'vertical' }: TimelineProps) {
 function VerticalTimeline({ items }: { items: DetailTimelineItem[] }) {
   return (
     <ol className="relative space-y-5 before:absolute before:left-2 before:top-2 before:h-[calc(100%-16px)] before:w-px before:bg-slate-200">
-      {items.map((item) => (
-        <li key={`${item.title}-${item.date}`} className="relative flex gap-4">
+      {items.map((item, index) => (
+        <li key={`${index}-${item.status}`} className="relative flex gap-4">
           <span
             className={`mt-1 h-4 w-4 shrink-0 rounded-full ring-4 ${dotClasses[item.status]}`}
             aria-hidden="true"

@@ -16,7 +16,7 @@ export function SelectionProcessSection({ id, title, items }: SelectionProcessSe
       <ol className="grid gap-3">
         {items.map((item, index) => (
           <ProcessStep
-            key={`${item.title}-${item.date}`}
+            key={`${index}-${item.status}`}
             index={index}
             isLast={index === items.length - 1}
             item={item}

@@ -14,8 +14,8 @@ export function AboutSection({ id, title, about }: AboutSectionProps) {
     <SectionCard id={id}>
       <SectionHeading title={about.title || title} icon={Landmark} />
       <div className="space-y-3 text-sm font-medium leading-7 text-slate-700">
-        {about.body.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+        {about.body.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
         ))}
       </div>
     </SectionCard>

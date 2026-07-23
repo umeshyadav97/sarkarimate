@@ -80,14 +80,14 @@ function getVisualTreatment(label: string): { icon: typeof CalendarDays; tone: V
 export function KeyInfoGrid({ items }: KeyInfoGridProps) {
   return (
     <dl className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-      {items.map((item) => {
+      {items.map((item, index) => {
         const { icon: Icon, tone } = getVisualTreatment(item.label);
         const valueTone = item.tone === 'red' ? 'red' : item.tone === 'slate' ? 'slate' : tone;
 
         return (
           <div
-            key={`${item.label}-${item.value}`}
-            className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-left lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:text-center"
+            key={`${index}-${item.label}`}
+            className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-left lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:text-center"
           >
             <dt className="flex shrink-0 items-center gap-3 lg:block">
               <span
@@ -99,10 +99,12 @@ export function KeyInfoGrid({ items }: KeyInfoGridProps) {
                 {item.label}
               </span>
             </dt>
-            <dd className="min-w-0 lg:mt-2">
-              <span className="block text-sm font-bold text-slate-700 lg:hidden">{item.label}</span>
+            <dd className="min-w-0 flex-1 lg:mt-2">
+              <span className="block text-xs font-bold uppercase leading-5 text-slate-600 lg:hidden">
+                {item.label}
+              </span>
               <span
-                className={`mt-1 block text-sm font-bold lg:mt-0 ${toneClasses[valueTone].value}`}
+                className={`mt-1 block whitespace-normal break-words text-sm font-bold leading-5 lg:mt-0 ${toneClasses[valueTone].value}`}
               >
                 {item.value}
               </span>

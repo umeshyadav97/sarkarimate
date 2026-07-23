@@ -4,7 +4,7 @@ export function GovernmentBuildingVisual() {
   return (
     <div className="relative min-h-[260px] overflow-hidden md:min-h-[320px]">
       <Image
-        src="/assets/images/hero.png"
+        src="/assets/images/homebanner.png"
         alt="Government building with the Indian flag, representing official job updates"
         fill
         priority

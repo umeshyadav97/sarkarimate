@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     alternates: {
-      canonical: `/job-details/${slug}`,
+      canonical: `/${slug}`,
     },
   };
 }

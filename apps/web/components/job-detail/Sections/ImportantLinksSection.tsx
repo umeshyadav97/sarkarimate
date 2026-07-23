@@ -15,24 +15,38 @@ export function ImportantLinksSection({ id, title, links }: ImportantLinksSectio
     <SectionCard id={id}>
       <SectionHeading title={title} icon={ExternalLink} />
       <div className="grid gap-3">
-        {links.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            className="flex min-h-14 items-center justify-between gap-4 rounded-lg border border-slate-200 px-4 outline-none hover:border-[#1D4ED8] hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
-          >
-            <span>
-              <span className="block text-sm font-bold text-[#111827]">{link.label}</span>
-              {link.description ? (
-                <span className="mt-1 block text-sm font-medium text-slate-600">
-                  {link.description}
+        {links.map((link, index) => {
+          const isExternal = isExternalHref(link.href);
+
+          return (
+            <Link
+              key={`${index}-${link.label}`}
+              href={link.href}
+              target={isExternal ? '_blank' : undefined}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
+              className="group flex min-h-14 items-center justify-between gap-4 rounded-lg border border-blue-200 bg-blue-50/60 px-4 py-3 outline-none transition-colors hover:border-[#1D4ED8] hover:bg-blue-100/70 focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
+            >
+              <span className="min-w-0">
+                <span className="block text-sm font-bold text-[#1D4ED8] underline decoration-blue-300 underline-offset-4 group-hover:decoration-[#1D4ED8]">
+                  {link.label}
                 </span>
-              ) : null}
-            </span>
-            <ExternalLink className="h-4 w-4 shrink-0 text-[#1D4ED8]" aria-hidden="true" />
-          </Link>
-        ))}
+                {link.description ? (
+                  <span className="mt-1 block text-sm font-medium text-slate-600">
+                    {link.description}
+                  </span>
+                ) : null}
+              </span>
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-[#1D4ED8] ring-1 ring-blue-200 transition-colors group-hover:bg-[#1D4ED8] group-hover:text-white group-hover:ring-[#1D4ED8]">
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </span>
+            </Link>
+          );
+        })}
       </div>
     </SectionCard>
   );
+}
+
+function isExternalHref(href: string) {
+  return /^https?:\/\//i.test(href);
 }

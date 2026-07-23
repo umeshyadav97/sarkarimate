@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const detailPages = getCommonDetailStaticParams().map(({ slug }) => ({
-    url: `${siteUrl}/job-details/${slug}`,
+    url: `${siteUrl}/${slug}`,
     lastModified,
     changeFrequency: 'weekly' as const,
     priority: 0.7,

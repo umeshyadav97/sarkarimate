@@ -1,4 +1,4 @@
-import { CircleDollarSign } from 'lucide-react';
+import { BadgeIndianRupeeIcon, CircleDollarSign } from 'lucide-react';
 import { SectionCard } from '@/components/job-detail/Common/SectionCard';
 import type { DetailKeyInfo } from '@/components/job-detail/types';
 
@@ -16,7 +16,7 @@ export function ApplicationFeeSection({ id, title, items, note }: ApplicationFee
     <SectionCard id={id}>
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <CircleDollarSign
+          <BadgeIndianRupeeIcon
             className="h-5 w-5 text-[#1D4ED8]"
             strokeWidth={2.4}
             aria-hidden="true"

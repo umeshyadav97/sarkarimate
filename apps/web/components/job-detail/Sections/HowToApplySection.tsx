@@ -14,7 +14,7 @@ export function HowToApplySection({ id, title, items }: HowToApplySectionProps) 
       <SectionHeading title={title} icon={ClipboardCheck} />
       <ol className="grid gap-3">
         {items.map((item, index) => (
-          <li key={item} className="flex gap-3 text-sm font-medium leading-6 text-slate-700">
+          <li key={index} className="flex gap-3 text-sm font-medium leading-6 text-slate-700">
             <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-50 text-xs font-bold text-[#1D4ED8]">
               {index + 1}
             </span>

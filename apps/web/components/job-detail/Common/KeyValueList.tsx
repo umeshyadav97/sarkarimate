@@ -16,14 +16,14 @@ const valueToneClasses = {
 export function KeyValueList({ items, columns = 'two' }: KeyValueListProps) {
   return (
     <dl className={`grid gap-x-8 gap-y-3 ${columns === 'two' ? 'sm:grid-cols-2' : ''}`}>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <div
-          key={`${item.label}-${item.value}`}
-          className="flex min-w-0 items-center justify-between gap-4"
+          key={`${index}-${item.label}`}
+          className="grid min-w-0 gap-1 sm:flex sm:items-center sm:justify-between sm:gap-4"
         >
-          <dt className="min-w-0 truncate text-sm font-semibold text-slate-600">{item.label}</dt>
+          <dt className="min-w-0 text-sm font-semibold text-slate-600 sm:truncate">{item.label}</dt>
           <dd
-            className={`shrink-0 whitespace-nowrap text-sm font-bold ${valueToneClasses[item.tone ?? 'slate']}`}
+            className={`min-w-0 whitespace-normal break-words text-sm font-bold sm:shrink-0 sm:whitespace-nowrap ${valueToneClasses[item.tone ?? 'slate']}`}
           >
             {item.value}
           </dd>

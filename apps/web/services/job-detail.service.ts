@@ -22,7 +22,6 @@ const localJobsListResponse = jobsListResponse as {
 };
 const detailDataByRoute: Partial<Record<DetailPageType, Record<string, DetailPageData>>> = {};
 const seedDate = '2026-07-14';
-const detailHrefPrefix = '/job-details';
 const listingHrefByPageType: Record<DetailPageType, string> = {
   jobs: '/jobs',
   results: '/results',
@@ -246,7 +245,7 @@ function mapStaticListItemToDetailPageData(
   item: StaticListItem,
 ): DetailPageData {
   const listingHref = listingHrefByPageType[pageType];
-  const canonical = `${detailHrefPrefix}/${item.slug}`;
+  const canonical = getDetailHref(item.slug);
   const dateItems = getDateItems(item);
   const overviewDescription = createOverviewDescription(pageType, item);
   const importantLinks = getImportantLinks(item);
@@ -307,6 +306,10 @@ function mapStaticListItemToDetailPageData(
       keywords: [item.organization, getListingLabel(pageType)],
     },
   };
+}
+
+function getDetailHref(slug: string) {
+  return `/${slug}`;
 }
 
 function getSearchableDetailPageTypes(): DetailPageType[] {

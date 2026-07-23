@@ -186,12 +186,57 @@ function formatDisplayDate(date: string) {
   }).format(parsedDate);
 }
 
+function formatNotificationMetaValue(value: string) {
+  if (/coming\s+soon/i.test(value)) {
+    return 'Coming Soon';
+  }
+
+  const parsedDate = parseHomepageDate(value);
+
+  if (!parsedDate) {
+    return '-';
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(parsedDate);
+}
+
 function parseHomepageDate(date: string) {
   const normalizedDate = date.trim();
   const indianDateMatch = normalizedDate.match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
 
   if (indianDateMatch) {
     const [, day, month, year] = indianDateMatch;
+    return new Date(`${year}-${month}-${day}T00:00:00`);
+  }
+
+  const dateRangeMatch = normalizedDate.match(
+    /\b(\d{1,2})\s*(?:-|–|to)\s*\d{1,2}\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})\b/i,
+  );
+
+  if (dateRangeMatch) {
+    const [, day, month, year] = dateRangeMatch;
+    const parsedRangeDate = new Date(`${day} ${month} ${year}`);
+    return Number.isNaN(parsedRangeDate.getTime()) ? null : parsedRangeDate;
+  }
+
+  const textDateMatch = normalizedDate.match(
+    /\b(\d{1,2})\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})\b/i,
+  );
+
+  if (textDateMatch) {
+    const [, day, month, year] = textDateMatch;
+    const parsedTextDate = new Date(`${day} ${month} ${year}`);
+    return Number.isNaN(parsedTextDate.getTime()) ? null : parsedTextDate;
+  }
+
+  const isoDateMatch = normalizedDate.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+
+  if (isoDateMatch) {
+    const [, year, month, day] = isoDateMatch;
     return new Date(`${year}-${month}-${day}T00:00:00`);
   }
 
@@ -245,8 +290,8 @@ function mapLatestJobs(store: HomePageStore): NotificationItem[] {
     title: job.title,
     organization: job.organization,
     metaLabel: 'Last Date',
-    metaValue: formatDisplayDate(job.lastDate),
-    href: `/job-details/${job.slug}`,
+    metaValue: formatNotificationMetaValue(job.lastDate),
+    href: `/${job.slug}`,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
 }
@@ -261,7 +306,7 @@ function mapUpcomingDeadlines(store: HomePageStore): DeadlineItem[] {
     date: formatDisplayDate(deadline.lastDate),
     daysLeft:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
-    href: `/job-details/${deadline.slug}`,
+    href: `/${deadline.slug}`,
   }));
 }
 
@@ -271,7 +316,7 @@ function mapLatestAdmitCards(): NotificationItem[] {
     organization: admitCard.organization,
     metaLabel: 'Status',
     metaValue: admitCard.status === 'released' ? 'Released' : admitCard.status,
-    href: `/job-details/${admitCard.slug}`,
+    href: `/${admitCard.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
 }
@@ -285,8 +330,8 @@ function mapLatestResults(store: HomePageStore): NotificationItem[] {
     title: result.title,
     organization: result.organization,
     metaLabel: 'Result Date',
-    metaValue: formatDisplayDate(result.resultDate),
-    href: `/job-details/${result.slug}`,
+    metaValue: formatNotificationMetaValue(result.resultDate),
+    href: `/${result.slug}`,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
   }));
 }
@@ -302,7 +347,7 @@ function mapOldUpcomingDeadlines(store: HomePageStore): NotificationItem[] {
     metaLabel: 'Deadline',
     metaValue:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
-    href: `/job-details/${deadline.slug}`,
+    href: `/${deadline.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
 }

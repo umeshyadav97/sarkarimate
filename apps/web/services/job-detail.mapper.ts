@@ -13,11 +13,10 @@ import type {
 } from '@/features/jobs/types/job-details-api.types';
 
 const jobListingHref = '/jobs';
-const detailHrefPrefix = '/job-details';
 
 export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPageData {
   const job = response.data;
-  const canonical = `${detailHrefPrefix}/${job.slug}`;
+  const canonical = getDetailHref(job.slug);
   const importantDates = mapImportantDates(job);
   const applicationFee = mapKeyInfo(
     (job.applicationFees ?? job.applicationFee)?.map((fee) => ({
@@ -57,7 +56,9 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
     importantDates,
     vacancy: mapVacancy(job),
     eligibility: mapEligibility(job),
-    howToApply: job.howToApply?.length ? job.howToApply : extractHowToApply(job.description),
+    howToApply: job.howToApply?.length
+      ? job.howToApply.map(formatInstructionItem).filter(Boolean)
+      : extractHowToApply(job.description),
     ageLimit,
     ageLimitNote: mapAgeLimitNote(job),
     applicationFee,
@@ -83,7 +84,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
             href: jobListingHref,
             items: job.related.map((related) => ({
               label: related.title,
-              href: `${detailHrefPrefix}/${related.slug}`,
+              href: getDetailHref(related.slug),
             })),
           },
         ]
@@ -96,6 +97,10 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
       keywords: job.seo?.keywords,
     },
   };
+}
+
+function getDetailHref(slug: string) {
+  return `/${slug}`;
 }
 
 export function getVisibleDetailSections(
@@ -258,14 +263,49 @@ function mapVacancyColumns(columns?: string[]): DetailTableColumn[] {
   );
 }
 
-function mapTimelineItems(items?: string[]): DetailTimelineItem[] {
-  return (
-    items?.map((item, index) => ({
-      title: item,
-      date: item,
-      status: index === 0 ? 'active' : 'upcoming',
-    })) ?? []
-  );
+function mapTimelineItems(items?: unknown[]): DetailTimelineItem[] {
+  return (items ?? []).reduce<DetailTimelineItem[]>((timelineItems, item, index) => {
+    const formattedItem = formatInstructionItem(item);
+
+    if (formattedItem) {
+      timelineItems.push({
+        title: formattedItem,
+        date: formattedItem,
+        status: index === 0 ? 'active' : 'upcoming',
+      });
+    }
+
+    return timelineItems;
+  }, []);
+}
+
+function formatInstructionItem(item: unknown) {
+  if (typeof item === 'string') {
+    return item;
+  }
+
+  if (typeof item === 'number') {
+    return String(item);
+  }
+
+  if (!item || typeof item !== 'object') {
+    return '';
+  }
+
+  const instruction = item as {
+    step?: string | number;
+    title?: string;
+    description?: string;
+    label?: string;
+    value?: string;
+  };
+  const parts = [
+    instruction.step ? `Step ${instruction.step}` : '',
+    instruction.title,
+    instruction.description ?? instruction.value ?? instruction.label,
+  ].filter(Boolean);
+
+  return parts.join(': ');
 }
 
 function mapActions(links: JobDetailsApiData['importantLinks']): DetailAction[] {
@@ -404,11 +444,11 @@ function mapImportantDates(job: JobDetailsApiData): DetailKeyInfo[] {
 
 function mapEligibility(job: JobDetailsApiData) {
   if (job.eligibility?.length) {
-    return job.eligibility;
+    return job.eligibility.map(formatInstructionItem).filter(Boolean);
   }
 
   if (job.qualifications?.length) {
-    return job.qualifications;
+    return job.qualifications.map(formatInstructionItem).filter(Boolean);
   }
 
   return (
