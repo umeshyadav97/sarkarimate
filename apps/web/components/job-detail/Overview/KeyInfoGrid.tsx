@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Venus,
 } from 'lucide-react';
+import { FormattedDetailValue } from '@/components/job-detail/Common/FormattedDetailValue';
 import type { DetailKeyInfo } from '@/components/job-detail/types';
 
 interface KeyInfoGridProps {
@@ -106,7 +107,7 @@ export function KeyInfoGrid({ items }: KeyInfoGridProps) {
               <span
                 className={`mt-1 block whitespace-normal break-words text-sm font-bold leading-5 lg:mt-0 ${toneClasses[valueTone].value}`}
               >
-                {item.value}
+                <FormattedDetailValue value={item.value} />
               </span>
             </dd>
           </div>
