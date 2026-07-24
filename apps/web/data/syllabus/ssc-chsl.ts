@@ -180,7 +180,9 @@ export const sscChslSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
-  cutoff: {
+  tier1CutoffHeading: 'SSC CHSL Tier-1 Cutoff (Out of 200)',
+  tier2CutoffHeading: 'SSC CHSL Tier-2 Cutoff (Out of 405)',
+  tier1Cutoff: {
     columns: [
       { key: 'year', label: 'Year' },
       { key: 'general', label: 'General' },
@@ -191,14 +193,25 @@ export const sscChslSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '137.00 - 142.00 (Expected)',
+          obc: '132.00 - 136.00 (Expected)',
+          sc: '128.00 - 133.00 (Expected)',
+          st: '122.00 - 127.00 (Expected)',
+          ews: '134.00 - 138.00 (Expected)',
+        },
+      },
+      {
         id: '2025',
         values: {
           year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          general: '139.50',
+          obc: '134.20',
+          sc: '131.10',
+          st: '126.00',
+          ews: '135.80',
         },
       },
       {
@@ -206,10 +219,10 @@ export const sscChslSyllabus: SyllabusGuide = {
         values: {
           year: '2024',
           general: '157.36',
-          obc: '156.62',
+          obc: '156.61',
           sc: '139.68',
-          st: '129.45',
-          ews: '155.91',
+          st: '129.44',
+          ews: '150.51',
         },
       },
       {
@@ -219,8 +232,64 @@ export const sscChslSyllabus: SyllabusGuide = {
           general: '153.91',
           obc: '152.26',
           sc: '136.41',
-          st: '126.68',
-          ews: '151.02',
+          st: '124.52',
+          ews: '151.09',
+        },
+      },
+    ],
+  },
+  tier2Cutoff: {
+    columns: [
+      { key: 'year', label: 'Year' },
+      { key: 'general', label: 'General' },
+      { key: 'obc', label: 'OBC' },
+      { key: 'sc', label: 'SC' },
+      { key: 'st', label: 'ST' },
+      { key: 'ews', label: 'EWS' },
+    ],
+    rows: [
+      {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '300.00 - 315.00 (Expected)',
+          obc: '292.00 - 305.00 (Expected)',
+          sc: '270.00 - 282.00 (Expected)',
+          st: '255.00 - 268.00 (Expected)',
+          ews: '295.00 - 308.00 (Expected)',
+        },
+      },
+      {
+        id: '2025',
+        values: {
+          year: '2025',
+          general: '308.00',
+          obc: '301.50',
+          sc: '276.00',
+          st: '262.50',
+          ews: '302.00',
+        },
+      },
+      {
+        id: '2024',
+        values: {
+          year: '2024',
+          general: '322.00',
+          obc: '318.50',
+          sc: '291.00',
+          st: '280.00',
+          ews: '317.00',
+        },
+      },
+      {
+        id: '2023',
+        values: {
+          year: '2023',
+          general: '300.00',
+          obc: '295.00',
+          sc: '272.00',
+          st: '260.00',
+          ews: '294.00',
         },
       },
     ],

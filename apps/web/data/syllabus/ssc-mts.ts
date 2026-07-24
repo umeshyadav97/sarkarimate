@@ -245,6 +245,7 @@ export const sscMtsSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
+  cutoffHeading: 'SSC MTS Computer Based Exam Cutoff (Out of 270)',
   cutoff: {
     columns: [
       {
@@ -274,36 +275,47 @@ export const sscMtsSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '135.00 - 145.00 (Expected)',
+          obc: '130.00 - 140.00 (Expected)',
+          sc: '122.00 - 132.00 (Expected)',
+          st: '115.00 - 125.00 (Expected)',
+          ews: '128.00 - 138.00 (Expected)',
+        },
+      },
+      {
         id: '2025',
         values: {
           year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          general: '135.74',
+          obc: '134.21',
+          sc: '131.17',
+          st: '127.33',
+          ews: '132.70',
         },
       },
       {
         id: '2024',
         values: {
           year: '2024',
-          general: '142.75',
-          obc: '139.50',
-          sc: '126.40',
-          st: '119.35',
-          ews: '140.80',
+          general: '133.41',
+          obc: '133.39',
+          sc: '133.32',
+          st: '127.00',
+          ews: '132.48',
         },
       },
       {
         id: '2023',
         values: {
           year: '2023',
-          general: '138.60',
-          obc: '135.90',
-          sc: '123.15',
-          st: '116.40',
-          ews: '136.75',
+          general: '132.73',
+          obc: '133.43',
+          sc: '130.55',
+          st: '122.45',
+          ews: '131.19',
         },
       },
     ],

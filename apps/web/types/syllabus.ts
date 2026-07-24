@@ -126,6 +126,11 @@ export interface SyllabusGuide {
   books?: RecommendedBook[];
   previousPapers?: PreviousYearPaper[];
   cutoff?: SyllabusTable;
+  tier1Cutoff?: SyllabusTable;
+  tier2Cutoff?: SyllabusTable;
+  cutoffHeading?: string;
+  tier1CutoffHeading?: string;
+  tier2CutoffHeading?: string;
   sidebarHighlights?: SyllabusHighlight[];
   studyPlan?: StudyPlanPhase[];
   faqs?: SyllabusFaq[];

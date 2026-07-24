@@ -267,7 +267,9 @@ export const sbiClerkSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
-  cutoff: {
+  tier1CutoffHeading: 'SBI Clerk Tier-1 (Prelims) Cutoff (Out of 100)',
+  tier2CutoffHeading: 'SBI Clerk Tier-2 (Mains) Cutoff',
+  tier1Cutoff: {
     columns: [
       {
         key: 'year',
@@ -296,36 +298,121 @@ export const sbiClerkSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '72.00 - 80.00 (Expected)',
+          obc: '68.00 - 75.00 (Expected)',
+          sc: '61.00 - 68.00 (Expected)',
+          st: '53.00 - 60.00 (Expected)',
+          ews: '67.00 - 74.00 (Expected)',
+        },
+      },
+      {
         id: '2025',
         values: {
           year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          general: '74.00',
+          obc: '70.50',
+          sc: '64.00',
+          st: '56.50',
+          ews: '69.50',
         },
       },
       {
         id: '2024',
         values: {
           year: '2024',
-          general: '73.50',
-          obc: '69.25',
-          sc: '61.75',
-          st: '56.50',
-          ews: '71.25',
+          general: '61.75',
+          obc: '58.25',
+          sc: '52.50',
+          st: '47.75',
+          ews: '59.50',
         },
       },
       {
         id: '2023',
         values: {
           year: '2023',
-          general: '71.00',
-          obc: '67.50',
-          sc: '59.75',
-          st: '54.25',
-          ews: '69.00',
+          general: '69.75',
+          obc: '66.50',
+          sc: '59.00',
+          st: '53.00',
+          ews: '66.50',
+        },
+      },
+    ],
+  },
+  tier2Cutoff: {
+    columns: [
+      {
+        key: 'year',
+        label: 'Year',
+      },
+      {
+        key: 'general',
+        label: 'General',
+      },
+      {
+        key: 'obc',
+        label: 'OBC',
+      },
+      {
+        key: 'sc',
+        label: 'SC',
+      },
+      {
+        key: 'st',
+        label: 'ST',
+      },
+      {
+        key: 'ews',
+        label: 'EWS',
+      },
+    ],
+    rows: [
+      {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '82.00 - 90.00 (Expected)',
+          obc: '75.00 - 82.00 (Expected)',
+          sc: '65.00 - 72.00 (Expected)',
+          st: '58.00 - 64.00 (Expected)',
+          ews: '74.00 - 81.00 (Expected)',
+        },
+      },
+      {
+        id: '2025',
+        values: {
+          year: '2025',
+          general: '82.75',
+          obc: '75.75',
+          sc: '63.00',
+          st: '60.00',
+          ews: '74.00',
+        },
+      },
+      {
+        id: '2024',
+        values: {
+          year: '2024',
+          general: '82.00',
+          obc: '73.50',
+          sc: '60.00',
+          st: '60.00',
+          ews: '76.00',
+        },
+      },
+      {
+        id: '2023',
+        values: {
+          year: '2023',
+          general: '80.50',
+          obc: '73.25',
+          sc: '61.50',
+          st: '57.00',
+          ews: '72.00',
         },
       },
     ],
