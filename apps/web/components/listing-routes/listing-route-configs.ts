@@ -164,7 +164,7 @@ export const answerKeysListingConfig = createListingConfig({
 export const syllabusListingConfig = createListingConfig({
   pageTitle: 'All Latest Syllabus',
   breadcrumbLabel: 'Syllabus',
-  heroDescription: 'Download syllabus, exam patterns and topic-wise details for government exams.',
+  heroDescription: 'Find syllabus, exam patterns and syllabus guides for government exams.',
   heroDescriptionHindi: 'सरकारी परीक्षाओं का syllabus, exam pattern और topics यहाँ देखें।',
   heroImage: {
     src: '/assets/images/syllabus.png',
@@ -178,11 +178,12 @@ export const syllabusListingConfig = createListingConfig({
     filterTitle: 'Filter Syllabus',
     newsletterTitle: 'Get Syllabus Alerts',
     newsletterDescription: 'Subscribe to get syllabus updates directly in your inbox.',
-    helpText: 'Need help finding a syllabus? Contact SarkariMate support for guidance.',
+    helpText: 'Need help finding syllabus material? Contact SarkariMate support for guidance.',
   },
   seo: {
     title: 'Syllabus | SarkariMate',
-    description: 'Latest government exam syllabus, exam pattern and study updates.',
+    description:
+      'Latest government exam syllabus guides, syllabus, exam pattern and study updates.',
     canonical: '/syllabus',
   },
 });

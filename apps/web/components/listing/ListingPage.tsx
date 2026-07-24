@@ -11,9 +11,8 @@ import { ListingToolbar } from '@/components/listing/ListingToolbar';
 import { NeedHelpCard } from '@/components/listing/NeedHelpCard';
 import { NewsletterCard } from '@/components/listing/NewsletterCard';
 import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
-import type { ApiJob, JobsQueryParams } from '@/features/jobs/types';
+import { useConfiguredListingItems } from '@/hooks/useConfiguredListingItems';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { useListingItems } from '@/hooks/useListingItems';
 import { useSearchParams } from 'next/navigation';
 
 interface ListingPageProps {
@@ -26,56 +25,10 @@ const initialFilters: ListingFilters = {
   organization: 'all',
 };
 
-type ListingSort = NonNullable<JobsQueryParams['sort']>;
-type ListingType = NonNullable<JobsQueryParams['type']>;
-
-function getFilterValue(value: string) {
-  return value === 'all' ? undefined : value;
-}
-
-function getJobDate(job: ApiJob) {
-  return job.updatedAt ?? job.publishedAt ?? job.createdAt;
-}
-
-function formatListingDate(date?: string) {
-  if (!date) {
-    return 'Recently Updated';
-  }
-
-  return new Intl.DateTimeFormat('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(date));
-}
-
-function getListingYear(job: ApiJob) {
-  const jobDate = getJobDate(job);
-
-  if (jobDate) {
-    return new Date(jobDate).getFullYear().toString();
-  }
-
-  return job.title.match(/\b(20\d{2})\b/)?.[1] ?? '';
-}
-
-function toListingItem(job: ApiJob) {
-  return {
-    id: job._id,
-    detailId: job._id,
-    title: job.title,
-    organization: job.organization,
-    updatedDate: formatListingDate(getJobDate(job)),
-    year: getListingYear(job),
-    state: job.state || 'All India',
-    href: `/${job.slug}`,
-  };
-}
-
 export function ListingPage({ config }: ListingPageProps) {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get('q') ?? '');
-  const [sort, setSort] = useState<ListingSort>('latest');
+  const [sort, setSort] = useState('latest');
   const [filters, setFilters] = useState<ListingFilters>(initialFilters);
   const [draftFilters, setDraftFilters] = useState<ListingFilters>(initialFilters);
 
@@ -83,23 +36,21 @@ export function ListingPage({ config }: ListingPageProps) {
     setSearch(searchParams.get('q') ?? '');
   }, [searchParams]);
 
-  const apiFilters = useMemo(
-    () => ({
-      type: config.pageType as ListingType,
-      state: getFilterValue(filters.state),
-      organization: getFilterValue(filters.organization),
-      year: getFilterValue(filters.year),
-    }),
-    [config.pageType, filters],
-  );
-
-  const { items, total, hasMore, isLoading, isLoadingMore, error, loadMore } = useListingItems({
+  const {
+    items: listingItems,
+    total,
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    error,
+    loadMore,
+  } = useConfiguredListingItems({
+    endpoint: config.apiEndpoint,
+    pageType: config.pageType,
     search,
     sort,
-    filters: apiFilters,
+    filters,
   });
-
-  const listingItems = useMemo(() => items.map((item) => toListingItem(item)), [items]);
 
   const sentinelRef = useInfiniteScroll({
     hasMore,
@@ -146,7 +97,7 @@ export function ListingPage({ config }: ListingPageProps) {
             searchPlaceholder={config.searchPlaceholder}
             sort={sort}
             onSearchChange={setSearch}
-            onSortChange={(value) => setSort(value as ListingSort)}
+            onSortChange={setSort}
           />
 
           {error ? (

@@ -455,7 +455,12 @@ export const importantTools: ToolItem[] = [
     href: '/answer-keys',
     icon: ClipboardCheck,
   },
-  { title: 'Syllabus', description: 'Download Syllabus', href: '/syllabus', icon: BookOpen },
+  {
+    title: 'Syllabus',
+    description: 'Syllabus and study guides',
+    href: '/syllabus',
+    icon: BookOpen,
+  },
 ];
 
 export const trustPoints = [
@@ -473,7 +478,7 @@ export const governmentJobsGuide: HomeGuideContent = {
     'SarkariMate is your trusted platform for the latest Government Job notifications, Admit Cards, Results, Answer Keys, Syllabus, Exam Dates and Admissions across India. We cover recruitment from top organizations including SSC, UPSC, Railway, Banking, Defence, Police, Teaching, PSU and various State Government departments.',
     'We simplify complex govt job notifications and present them in easy-to-understand language. Each job post includes important details such as eligibility criteria, age limit, application fee, vacancy details, selection process, salary structure and important dates.',
     'Candidates can apply directly through the official website links provided with each notification. We aim to save your time and help you never miss an important update.',
-    'Whether you are looking for 10th pass jobs, 12th pass jobs, graduate level jobs or Post Graduate level jobs, SarkariMate has everything you need to stay ahead in your preparation.',
+    'Whether you are looking for 10th pass jobs, 12th pass jobs, graduate level jobs or Post Graduate level jobs, SarkariMate has everything you need to stay ahead in your syllabus.',
   ],
   badges: ['100% Free Access', 'Official Links Only', 'Fast & Reliable Updates', 'Mobile Friendly'],
   image: {

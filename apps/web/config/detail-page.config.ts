@@ -138,7 +138,7 @@ export const detailPageConfigs: Record<DetailPageType, DetailPageConfig> = {
     listingLabel: 'Syllabus',
     atGlanceTitle: 'Job Summary',
     actionTitle: 'View Syllabus',
-    actionDescription: 'Check syllabus, topics, and official preparation details.',
+    actionDescription: 'Check syllabus, topics, and official syllabus details.',
     actionButtonLabels: ['View Syllabus', 'Official Website'],
     timelineTitle: 'Key Dates',
     shareTitle: 'Share',

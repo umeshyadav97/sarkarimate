@@ -54,7 +54,7 @@ export interface JobsQueryParams extends Record<string, string | number | boolea
   state?: string;
   applicationStatus?: string;
 
-  type?: 'jobs' | 'admit-cards' | 'results' | 'answer-keys';
+  type?: 'jobs' | 'admit-cards' | 'results' | 'answer-keys' | 'syllabus';
 
   isFeatured?: boolean;
   isTrending?: boolean;

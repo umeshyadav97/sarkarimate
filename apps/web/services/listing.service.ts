@@ -15,11 +15,18 @@ function formatListingDate(date?: string | null) {
     return 'Recently Updated';
   }
 
+  const normalizedDate = date.includes('T') ? date : `${date}T00:00:00`;
+  const parsedDate = new Date(normalizedDate);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return 'Recently Updated';
+  }
+
   return new Intl.DateTimeFormat('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(`${date}T00:00:00`));
+  }).format(parsedDate);
 }
 
 function getItemDate(item: StaticApiItem) {
@@ -38,13 +45,20 @@ function getItemYear(item: StaticApiItem) {
   const date = getItemDate(item);
 
   if (date) {
-    return new Date(`${date}T00:00:00`).getFullYear().toString();
+    const normalizedDate = date.includes('T') ? date : `${date}T00:00:00`;
+    const parsedDate = new Date(normalizedDate);
+
+    if (!Number.isNaN(parsedDate.getTime())) {
+      return parsedDate.getFullYear().toString();
+    }
   }
 
   return item.title.match(/\b(20\d{2})\b/)?.[1] ?? '2026';
 }
 
 function toListingItem(item: StaticApiItem): ListingItem {
+  const href = item.href.startsWith('/syllabus/') ? item.href : `/${item.slug}`;
+
   return {
     id: item.id,
     title: item.title,
@@ -52,7 +66,7 @@ function toListingItem(item: StaticApiItem): ListingItem {
     updatedDate: formatListingDate(getItemDate(item)),
     year: getItemYear(item),
     state: item.state ?? 'All India',
-    href: `/${item.slug}`,
+    href,
   };
 }
 

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { legalPageRoutes } from '@/features/legal/constants/legal-pages';
 import { getCommonDetailStaticParams } from '@/services/job-detail.service';
+import { getSyllabusSitemapEntries } from '@/services/syllabus.service';
 
 const siteUrl = 'https://sarkarimate.com';
 const lastModified = new Date('2026-07-15T00:00:00+05:30');
@@ -31,5 +32,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...detailPages];
+  return [...staticPages, ...detailPages, ...getSyllabusSitemapEntries()];
 }
