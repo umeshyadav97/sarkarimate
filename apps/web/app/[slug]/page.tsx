@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { JobDetailQueryPage } from '@/components/job-detail/JobDetailQueryPage';
 import { getDetailPageConfig } from '@/config/detail-page.config';
+import { getCommonDetailPageData } from '@/services/job-detail.service';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -11,17 +12,40 @@ export const dynamicParams = true;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const title = slug
-    .split('-')
-    .filter((part) => !/^[a-f\d]{8}$/i.test(part))
-    .join(' ');
+  const data = await getCommonDetailPageData(slug);
+  const fallbackTitle = formatSlugTitle(slug);
+  const title = data?.seo.title ?? data?.title ?? fallbackTitle;
+  const description = data?.seo.description ?? data?.alert;
+  const canonical = data?.seo.canonical ?? `/${slug}`;
 
   return {
     title,
+    description,
+    keywords: data?.seo.keywords,
     alternates: {
-      canonical: `/${slug}`,
+      canonical,
     },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: 'SarkariMate',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    robots: data ? undefined : { index: false, follow: false },
   };
+}
+
+function formatSlugTitle(slug: string) {
+  return slug
+    .split('-')
+    .filter((part) => !/^[a-f\d]{8}$/i.test(part))
+    .join(' ');
 }
 
 export default async function JobDetailsRoute({ params }: PageProps) {

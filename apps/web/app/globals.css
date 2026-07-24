@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+@theme {
+  --breakpoint-md: 700px;
+}
+
 :root {
   color-scheme: light;
   --font-inter: Inter, Arial, Helvetica, sans-serif;

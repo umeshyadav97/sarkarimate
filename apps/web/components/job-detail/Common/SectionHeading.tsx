@@ -1,7 +1,8 @@
+import type { ReactNode } from 'react';
 import type { DetailIcon } from '@/components/job-detail/types';
 
 interface SectionHeadingProps {
-  title: string;
+  title: ReactNode;
   icon?: DetailIcon;
 }
 

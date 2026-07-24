@@ -11,10 +11,29 @@ interface VacancySectionProps {
 }
 
 export function VacancySection({ id, title, vacancy }: VacancySectionProps) {
+  const headingTitle = formatVacancyTitle(vacancy.title || title);
+
   return (
     <SectionCard id={id}>
-      <SectionHeading title={vacancy.title || title} icon={TableProperties} />
+      <SectionHeading title={headingTitle} icon={TableProperties} />
       <DataTable columns={vacancy.columns} rows={vacancy.rows} />
     </SectionCard>
+  );
+}
+
+function formatVacancyTitle(title: string) {
+  const postCountMatch = title.match(/\s+Total:\s*(.+)$/i);
+
+  if (!postCountMatch?.index) {
+    return title;
+  }
+
+  return (
+    <>
+      {title.slice(0, postCountMatch.index)}
+      <span className="ml-1.5 inline-flex px-1 py-1 text-lg font-bold text-[#1D4ED8]">
+        Total: {postCountMatch[1]}
+      </span>
+    </>
   );
 }
