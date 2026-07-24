@@ -255,6 +255,7 @@ export const sscGdConstableSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
+  cutoffHeading: 'SSC GD Constable CBT Cutoff (Out of 160)',
   cutoff: {
     columns: [
       {
@@ -284,36 +285,47 @@ export const sscGdConstableSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '140.00 - 150.00 (Expected)',
+          obc: '135.00 - 145.00 (Expected)',
+          sc: '125.00 - 135.00 (Expected)',
+          st: '120.00 - 130.00 (Expected)',
+          ews: '138.00 - 148.00 (Expected)',
+        },
+      },
+      {
         id: '2025',
         values: {
           year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          general: '144.93',
+          obc: '143.64',
+          sc: '137.51',
+          st: '133.12',
+          ews: '142.13',
         },
       },
       {
         id: '2024',
         values: {
           year: '2024',
-          general: '142.25',
-          obc: '139.40',
-          sc: '130.80',
-          st: '123.35',
-          ews: '140.65',
+          general: '153.56',
+          obc: '152.28',
+          sc: '148.21',
+          st: '143.65',
+          ews: '151.15',
         },
       },
       {
         id: '2023',
         values: {
           year: '2023',
-          general: '138.26',
-          obc: '136.75',
-          sc: '127.15',
-          st: '120.85',
-          ews: '137.10',
+          general: '139.32',
+          obc: '137.64',
+          sc: '127.33',
+          st: '123.04',
+          ews: '136.75',
         },
       },
     ],

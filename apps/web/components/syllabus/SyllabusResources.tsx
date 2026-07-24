@@ -34,8 +34,8 @@ export function SyllabusResources({ resources }: SyllabusResourcesProps) {
                 <Icon className="h-6 w-6 text-[#1D4ED8]" aria-hidden="true" />
               </span>
               {!isAvailable ? (
-                <span className="mt-4 inline-flex w-fit rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 ring-1 ring-amber-100">
-                  In progress
+                <span className="mt-4 inline-flex w-fit rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-[#1D4ED8] ring-1 ring-blue-100">
+                  Coming Soon
                 </span>
               ) : null}
               <h3 className="mt-4 text-sm font-bold leading-5 text-[#111827]">{resource.title}</h3>
@@ -47,7 +47,7 @@ export function SyllabusResources({ resources }: SyllabusResourcesProps) {
                   View <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </span>
               ) : (
-                <span className="mt-auto inline-flex items-center pt-3 text-sm font-bold text-slate-500">
+                <span className="mt-auto inline-flex items-center pt-3 text-sm font-bold text-[#1D4ED8]">
                   Coming Soon
                 </span>
               )}
@@ -92,8 +92,7 @@ const resourceIcons = [Target, BookOpen, FileText, Trophy, CalendarDays, LineCha
 const availableResourceHrefs = new Set(['#previous-year-cutoff']);
 
 function scrollToCutoff() {
-  const cutoffCards = Array.from(document.querySelectorAll('[data-syllabus-cutoff-card]'));
-  const visibleCutoffCard = cutoffCards.find((card) => card.getClientRects().length > 0);
-
-  visibleCutoffCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document
+    .getElementById('previous-year-cutoff')
+    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

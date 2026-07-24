@@ -234,6 +234,7 @@ export const upscCseSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
+  cutoffHeading: 'UPSC CSE Prelims Cutoff (Out of 200)',
   cutoff: {
     columns: [
       {
@@ -263,14 +264,25 @@ export const upscCseSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '78-85 (Expected)',
+          obc: '76-82 (Expected)',
+          sc: '68-74 (Expected)',
+          st: '65-70 (Expected)',
+          ews: '75-81 (Expected)',
+        },
+      },
+      {
         id: '2025',
         values: {
           year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          general: '92.66',
+          obc: '92.00',
+          sc: '84.00',
+          st: '82.66',
+          ews: '89.34',
         },
       },
       {
@@ -293,6 +305,17 @@ export const upscCseSyllabus: SyllabusGuide = {
           sc: '59.25',
           st: '47.82',
           ews: '68.02',
+        },
+      },
+      {
+        id: '2022',
+        values: {
+          year: '2022',
+          general: '88.22',
+          obc: '87.54',
+          sc: '74.08',
+          st: '69.35',
+          ews: '82.83',
         },
       },
     ],

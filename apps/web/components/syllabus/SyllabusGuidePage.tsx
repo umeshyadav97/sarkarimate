@@ -12,7 +12,7 @@ import {
   type SyllabusTabSection,
 } from '@/components/syllabus/SyllabusSectionTabs';
 import { QuickActions } from '@/components/syllabus/QuickActions';
-import { SidebarCutoffCard } from '@/components/syllabus/SidebarCutoffCard';
+import { PreviousYearCutoff } from '@/components/syllabus/PreviousYearCutoff';
 import { SyllabusSection } from '@/components/syllabus/SyllabusSection';
 import type { SyllabusGuide } from '@/types/syllabus';
 
@@ -35,8 +35,14 @@ export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
           <SyllabusSection guide={guide} subjects={guide.syllabus} />
           <ExamPatternSection pattern={guide.examPattern} />
           <SyllabusResources resources={guide.resources} />
+          <PreviousYearCutoff
+            cutoff={guide.tier1Cutoff ?? guide.cutoff}
+            tier2Cutoff={guide.tier2Cutoff}
+            cutoffHeading={guide.cutoffHeading}
+            tier1CutoffHeading={guide.tier1CutoffHeading}
+            tier2CutoffHeading={guide.tier2CutoffHeading}
+          />
           <div className="grid gap-4 lg:hidden">
-            <SidebarCutoffCard cutoff={guide.cutoff} />
             <LatestJobsCard />
             <SyllabusHelpCard />
             <SyllabusShareCard />
@@ -48,7 +54,6 @@ export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
           <QuickActions actions={guide.quickActions} />
           <SyllabusHighlights highlights={guide.sidebarHighlights} />
           <div className="hidden gap-4 lg:grid">
-            <SidebarCutoffCard cutoff={guide.cutoff} />
             <SyllabusHelpCard />
             <SyllabusShareCard />
             <LatestJobsCard />

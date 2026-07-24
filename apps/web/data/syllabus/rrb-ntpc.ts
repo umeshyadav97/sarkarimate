@@ -247,7 +247,9 @@ export const rrbNtpcSyllabus: SyllabusGuide = {
       tone: 'blue',
     },
   ],
-  cutoff: {
+  tier1CutoffHeading: 'RRB NTPC CBT 1 Cutoff (Out of 100)',
+  tier2CutoffHeading: 'RRB NTPC CBT 2 Cutoff (Out of 120)',
+  tier1Cutoff: {
     columns: [
       {
         key: 'year',
@@ -276,36 +278,99 @@ export const rrbNtpcSyllabus: SyllabusGuide = {
     ],
     rows: [
       {
-        id: '2025',
+        id: '2026',
         values: {
-          year: '2025',
-          general: 'To Be Updated',
-          obc: 'To Be Updated',
-          sc: 'To Be Updated',
-          st: 'To Be Updated',
-          ews: 'To Be Updated',
+          year: '2026',
+          general: '72.00 - 78.00 (Expected)',
+          obc: '68.00 - 74.00 (Expected)',
+          sc: '60.00 - 66.00 (Expected)',
+          st: '55.00 - 61.00 (Expected)',
+          ews: '66.00 - 72.00 (Expected)',
         },
       },
       {
         id: '2024',
         values: {
           year: '2024',
-          general: '72.40',
-          obc: '69.85',
-          sc: '60.10',
-          st: '54.35',
-          ews: '68.20',
+          general: '71.50',
+          obc: '65.80',
+          sc: '58.20',
+          st: '53.40',
+          ews: '64.10',
         },
       },
       {
-        id: '2023',
+        id: '2021',
         values: {
-          year: '2023',
-          general: '70.15',
-          obc: '67.90',
-          sc: '58.75',
-          st: '52.80',
-          ews: '66.45',
+          year: '2021',
+          general: '68.24',
+          obc: '62.17',
+          sc: '54.39',
+          st: '48.58',
+          ews: '56.72',
+        },
+      },
+    ],
+  },
+  tier2Cutoff: {
+    columns: [
+      {
+        key: 'year',
+        label: 'Year',
+      },
+      {
+        key: 'general',
+        label: 'General',
+      },
+      {
+        key: 'obc',
+        label: 'OBC',
+      },
+      {
+        key: 'sc',
+        label: 'SC',
+      },
+      {
+        key: 'st',
+        label: 'ST',
+      },
+      {
+        key: 'ews',
+        label: 'EWS',
+      },
+    ],
+    rows: [
+      {
+        id: '2026',
+        values: {
+          year: '2026',
+          general: '82.00 - 90.00 (Expected)',
+          obc: '78.00 - 85.00 (Expected)',
+          sc: '68.00 - 75.00 (Expected)',
+          st: '62.00 - 68.00 (Expected)',
+          ews: '76.00 - 83.00 (Expected)',
+        },
+      },
+      {
+        id: '2024',
+        values: {
+          year: '2024',
+          general: '84.33',
+          obc: '80.66',
+          sc: '71.00',
+          st: '65.33',
+          ews: '78.50',
+        },
+      },
+      {
+        id: '2022',
+        values: {
+          year: '2022',
+          general: '77.33',
+          obc: '72.66',
+          sc: '62.00',
+          st: '57.33',
+          ews: '67.00',
         },
       },
     ],
