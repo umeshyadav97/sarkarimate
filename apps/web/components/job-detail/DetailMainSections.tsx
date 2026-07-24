@@ -33,13 +33,14 @@ export function DetailMainSections({ config, data, renderSection }: DetailMainSe
                 items={data.importantDates}
               />
             ) : null,
-            data.ageLimit.length > 0 ? (
-              <AgeLimitSection
-                key="age-limit"
-                id="age-limit"
-                title={config.embeddedSections.ageLimitTitle}
-                items={data.ageLimit}
-                note={data.ageLimitNote}
+
+            data.applicationFee.length > 0 ? (
+              <ApplicationFeeSection
+                key="application-fee"
+                id="application-fee"
+                title={config.embeddedSections.applicationFeeTitle}
+                items={data.applicationFee}
+                note={data.applicationFeeNote}
               />
             ) : null,
           ].filter(Boolean);
@@ -61,13 +62,13 @@ export function DetailMainSections({ config, data, renderSection }: DetailMainSe
                 items={data.eligibility}
               />
             ) : null,
-            data.applicationFee.length > 0 ? (
-              <ApplicationFeeSection
-                key="application-fee"
-                id="application-fee"
-                title={config.embeddedSections.applicationFeeTitle}
-                items={data.applicationFee}
-                note={data.applicationFeeNote}
+            data.ageLimit.length > 0 ? (
+              <AgeLimitSection
+                key="age-limit"
+                id="age-limit"
+                title={config.embeddedSections.ageLimitTitle}
+                items={data.ageLimit}
+                note={data.ageLimitNote}
               />
             ) : null,
           ].filter(Boolean);

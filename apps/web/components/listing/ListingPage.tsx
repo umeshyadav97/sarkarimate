@@ -81,7 +81,7 @@ export function ListingPage({ config }: ListingPageProps) {
       {/* <ListingStats statistics={config.statistics} /> */}
 
       <section className="mx-auto grid w-full max-w-full gap-6 px-4 pb-12 sm:px-6 lg:grid-cols-[minmax(0,3fr)_minmax(280px,1fr)] lg:px-8">
-        <div className="order-1 lg:hidden">
+        <div className="order-1 hidden">
           <FilterCard
             config={config}
             draftFilters={draftFilters}

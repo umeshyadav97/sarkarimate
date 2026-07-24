@@ -44,7 +44,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
           <thead className="bg-slate-50 text-xs font-bold uppercase text-[#111827]">
             <tr>
               {columns.map((column) => (
-                <th key={column.key} className={column.key === 'index' ? 'pl-4 py-4' : 'px-5 py-4'}>
+                <th key={column.key} className={column.key === 'index' ? 'px-4 py-4' : 'px-5 py-4'}>
                   {column.label}
                 </th>
               ))}
@@ -53,7 +53,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
           <tbody className="divide-y divide-slate-200">
             {items.map((item, index) => (
               <tr key={item.id} className="bg-white">
-                <td className="py-4 pl-4 text-sm font-bold text-[#111827]">{startIndex + index}</td>
+                <td className="px-4 py-4 text-sm font-bold text-[#111827]">{startIndex + index}</td>
                 <td className="p-4">
                   <Link
                     className="text-sm font-bold text-[#073b82] hover:text-[#1D4ED8]"
@@ -85,16 +85,13 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
       </div>
 
       <div className="space-y-5 bg-[#F8FAFC] p-3 md:hidden">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <article
             key={item.id}
-            className="rounded-xl border border-slate-200 bg-white p-2 shadow-sm"
+            className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm"
           >
-            {/* <span className="inline-flex items-center justify-center rounded-lg bg-blue-50 p-2 text-sm font-bold text-[#111827]">
-              #{startIndex + index}
-            </span> */}
             <Link
-              className="block text-base font-bold leading-6 text-[#071B3D]"
+              className="block border-b border-slate-200 pb-3 text-base font-bold leading-6 text-[#071B3D]"
               href={item.href}
               onClick={() => cacheDetailId(item)}
               rel="noopener noreferrer"
@@ -102,7 +99,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
             >
               {item.title}
             </Link>
-            <dl className="mt-2 grid grid-cols-2 border-t border-slate-200 pt-2">
+            <dl className="grid grid-cols-2 py-3">
               <div>
                 <dt className="text-xs font-bold text-slate-600">Organization</dt>
                 <dd className="mt-2 text-sm font-bold text-[#071B3D]">{item.organization}</dd>
@@ -113,7 +110,7 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
               </div>
             </dl>
             <Link
-              className="mt-4 inline-flex min-h-10 w-full items-center justify-center gap-3 whitespace-nowrap rounded-lg border-1 border-[#1D4ED8] px-4 text-sm font-bold text-[#1D4ED8]"
+              className="inline-flex min-h-10 w-full items-center justify-center gap-3 whitespace-nowrap rounded-lg border border-[#1D4ED8] px-4 text-sm font-bold text-[#1D4ED8] transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-100"
               href={item.href}
               onClick={() => cacheDetailId(item)}
               rel="noopener noreferrer"
