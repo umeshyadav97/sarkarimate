@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ListingFilters, ListingItem } from '@/components/listing/types';
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
-import { getListingItems } from '@/services/listing.service';
 import { getJobListingItems } from '@/services/listing/job-listing.service';
 
 const PAGE_SIZE = 20;
@@ -46,7 +45,9 @@ function getListingYear(job: ApiJob) {
   return job.title.match(/\b(20\d{2})\b/)?.[1] ?? '';
 }
 
-function toListingItem(job: ApiJob): ListingItem {
+function toListingItem(job: ApiJob, pageType: string): ListingItem {
+  const href = pageType === 'syllabus' ? `/syllabus/${job.slug}` : `/${job.slug}`;
+
   return {
     id: job._id,
     detailId: job._id,
@@ -55,7 +56,7 @@ function toListingItem(job: ApiJob): ListingItem {
     updatedDate: formatListingDate(getJobDate(job)),
     year: getListingYear(job),
     state: job.state || 'All India',
-    href: `/${job.slug}`,
+    href,
   };
 }
 
@@ -69,24 +70,12 @@ function toApiFilters(pageType: string, filters: ListingFilters): JobsQueryParam
 }
 
 async function getConfiguredListingResponse({
-  endpoint,
   pageType,
   page,
   search,
   sort,
   filters,
 }: UseConfiguredListingItemsOptions & { page: number }) {
-  if (pageType === 'syllabus') {
-    return getListingItems({
-      endpoint,
-      page,
-      pageSize: PAGE_SIZE,
-      search,
-      sort,
-      filters,
-    });
-  }
-
   const response: JobsResponse = await getJobListingItems({
     page,
     limit: PAGE_SIZE,
@@ -96,7 +85,7 @@ async function getConfiguredListingResponse({
   });
 
   return {
-    items: response.jobs.map(toListingItem),
+    items: response.jobs.map((job) => toListingItem(job, pageType)),
     total: response.pagination.total,
     hasMore: response.pagination.hasNextPage,
   };

@@ -10,7 +10,10 @@ export function SidebarCutoffCard({ cutoff }: SidebarCutoffCardProps) {
   }
 
   return (
-    <aside className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <aside
+      data-syllabus-cutoff-card
+      className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+    >
       <h2 className="text-xl font-bold text-[#111827]">Previous Year Cutoff (Tier 1)</h2>
       <div className="mt-4">
         <CompactCutoffTable cutoff={cutoff} />
@@ -32,7 +35,7 @@ function CompactCutoffTable({ cutoff }: { cutoff: SyllabusTable }) {
         <thead className="bg-slate-50 text-xs font-bold text-[#111827]">
           <tr>
             {cutoff.columns.map((column) => (
-              <th key={column.key} className="px-2 py-2">
+              <th key={column.key} className="px-1.5 py-2 text-center first:text-left sm:px-2">
                 {column.label}
               </th>
             ))}
@@ -42,8 +45,11 @@ function CompactCutoffTable({ cutoff }: { cutoff: SyllabusTable }) {
           {cutoff.rows.map((row) => (
             <tr key={row.id}>
               {cutoff.columns.map((column) => (
-                <td key={column.key} className="px-2 py-2">
-                  {row.values[column.key] ?? '-'}
+                <td
+                  key={column.key}
+                  className="border-r border-slate-100 px-1.5 py-2 text-center align-middle last:border-r-0 first:text-left sm:px-2"
+                >
+                  <CompactCutoffValue value={row.values[column.key]} />
                 </td>
               ))}
             </tr>
@@ -52,4 +58,20 @@ function CompactCutoffTable({ cutoff }: { cutoff: SyllabusTable }) {
       </table>
     </div>
   );
+}
+
+function CompactCutoffValue({ value }: { value: SyllabusTable['rows'][number]['values'][string] }) {
+  if (!value) {
+    return '-';
+  }
+
+  if (typeof value === 'string' && value.toLowerCase() === 'to be updated') {
+    return (
+      <span className="inline-flex max-w-full items-center rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold leading-4 text-amber-700 ring-1 ring-amber-100">
+        To be updated
+      </span>
+    );
+  }
+
+  return <span className="break-words leading-5">{value}</span>;
 }

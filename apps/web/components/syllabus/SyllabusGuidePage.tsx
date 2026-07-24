@@ -32,19 +32,27 @@ export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
       <section className="mx-auto grid w-full max-w-full items-start gap-5 px-4 py-5 sm:px-6 sm:py-6 lg:grid-cols-[minmax(0,3fr)_minmax(280px,1fr)] lg:px-8">
         <div className="order-2 grid min-w-0 gap-4 lg:order-1">
           <SyllabusOverview overview={guide.overview} />
-          <SyllabusSection subjects={guide.syllabus} />
+          <SyllabusSection guide={guide} subjects={guide.syllabus} />
           <ExamPatternSection pattern={guide.examPattern} />
           <SyllabusResources resources={guide.resources} />
+          <div className="grid gap-4 lg:hidden">
+            <SidebarCutoffCard cutoff={guide.cutoff} />
+            <LatestJobsCard />
+            <SyllabusHelpCard />
+            <SyllabusShareCard />
+          </div>
           <FAQSection faqs={guide.faqs} />
         </div>
 
         <div className="order-1 grid min-w-0 gap-4 lg:order-2">
           <QuickActions actions={guide.quickActions} />
           <SyllabusHighlights highlights={guide.sidebarHighlights} />
-          <SidebarCutoffCard cutoff={guide.cutoff} />
-          <SyllabusHelpCard />
-          <SyllabusShareCard />
-          <LatestJobsCard />
+          <div className="hidden gap-4 lg:grid">
+            <SidebarCutoffCard cutoff={guide.cutoff} />
+            <SyllabusHelpCard />
+            <SyllabusShareCard />
+            <LatestJobsCard />
+          </div>
         </div>
       </section>
     </main>

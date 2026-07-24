@@ -116,10 +116,12 @@ export interface SyllabusGuide {
   breadcrumbs: SyllabusBreadcrumb[];
   heroFacts?: SyllabusMetric[];
   quickActions?: SyllabusAction[];
+  overviewDescription?: string;
+  overviewHighlights?: SyllabusMetric[];
   overview?: SyllabusOverviewData;
   syllabus?: SyllabusSubject[];
   examPattern?: SyllabusTable;
-  selectionProcess?: SelectionProcessStep[];
+  selectionProcess?: SelectionProcessStep[] | string[];
   resources?: SyllabusResource[];
   books?: RecommendedBook[];
   previousPapers?: PreviousYearPaper[];

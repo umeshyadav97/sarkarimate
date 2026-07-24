@@ -31,7 +31,7 @@ export function SyllabusSectionTabs({ sections }: SyllabusSectionTabsProps) {
 
   return (
     <nav
-      className="sticky top-[104px] z-30 hidden overflow-x-auto border-b border-slate-200 bg-[#F8FAFC]/95 px-4 pt-3 backdrop-blur md:block sm:px-6 lg:px-8"
+      className="sticky top-[104px] z-30 hidden overflow-x-auto border-b border-slate-200 bg-[#F8FAFC]/95 px-4 pt-3 backdrop-blur md:block sm:px-6 lg:px-8 mt-6"
       aria-label="Page sections"
     >
       <ul className="mx-auto flex max-w-full min-w-max gap-6">

@@ -8,13 +8,14 @@ import {
   Landmark,
 } from 'lucide-react';
 import { SyllabusSectionCard } from '@/components/syllabus/SyllabusSectionCard';
-import type { SyllabusSubject } from '@/types/syllabus';
+import type { SyllabusGuide, SyllabusSubject } from '@/types/syllabus';
 
 interface SyllabusSectionProps {
+  guide: SyllabusGuide;
   subjects?: SyllabusSubject[];
 }
 
-export function SyllabusSection({ subjects }: SyllabusSectionProps) {
+export function SyllabusSection({ guide, subjects }: SyllabusSectionProps) {
   if (!subjects?.length) {
     return null;
   }
@@ -22,7 +23,9 @@ export function SyllabusSection({ subjects }: SyllabusSectionProps) {
   return (
     <SyllabusSectionCard id="syllabus" title="Syllabus" index={2}>
       <p className="text-sm font-semibold leading-6 text-slate-700">
-        The SSC CGL syllabus is divided into 4 subjects for Tier 1 and advanced level in Tier 2.
+        The {guide.examName} syllabus is divided into {subjects.length} subject
+        {subjects.length === 1 ? '' : 's'}. Review each section topic-wise before starting mock
+        tests and previous year papers.
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {subjects.map((subject) => {
@@ -53,20 +56,20 @@ export function SyllabusSection({ subjects }: SyllabusSectionProps) {
                   </li>
                 ))}
               </ul>
-              <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-bold text-[#1D4ED8]">
+              {/* <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-bold text-[#1D4ED8]">
                 View Topics <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </span>
+              </span> */}
             </article>
           );
         })}
       </div>
-      <a
+      {/* <a
         href="#"
         className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-bold text-[#1D4ED8] hover:border-[#1D4ED8]"
       >
         Download Detailed Syllabus PDF
         <Download className="h-4 w-4" aria-hidden="true" />
-      </a>
+      </a> */}
     </SyllabusSectionCard>
   );
 }
