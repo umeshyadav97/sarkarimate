@@ -14,7 +14,6 @@ import {
   newsArticles,
 } from '@/features/home/constants/homepage-data';
 import { useHomePage } from '@/hooks/useHomePage';
-import { HomeJobsDebug } from './home-jobs-debug';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -62,7 +61,6 @@ export function Homepage() {
         }}
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
-        {/* <HomeJobsDebug /> */}
         {isLoading ? (
           <HomepageSkeleton />
         ) : homepageData ? (
@@ -71,8 +69,10 @@ export function Homepage() {
             <QuickAccessSection items={homepageData.quickAccessItems} />
             <NotificationPanels
               latestAdmitCards={homepageData.latestAdmitCards}
+              latestAnswerKeys={homepageData.latestAnswerKeys}
               latestJobs={homepageData.latestJobs}
               latestResults={homepageData.latestResults}
+              latestSyllabus={homepageData.latestSyllabus}
             />
             <DeadlinesCarousel deadlines={homepageData.upcomingDeadlines} />
             <CategoriesSection categories={homepageData.categories} />

@@ -39,7 +39,7 @@ export function SiteHeader() {
         <Link href="/" className="flex min-w-fit items-center gap-3" aria-label="SarkariMate home">
           <span className="flex h-14 w-14 items-center justify-center overflow-hidden">
             <Image
-              src="/assets/images/brand-logo-2.png"
+              src="/assets/images/brand-logo-2.webp"
               alt=""
               width={100}
               height={100}

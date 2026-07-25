@@ -3,12 +3,13 @@ import type { ComponentType } from 'react';
 import { Bell, Check, Heart, Mail } from 'lucide-react';
 import {
   FaApple,
-  FaFacebookF,
-  FaInstagram,
-  FaTelegram,
-  FaWhatsapp,
+  // FaFacebookF,
+  // FaInstagram,
+  FaLinkedinIn,
+  // FaTelegram,
+  // FaWhatsapp,
   FaXTwitter,
-  FaYoutube,
+  // FaYoutube,
 } from 'react-icons/fa6';
 import { Button, Card, Input } from '@repo/ui';
 import { BrandShieldIcon } from '@/components/brand-shield-icon';
@@ -16,37 +17,50 @@ import { footerLinks, trustPoints } from '@/features/home/constants/homepage-dat
 import { legalFooterLinks } from '@/features/legal/constants/legal-pages';
 
 const socialLinks = [
-  {
-    label: 'WhatsApp',
-    icon: FaWhatsapp,
-    className: 'bg-gradient-to-br from-[#25D366] to-[#128C7E]',
-  },
-  {
-    label: 'Telegram',
-    icon: FaTelegram,
-    className: 'bg-gradient-to-br from-[#37AEE2] to-[#1E96C8]',
-  },
-  {
-    label: 'Facebook',
-    icon: FaFacebookF,
-    className: 'bg-gradient-to-br from-[#4C8BF5] to-[#1877F2]',
-  },
+  // Hidden for now. Keep the icons ready until these channels are active.
+  // {
+  //   label: 'WhatsApp',
+  //   href: '#',
+  //   icon: FaWhatsapp,
+  //   className: 'bg-gradient-to-br from-[#25D366] to-[#128C7E]',
+  // },
+  // {
+  //   label: 'Telegram',
+  //   href: '#',
+  //   icon: FaTelegram,
+  //   className: 'bg-gradient-to-br from-[#37AEE2] to-[#1E96C8]',
+  // },
+  // {
+  //   label: 'Facebook',
+  //   href: '#',
+  //   icon: FaFacebookF,
+  //   className: 'bg-gradient-to-br from-[#4C8BF5] to-[#1877F2]',
+  // },
   {
     label: 'X',
+    href: 'https://x.com/sarkarimate',
     icon: FaXTwitter,
     className: 'bg-gradient-to-br from-[#2F3336] to-[#000000]',
   },
   {
-    label: 'YouTube',
-    icon: FaYoutube,
-    className: 'bg-gradient-to-br from-[#FF3D3D] to-[#CD201F]',
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/sarkarimate/',
+    icon: FaLinkedinIn,
+    className: 'bg-gradient-to-br from-[#0A66C2] to-[#004182]',
   },
-  {
-    label: 'Instagram',
-    icon: FaInstagram,
-    className:
-      'bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fdf497_5%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]',
-  },
+  // {
+  //   label: 'YouTube',
+  //   href: '#',
+  //   icon: FaYoutube,
+  //   className: 'bg-gradient-to-br from-[#FF3D3D] to-[#CD201F]',
+  // },
+  // {
+  //   label: 'Instagram',
+  //   href: '#',
+  //   icon: FaInstagram,
+  //   className:
+  //     'bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fdf497_5%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]',
+  // },
 ];
 
 const footerRouteByLabel: Record<string, string> = {
@@ -69,6 +83,15 @@ const resourceFooterLinks = [
   'Application Tracker',
   'FAQs',
 ];
+
+const popularExamRoutes: Record<string, string> = {
+  'SSC CGL': '/ssc-cgl-2026',
+  'UP Police': '/up-police-constable-2026',
+  'RRB NTPC': '/rrb-ntpc-graduate-cbtst-result-2026',
+  'UP Anganwadi': '/up-anganwadi-bharti-2026',
+  'Bihar Police': '/bihar-police-si-2026',
+  'Teaching Jobs': '/jharkhand-teacher-eligibility-test-2026',
+};
 
 export function SiteFooter() {
   return (
@@ -108,8 +131,18 @@ export function SiteFooter() {
             </nav>
           </div>
 
-          <FooterColumn links={footerLinks.quickLinks} title="Quick Links" useKnownRoutes />
-          <FooterColumn links={footerLinks.popularExams} title="Popular Exams" />
+          <FooterColumn
+            links={footerLinks.quickLinks}
+            title="Quick Links"
+            useKnownRoutes
+            openInNewTab
+          />
+          <FooterColumn
+            links={footerLinks.popularExams}
+            title="Popular Exams"
+            usePopularExamRoutes
+            openInNewTab
+          />
           <FooterColumn links={resourceFooterLinks} title="Resources" useKnownRoutes />
           <FooterColumn links={footerLinks.company} title="Company" useKnownRoutes />
 
@@ -152,18 +185,22 @@ export function SiteFooter() {
 
 function SocialLink({
   label,
+  href,
   icon: Icon,
   className,
 }: {
   label: string;
-  icon: typeof FaWhatsapp;
+  href: string;
+  icon: ComponentType<{ className?: string }>;
   className: string;
 }) {
   return (
     <a
-      href="#"
+      href={href}
       className={`grid h-8 w-8 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(0,0,0,0.24)] transition-all hover:-translate-y-0.5 hover:scale-105 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60A5FA] ${className}`}
       aria-label={label}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
     </a>
@@ -240,10 +277,14 @@ function FooterColumn({
   title,
   links,
   useKnownRoutes = false,
+  usePopularExamRoutes = false,
+  openInNewTab = false,
 }: {
   title: string;
   links: string[];
   useKnownRoutes?: boolean;
+  usePopularExamRoutes?: boolean;
+  openInNewTab?: boolean;
 }) {
   return (
     <nav aria-label={title}>
@@ -251,7 +292,12 @@ function FooterColumn({
       <ul className="mt-3 space-y-2">
         {links.map((link) => (
           <li key={link}>
-            <FooterColumnLink label={link} useKnownRoutes={useKnownRoutes} />
+            <FooterColumnLink
+              label={link}
+              useKnownRoutes={useKnownRoutes}
+              usePopularExamRoutes={usePopularExamRoutes}
+              openInNewTab={openInNewTab}
+            />
           </li>
         ))}
       </ul>
@@ -259,14 +305,30 @@ function FooterColumn({
   );
 }
 
-function FooterColumnLink({ label, useKnownRoutes }: { label: string; useKnownRoutes: boolean }) {
+function FooterColumnLink({
+  label,
+  useKnownRoutes,
+  usePopularExamRoutes,
+  openInNewTab,
+}: {
+  label: string;
+  useKnownRoutes: boolean;
+  usePopularExamRoutes: boolean;
+  openInNewTab: boolean;
+}) {
   const knownRoute = legalFooterLinks.find((link) => link.label === label);
-  const href = useKnownRoutes ? (knownRoute?.href ?? footerRouteByLabel[label] ?? '#') : '#';
+  const href = usePopularExamRoutes
+    ? (popularExamRoutes[label] ?? '/jobs')
+    : useKnownRoutes
+      ? (knownRoute?.href ?? footerRouteByLabel[label] ?? '/jobs')
+      : '/jobs';
 
   return (
     <Link
       className="inline-flex rounded-sm text-sm font-medium text-[#CBD5E1] transition-colors hover:text-[#60A5FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60A5FA]"
       href={href}
+      target={openInNewTab ? '_blank' : undefined}
+      rel={openInNewTab ? 'noopener noreferrer' : undefined}
     >
       {label}
     </Link>

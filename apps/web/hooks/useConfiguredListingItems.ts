@@ -129,6 +129,8 @@ async function getConfiguredListingResponse({
   filters,
 }: UseConfiguredListingItemsOptions & { page: number }) {
   if (pageType === 'syllabus') {
+    // TODO: Re-enable the live syllabus list when the backend stops returning 500 for:
+    // /api/v1/jobs?page=1&limit=20&sort=latest&type=syllabus
     return getListingItems({
       endpoint,
       page,

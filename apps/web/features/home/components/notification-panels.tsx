@@ -3,8 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import { Card } from '@repo/ui';
 import {
   latestAdmitCards as defaultLatestAdmitCards,
+  latestAnswerKeys as defaultLatestAnswerKeys,
   latestJobs as defaultLatestJobs,
   latestResults as defaultLatestResults,
+  latestSyllabus as defaultLatestSyllabus,
   type NotificationItem,
 } from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
@@ -15,6 +17,8 @@ const metaClasses = {
   Status: 'bg-blue-50 text-[#1D4ED8]',
   Deadline: 'bg-red-50 text-[#DC2626]',
   'Last Date': 'text-[#DC2626]',
+  'Answer Key': 'bg-blue-50 text-[#1D4ED8]',
+  Revision: 'bg-blue-50 text-[#1D4ED8]',
 };
 
 function cacheDetailId(item: NotificationItem) {
@@ -35,15 +39,19 @@ interface NotificationPanelsProps {
   latestJobs?: NotificationItem[];
   latestResults?: NotificationItem[];
   latestAdmitCards?: NotificationItem[];
+  latestAnswerKeys?: NotificationItem[];
+  latestSyllabus?: NotificationItem[];
 }
 
 export function NotificationPanels({
   latestJobs = defaultLatestJobs,
   latestResults = defaultLatestResults,
   latestAdmitCards = defaultLatestAdmitCards,
+  latestAnswerKeys = defaultLatestAnswerKeys,
+  latestSyllabus = defaultLatestSyllabus,
 }: NotificationPanelsProps) {
   return (
-    <section className="mx-auto grid max-w-full grid-cols-1 gap-5 px-4 py-5 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 lg:px-8">
+    <section className="mx-auto grid max-w-full grid-cols-1 gap-5 px-4 py-5 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 2xl:grid-cols-5 lg:px-8">
       <NotificationPanel
         actionHref="/jobs"
         actionLabel="View All Jobs"
@@ -61,6 +69,18 @@ export function NotificationPanels({
         actionLabel="View All Admit Cards"
         items={latestAdmitCards}
         title="Latest Admit Cards"
+      />
+      <NotificationPanel
+        actionHref="/answer-keys"
+        actionLabel="View All Answer Keys"
+        items={latestAnswerKeys}
+        title="Latest Answer Keys"
+      />
+      <NotificationPanel
+        actionHref="/syllabus"
+        actionLabel="View All Syllabus"
+        items={latestSyllabus}
+        title="Latest Syllabus"
       />
     </section>
   );
