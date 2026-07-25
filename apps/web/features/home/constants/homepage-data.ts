@@ -450,34 +450,41 @@ function mapCategories(store: HomePageStore): CategoryItem[] {
   });
 }
 
+function formatStatValue(value: number | string | undefined, fallback = 0) {
+  const displayValue = value ?? fallback;
+  const text = String(displayValue);
+
+  return text.endsWith('+') ? text : `${text}+`;
+}
+
 function mapStats(store: HomePageStore): StatItem[] {
   const stats = store.stats ?? homePageStore.stats;
 
   return [
     {
       label: 'Total Job Posts',
-      value: `${stats.totalJobs}+`,
+      value: formatStatValue(stats.totalJobs),
       helper: 'Available Now',
       icon: BriefcaseBusiness,
       tone: 'blue',
     },
     {
       label: 'Active Job Posts',
-      value: `${stats.activeJobs ?? stats.totalJobs}+`,
+      value: formatStatValue(stats.activeJobs ?? stats.totalJobs),
       helper: 'Currently Open',
       icon: FileBadge,
       tone: 'green',
     },
     {
       label: 'Results Declared',
-      value: `${stats.resultsDeclared}+`,
+      value: formatStatValue(stats.resultsDeclared),
       helper: 'Latest Updates',
       icon: Trophy,
       tone: 'purple',
     },
     {
       label: 'Active Users',
-      value: `${stats.activeUsers ?? 0}+`,
+      value: formatStatValue(stats.activeUsers),
       helper: 'Tracking Today',
       icon: Users,
       tone: 'orange',
