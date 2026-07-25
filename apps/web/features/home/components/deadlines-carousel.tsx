@@ -5,8 +5,24 @@ import {
   type DeadlineItem,
 } from '@/features/home/constants/homepage-data';
 
+const detailIdCachePrefix = 'sarkarimate:job-detail-id:';
+
 interface DeadlinesCarouselProps {
   deadlines?: DeadlineItem[];
+}
+
+function cacheDetailId(deadline: DeadlineItem) {
+  if (!deadline.detailId) {
+    return;
+  }
+
+  const slug = deadline.href.split('/').filter(Boolean).at(-1);
+
+  if (!slug) {
+    return;
+  }
+
+  window.localStorage.setItem(`${detailIdCachePrefix}${slug}`, deadline.detailId);
 }
 
 export function DeadlinesCarousel({
@@ -38,6 +54,9 @@ export function DeadlinesCarousel({
               <Link
                 key={`${deadline.title}-${index}`}
                 href={deadline.href}
+                onClick={() => cacheDetailId(deadline)}
+                rel="noopener noreferrer"
+                target="_blank"
                 className="grid min-h-24 w-72 shrink-0 grid-cols-[2.75rem_1fr] gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm hover:border-blue-200 hover:bg-blue-50"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-lg bg-red-50 text-[#DC2626]">

@@ -12,6 +12,16 @@ export const metadata: Metadata = {
   description:
     'SarkariMate helps students find latest government jobs, admit cards, results, answer keys, syllabus and official exam updates in one place.',
   metadataBase: new URL('https://sarkarimate.com'),
+  icons: {
+    icon: [
+      {
+        url: '/assets/images/favicon-rounded.png',
+        type: 'image/png',
+      },
+    ],
+    shortcut: '/assets/images/favicon-rounded.png',
+    apple: '/assets/images/favicon-rounded.png',
+  },
   alternates: {
     canonical: '/',
   },

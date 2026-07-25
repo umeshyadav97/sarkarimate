@@ -9,11 +9,27 @@ import {
 } from '@/features/home/constants/homepage-data';
 import { SectionHeader } from '@/features/home/components/section-header';
 
+const detailIdCachePrefix = 'sarkarimate:job-detail-id:';
+
 const metaClasses = {
-  Status: 'bg-green-50 text-[#16A34A]',
+  Status: 'bg-blue-50 text-[#1D4ED8]',
   Deadline: 'bg-red-50 text-[#DC2626]',
   'Last Date': 'text-[#DC2626]',
 };
+
+function cacheDetailId(item: NotificationItem) {
+  if (!item.href || !item.detailId) {
+    return;
+  }
+
+  const slug = item.href.split('/').filter(Boolean).at(-1);
+
+  if (!slug) {
+    return;
+  }
+
+  window.localStorage.setItem(`${detailIdCachePrefix}${slug}`, item.detailId);
+}
 
 interface NotificationPanelsProps {
   latestJobs?: NotificationItem[];
@@ -72,6 +88,9 @@ function NotificationPanel({
                 <Link
                   className="text-sm font-bold leading-5 text-[#111827] hover:text-[#1D4ED8]"
                   href={item.href}
+                  onClick={() => cacheDetailId(item)}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   {item.title}
                 </Link>

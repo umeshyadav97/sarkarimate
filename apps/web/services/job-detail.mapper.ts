@@ -18,12 +18,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
   const job = response.data;
   const canonical = getDetailHref(job.slug);
   const importantDates = mapImportantDates(job);
-  const applicationFee = mapKeyInfo(
-    (job.applicationFees ?? job.applicationFee)?.map((fee) => ({
-      label: fee.category,
-      value: fee.fee,
-    })),
-  );
+  const applicationFee = mapApplicationFees(job);
   const ageLimit = mapAgeLimit(job);
   const overviewDescription =
     job.overview?.description ?? job.shortDescription ?? getDescriptionPreview(job.description);
@@ -48,7 +43,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
     ],
     keyInformation: mapQuickFacts(job),
     alert: job.hero?.summary ?? overviewDescription,
-    actions: mapActions(job.importantLinks),
+    actions: mapActions(job),
     about: {
       title: overviewTitle,
       body: overviewDescription ? [overviewDescription] : [],
@@ -62,15 +57,10 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
     ageLimit,
     ageLimitNote: mapAgeLimitNote(job),
     applicationFee,
-    applicationFeeNote: '',
+    applicationFeeNote: mapFeeRefundNote(job),
     selectionProcess: mapTimelineItems(job.selectionProcess),
-    importantLinks:
-      job.importantLinks?.map((link) => ({
-        label: link.title,
-        href: link.url,
-        description: link.type,
-      })) ?? [],
-    faqs: job.faq ?? [],
+    importantLinks: mapImportantLinks(job),
+    faqs: job.faqs ?? job.faq ?? [],
     timeline: importantDates.map((date, index) => ({
       title: date.label,
       date: date.value,
@@ -195,6 +185,51 @@ function mapKeyInfo(items?: { label?: string; value?: string }[]): DetailKeyInfo
   );
 }
 
+function mapApplicationFees(job: JobDetailsApiData): DetailKeyInfo[] {
+  const fees = job.applicationFees ?? job.applicationFee ?? [];
+
+  return mapKeyInfo(
+    fees.map((fee) => ({
+      label: fee.category,
+      value: formatFeeValue(fee.fee),
+    })),
+  );
+}
+
+function formatFeeValue(value?: string) {
+  if (!value) {
+    return '';
+  }
+
+  const trimmedValue = value.trim();
+
+  if (/^(rs\.?|₹)/i.test(trimmedValue)) {
+    return trimmedValue;
+  }
+
+  if (/^\d+(?:\.\d+)?$/.test(trimmedValue)) {
+    return `Rs ${trimmedValue}`;
+  }
+
+  return trimmedValue;
+}
+
+function mapFeeRefundNote(job: JobDetailsApiData) {
+  const refunds = job.feeRefund?.refunds
+    ?.map((refund) => refund.amount ?? refund.fee ?? refund.category)
+    .filter((value): value is string => Boolean(value?.trim()))
+    .map(formatFeeValue);
+  const description = job.feeRefund?.description?.trim();
+
+  if (!refunds?.length && !description) {
+    return '';
+  }
+
+  const refundPrefix = refunds?.length ? `Fee Refund: ${refunds.join(', ')}.` : 'Fee Refund:';
+
+  return [refundPrefix, description].filter(Boolean).join(' ');
+}
+
 function mapAgeLimit(job: JobDetailsApiData): DetailKeyInfo[] {
   const items: DetailKeyInfo[] = [];
 
@@ -308,22 +343,57 @@ function formatInstructionItem(item: unknown) {
   return parts.join(': ');
 }
 
-function mapActions(links: JobDetailsApiData['importantLinks']): DetailAction[] {
-  return (
-    links?.map((link, index) => ({
-      label: getActionLabel(link, index),
-      href: link.url,
-      variant: index === 0 || link.type === 'primary' || link.isPrimary ? 'primary' : 'secondary',
-    })) ?? []
-  );
+function mapActions(job: JobDetailsApiData): DetailAction[] {
+  return mapImportantLinks(job).map((link, index) => ({
+    label: link.label,
+    href: link.href,
+    variant: index === 0 ? 'primary' : 'secondary',
+  }));
 }
 
-function getActionLabel(
+function mapImportantLinks(job: JobDetailsApiData): DetailPageData['importantLinks'] {
+  const links = [
+    job.applyLink ? { label: 'Apply Online', href: job.applyLink } : null,
+    job.notificationPdf ? { label: 'Official Notification', href: job.notificationPdf } : null,
+    job.officialWebsite ? { label: 'Official Website', href: job.officialWebsite } : null,
+    ...(job.importantLinks?.map((link, index) => {
+      if (!isUsableHref(link.url)) {
+        return null;
+      }
+
+      return {
+        label: getImportantLinkLabel(link, index),
+        href: link.url,
+        description: getImportantLinkDescription(link.type),
+      };
+    }) ?? []),
+    job.sourceUrl ? { label: 'Source', href: job.sourceUrl } : null,
+  ].filter((link): link is DetailPageData['importantLinks'][number] => Boolean(link));
+
+  const uniqueLinks = links.filter(
+    (link, index, allLinks) =>
+      allLinks.findIndex(
+        (candidate) => candidate.label === link.label && candidate.href === link.href,
+      ) === index,
+  );
+
+  if (uniqueLinks.length) {
+    return uniqueLinks;
+  }
+
+  return [{ label: 'Official Website', href: '#' }];
+}
+
+function getImportantLinkLabel(
   link: NonNullable<JobDetailsApiData['importantLinks']>[number],
   index: number,
 ) {
-  const normalizedTitle = link.title.toLowerCase();
-  const normalizedType = link.type?.toLowerCase();
+  const normalizedTitle = link.title?.toLowerCase() ?? '';
+  const normalizedType = link.type?.toLowerCase() ?? '';
+
+  if (normalizedType === 'apply' || normalizedTitle.includes('apply')) {
+    return 'Apply Online';
+  }
 
   if (normalizedType === 'official' || normalizedTitle.includes('official website')) {
     return 'Official Website';
@@ -337,11 +407,36 @@ function getActionLabel(
     return 'Official Notification';
   }
 
-  if (index === 0) {
-    return 'Apply Online';
+  if (normalizedType.includes('notification')) {
+    return 'Official Notification';
   }
 
-  return link.title;
+  if (index === 0) {
+    return 'Official Website';
+  }
+
+  return link.title && link.title.length <= 48 ? link.title : 'Important Link';
+}
+
+function getImportantLinkDescription(type?: string) {
+  if (!type) {
+    return undefined;
+  }
+
+  const normalizedType = type.trim();
+
+  if (!normalizedType || normalizedType.length > 32) {
+    return undefined;
+  }
+
+  return normalizedType
+    .split('-')
+    .join(' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function isUsableHref(href?: string) {
+  return Boolean(href?.trim());
 }
 
 function mapStatusTone(tone?: string, status?: string): DetailPageData['status']['tone'] {

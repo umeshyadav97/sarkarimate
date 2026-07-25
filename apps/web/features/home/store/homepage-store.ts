@@ -17,6 +17,8 @@ export interface HomeQuickAccessEntry {
 }
 
 export interface HomeJobEntry {
+  _id?: string;
+  id?: string;
   title: string;
   organization: string;
   slug: string;
@@ -25,6 +27,8 @@ export interface HomeJobEntry {
 }
 
 export interface HomeDeadlineEntry {
+  _id?: string;
+  id?: string;
   title: string;
   organization: string;
   slug: string;

@@ -58,6 +58,7 @@ export interface NotificationItem {
   metaLabel: string;
   metaValue: string;
   href?: string;
+  detailId?: string;
   accent: 'blue' | 'green' | 'orange' | 'red' | 'purple';
 }
 
@@ -89,6 +90,7 @@ export interface DeadlineItem {
   date: string;
   daysLeft: string;
   href: string;
+  detailId?: string;
 }
 
 export interface HomeGuideContent {
@@ -292,6 +294,7 @@ function mapLatestJobs(store: HomePageStore): NotificationItem[] {
     metaLabel: 'Last Date',
     metaValue: formatNotificationMetaValue(job.lastDate),
     href: `/${job.slug}`,
+    detailId: job._id ?? job.id,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
 }
@@ -307,6 +310,7 @@ function mapUpcomingDeadlines(store: HomePageStore): DeadlineItem[] {
     daysLeft:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
     href: `/${deadline.slug}`,
+    detailId: deadline._id ?? deadline.id,
   }));
 }
 
@@ -315,7 +319,7 @@ function mapLatestAdmitCards(): NotificationItem[] {
     title: admitCard.title,
     organization: admitCard.organization,
     metaLabel: 'Status',
-    metaValue: admitCard.status === 'released' ? 'Released' : admitCard.status,
+    metaValue: admitCard.status === 'released' ? 'Out' : admitCard.status,
     href: `/${admitCard.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
@@ -329,8 +333,8 @@ function mapLatestResults(store: HomePageStore): NotificationItem[] {
   return latestResults.slice(0, 5).map((result, index) => ({
     title: result.title,
     organization: result.organization,
-    metaLabel: 'Result Date',
-    metaValue: formatNotificationMetaValue(result.resultDate),
+    metaLabel: 'Status',
+    metaValue: 'Out',
     href: `/${result.slug}`,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
   }));

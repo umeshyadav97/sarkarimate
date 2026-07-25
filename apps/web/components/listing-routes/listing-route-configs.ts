@@ -1,11 +1,14 @@
 import type { ListingPageConfig } from '@/components/listing';
 
-function createListingColumns(titleLabel: string): ListingPageConfig['columns'] {
+function createListingColumns(
+  titleLabel: string,
+  displayValueLabel = 'Last Date',
+): ListingPageConfig['columns'] {
   return [
     { key: 'index', label: '#' },
     { key: 'title', label: titleLabel },
     { key: 'organization', label: 'Organization' },
-    { key: 'updatedDate', label: 'Updated Date' },
+    { key: 'lastDate', label: displayValueLabel },
     { key: 'action', label: 'Action' },
   ];
 }
@@ -55,6 +58,7 @@ function createListingConfig(
 }
 
 export const resultsListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Result Status'),
   pageTitle: 'All Latest Results',
   breadcrumbLabel: 'Results',
   heroDescription:
@@ -84,7 +88,7 @@ export const resultsListingConfig = createListingConfig({
 });
 
 export const jobsListingConfig = createListingConfig({
-  columns: createListingColumns('Post Name'),
+  columns: createListingColumns('Post Name', 'Last Date'),
   pageTitle: 'All Latest Jobs',
   breadcrumbLabel: 'Latest Jobs',
   heroDescription: 'Find the latest government job notifications, vacancies and online forms.',
@@ -112,6 +116,7 @@ export const jobsListingConfig = createListingConfig({
 });
 
 export const admitCardsListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Status'),
   pageTitle: 'All Latest Admit Cards',
   breadcrumbLabel: 'Admit Cards',
   heroDescription: 'Download admit cards and hall tickets for upcoming government exams.',
@@ -139,6 +144,7 @@ export const admitCardsListingConfig = createListingConfig({
 });
 
 export const answerKeysListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Answer Key'),
   pageTitle: 'All Latest Answer Keys',
   breadcrumbLabel: 'Answer Keys',
   heroDescription: 'Check provisional and final answer keys for government recruitment exams.',
@@ -166,6 +172,7 @@ export const answerKeysListingConfig = createListingConfig({
 });
 
 export const syllabusListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Revision'),
   pageTitle: 'All Latest Syllabus',
   breadcrumbLabel: 'Syllabus',
   heroDescription: 'Find syllabus, exam patterns and syllabus guides for government exams.',
@@ -193,7 +200,7 @@ export const syllabusListingConfig = createListingConfig({
 });
 
 export const schemesListingConfig = createListingConfig({
-  columns: createListingColumns('Scheme'),
+  columns: createListingColumns('Scheme', 'Updated'),
   pageTitle: 'All Government Schemes',
   breadcrumbLabel: 'Schemes',
   heroDescription:

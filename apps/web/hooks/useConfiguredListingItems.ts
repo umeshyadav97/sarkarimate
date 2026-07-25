@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ListingFilters, ListingItem } from '@/components/listing/types';
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
+import { extractLeadingDate } from '@/lib/date-display';
+import { getListingItems } from '@/services/listing.service';
 import { getJobListingItems } from '@/services/listing/job-listing.service';
 
 const PAGE_SIZE = 20;
@@ -28,11 +30,23 @@ function formatListingDate(date?: string) {
     return 'Recently Updated';
   }
 
+  const leadingDate = extractLeadingDate(date);
+
+  if (leadingDate) {
+    return leadingDate;
+  }
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
   return new Intl.DateTimeFormat('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(date));
+  }).format(parsedDate);
 }
 
 function getListingYear(job: ApiJob) {
@@ -54,10 +68,47 @@ function toListingItem(job: ApiJob, pageType: string): ListingItem {
     title: job.title,
     organization: job.organization,
     updatedDate: formatListingDate(getJobDate(job)),
+    lastDate: getListingDisplayValue(job, pageType),
     year: getListingYear(job),
     state: job.state || 'All India',
     href,
   };
+}
+
+function getListingDisplayValue(job: ApiJob, pageType: string) {
+  switch (pageType) {
+    case 'jobs':
+      return formatListingDate(job.lastDate ?? getJobDate(job));
+    case 'admit-cards':
+      return normalizeStatus(job.applicationStatus, 'Out');
+    case 'results':
+      return normalizeStatus(job.applicationStatus, 'Out');
+    case 'answer-keys':
+      return normalizeStatus(job.applicationStatus, 'Out');
+    case 'syllabus':
+      return normalizeStatus(job.applicationStatus, 'Updated');
+    default:
+      return formatListingDate(getJobDate(job));
+  }
+}
+
+function normalizeStatus(status: string | undefined, fallback: string) {
+  if (!status) {
+    return fallback;
+  }
+
+  if (status.toLowerCase() === 'open') {
+    return fallback;
+  }
+
+  if (['released', 'available'].includes(status.toLowerCase())) {
+    return 'Out';
+  }
+
+  return status
+    .split('-')
+    .join(' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function toApiFilters(pageType: string, filters: ListingFilters): JobsQueryParams {
@@ -70,12 +121,24 @@ function toApiFilters(pageType: string, filters: ListingFilters): JobsQueryParam
 }
 
 async function getConfiguredListingResponse({
+  endpoint,
   pageType,
   page,
   search,
   sort,
   filters,
 }: UseConfiguredListingItemsOptions & { page: number }) {
+  if (pageType === 'syllabus') {
+    return getListingItems({
+      endpoint,
+      page,
+      pageSize: PAGE_SIZE,
+      search,
+      sort,
+      filters,
+    });
+  }
+
   const response: JobsResponse = await getJobListingItems({
     page,
     limit: PAGE_SIZE,
