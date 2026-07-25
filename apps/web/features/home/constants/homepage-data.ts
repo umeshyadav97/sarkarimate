@@ -29,6 +29,8 @@ import {
   SscEmblemIcon,
 } from '@/features/home/components/category-icons';
 import admitCardsResponse from '@/features/listings/store/admit-cards.json';
+import answerKeysResponse from '@/features/listings/store/answer-keys.json';
+import syllabusResponse from '@/features/listings/store/syllabus.json';
 import { homePageStore, type HomePageStore } from '@/features/home/store/homepage-store';
 
 type HomeIcon = ComponentType<
@@ -58,6 +60,7 @@ export interface NotificationItem {
   metaLabel: string;
   metaValue: string;
   href?: string;
+  detailId?: string;
   accent: 'blue' | 'green' | 'orange' | 'red' | 'purple';
 }
 
@@ -89,6 +92,7 @@ export interface DeadlineItem {
   date: string;
   daysLeft: string;
   href: string;
+  detailId?: string;
 }
 
 export interface HomeGuideContent {
@@ -124,12 +128,17 @@ export interface HomepageViewData {
   upcomingDeadlines: DeadlineItem[];
   latestAdmitCards: NotificationItem[];
   latestResults: NotificationItem[];
+  latestAnswerKeys: NotificationItem[];
+  latestSyllabus: NotificationItem[];
   oldUpcomingDeadlines: NotificationItem[];
   categories: CategoryItem[];
   stats: StatItem[];
 }
 
 const admitCardItems = admitCardsResponse.data.items;
+const answerKeyItems = answerKeysResponse.data.items;
+const syllabusItems = syllabusResponse.data.items;
+const homepagePanelLimit = 10;
 
 export const navigationItems: NavigationItem[] = [
   { label: 'Home', href: '/', icon: Building2 },
@@ -202,6 +211,35 @@ function formatNotificationMetaValue(value: string) {
     month: 'short',
     year: 'numeric',
   }).format(parsedDate);
+}
+
+function formatListingStatus(status: string | undefined, fallback: string) {
+  if (!status) {
+    return fallback;
+  }
+
+  const normalizedStatus = status.toLowerCase();
+
+  if (normalizedStatus === 'active' || normalizedStatus === 'open') {
+    return fallback;
+  }
+
+  if (['released', 'available'].includes(normalizedStatus)) {
+    return 'Out';
+  }
+
+  return status
+    .split('-')
+    .join(' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function getOptionalDetailId(item: { id?: string }) {
+  return '_id' in item && typeof item._id === 'string' ? item._id : item.id;
+}
+
+function getOptionalStatus(item: object) {
+  return 'status' in item && typeof item.status === 'string' ? item.status : undefined;
 }
 
 function parseHomepageDate(date: string) {
@@ -286,12 +324,13 @@ function mapQuickAccessItems(store: HomePageStore): QuickAccessItem[] {
 function mapLatestJobs(store: HomePageStore): NotificationItem[] {
   const latestJobs = Array.isArray(store.latestJobs) ? store.latestJobs : homePageStore.latestJobs;
 
-  return latestJobs.slice(0, 5).map((job, index) => ({
+  return latestJobs.slice(0, homepagePanelLimit).map((job, index) => ({
     title: job.title,
     organization: job.organization,
     metaLabel: 'Last Date',
     metaValue: formatNotificationMetaValue(job.lastDate),
     href: `/${job.slug}`,
+    detailId: job._id ?? job.id,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
 }
@@ -307,15 +346,16 @@ function mapUpcomingDeadlines(store: HomePageStore): DeadlineItem[] {
     daysLeft:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
     href: `/${deadline.slug}`,
+    detailId: deadline._id ?? deadline.id,
   }));
 }
 
 function mapLatestAdmitCards(): NotificationItem[] {
-  return admitCardItems.slice(0, 5).map((admitCard, index) => ({
+  return admitCardItems.slice(0, homepagePanelLimit).map((admitCard, index) => ({
     title: admitCard.title,
     organization: admitCard.organization,
     metaLabel: 'Status',
-    metaValue: admitCard.status === 'released' ? 'Released' : admitCard.status,
+    metaValue: formatListingStatus(admitCard.status, 'Out'),
     href: `/${admitCard.slug}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
@@ -326,13 +366,50 @@ function mapLatestResults(store: HomePageStore): NotificationItem[] {
     ? store.latestResults
     : homePageStore.latestResults;
 
-  return latestResults.slice(0, 5).map((result, index) => ({
+  return latestResults.slice(0, homepagePanelLimit).map((result, index) => ({
     title: result.title,
     organization: result.organization,
-    metaLabel: 'Result Date',
-    metaValue: formatNotificationMetaValue(result.resultDate),
+    metaLabel: 'Status',
+    metaValue: 'Out',
     href: `/${result.slug}`,
+    detailId: result._id ?? result.id,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
+  }));
+}
+
+function mapLatestAnswerKeys(store: HomePageStore): NotificationItem[] {
+  const latestAnswerKeys = Array.isArray(store.answerKeys)
+    ? store.answerKeys
+    : Array.isArray(store.latestAnswerKeys)
+      ? store.latestAnswerKeys
+      : answerKeyItems;
+
+  return latestAnswerKeys.slice(0, homepagePanelLimit).map((answerKey, index) => ({
+    title: answerKey.title,
+    organization: answerKey.organization,
+    metaLabel: 'Answer Key',
+    metaValue: formatListingStatus(getOptionalStatus(answerKey), 'Out'),
+    href: `/${answerKey.slug}`,
+    detailId: getOptionalDetailId(answerKey),
+    accent: (['orange', 'blue', 'green', 'purple', 'red'] as const)[index % 5],
+  }));
+}
+
+function mapLatestSyllabus(store: HomePageStore): NotificationItem[] {
+  const latestSyllabus = Array.isArray(store.syllabus)
+    ? store.syllabus
+    : Array.isArray(store.latestSyllabus)
+      ? store.latestSyllabus
+      : syllabusItems;
+
+  return latestSyllabus.slice(0, homepagePanelLimit).map((syllabus, index) => ({
+    title: syllabus.title,
+    organization: syllabus.organization,
+    metaLabel: 'Revision',
+    metaValue: formatListingStatus(getOptionalStatus(syllabus), 'Updated'),
+    href: `/syllabus/${syllabus.slug}`,
+    detailId: getOptionalDetailId(syllabus),
+    accent: (['blue', 'green', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
 }
 
@@ -416,6 +493,8 @@ export function createHomepageViewData(store: HomePageStore): HomepageViewData {
     upcomingDeadlines: mapUpcomingDeadlines(store),
     latestAdmitCards: mapLatestAdmitCards(),
     latestResults: mapLatestResults(store),
+    latestAnswerKeys: mapLatestAnswerKeys(store),
+    latestSyllabus: mapLatestSyllabus(store),
     oldUpcomingDeadlines: mapOldUpcomingDeadlines(store),
     categories: mapCategories(store),
     stats: mapStats(store),
@@ -430,6 +509,8 @@ export const latestJobs = defaultHomepageViewData.latestJobs;
 export const upcomingDeadlines = defaultHomepageViewData.upcomingDeadlines;
 export const latestAdmitCards = defaultHomepageViewData.latestAdmitCards;
 export const latestResults = defaultHomepageViewData.latestResults;
+export const latestAnswerKeys = defaultHomepageViewData.latestAnswerKeys;
+export const latestSyllabus = defaultHomepageViewData.latestSyllabus;
 export const oldUpcomingDeadlines = defaultHomepageViewData.oldUpcomingDeadlines;
 export const categories = defaultHomepageViewData.categories;
 export const stats = defaultHomepageViewData.stats;
@@ -482,7 +563,7 @@ export const governmentJobsGuide: HomeGuideContent = {
   ],
   badges: ['100% Free Access', 'Official Links Only', 'Fast & Reliable Updates', 'Mobile Friendly'],
   image: {
-    src: '/assets/images/latest-job.png',
+    src: '/assets/images/latest-job.webp',
     alt: 'Government jobs checklist illustration',
   },
 };

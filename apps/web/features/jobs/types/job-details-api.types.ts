@@ -67,6 +67,14 @@ export interface JobDetailsApiData {
   };
   applicationFee?: JobApplicationFee[];
   applicationFees?: JobApplicationFee[];
+  feeRefund?: {
+    refunds?: {
+      category?: string;
+      amount?: string;
+      fee?: string;
+    }[];
+    description?: string;
+  };
   ageRelaxations?: {
     category: string;
     relaxation: string;
@@ -75,6 +83,7 @@ export interface JobDetailsApiData {
   howToApply?: string[];
   importantLinks?: JobImportantLink[];
   faq?: JobFaq[];
+  faqs?: JobFaq[];
   related?: JobRelated[];
   seo?: {
     title?: string;

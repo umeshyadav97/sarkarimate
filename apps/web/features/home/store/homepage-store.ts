@@ -17,6 +17,8 @@ export interface HomeQuickAccessEntry {
 }
 
 export interface HomeJobEntry {
+  _id?: string;
+  id?: string;
   title: string;
   organization: string;
   slug: string;
@@ -25,6 +27,8 @@ export interface HomeJobEntry {
 }
 
 export interface HomeDeadlineEntry {
+  _id?: string;
+  id?: string;
   title: string;
   organization: string;
   slug: string;
@@ -33,10 +37,23 @@ export interface HomeDeadlineEntry {
 }
 
 export interface HomeResultEntry {
+  _id?: string;
+  id?: string;
   title: string;
   organization: string;
   slug: string;
   resultDate: string;
+}
+
+export interface HomeListingEntry {
+  _id?: string;
+  id?: string;
+  title: string;
+  organization: string;
+  slug: string;
+  status?: string;
+  updatedDate?: string | null;
+  href?: string;
 }
 
 export interface HomeCategoryEntry {
@@ -60,6 +77,10 @@ export interface HomePageStore {
   latestJobs: HomeJobEntry[];
   upcomingDeadlines: HomeDeadlineEntry[];
   latestResults: HomeResultEntry[];
+  answerKeys?: HomeListingEntry[];
+  latestAnswerKeys?: HomeListingEntry[];
+  syllabus?: HomeListingEntry[];
+  latestSyllabus?: HomeListingEntry[];
   categories: HomeCategoryEntry[];
   stats: HomeStats;
 }

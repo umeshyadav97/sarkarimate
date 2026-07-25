@@ -11,7 +11,9 @@ export function BrandShieldIcon({ className, variant = 'light', ...props }: Bran
   return (
     <Image
       src={
-        variant === 'dark' ? '/assets/images/brand-logo-dark.png' : '/assets/images/brand-logo.png'
+        variant === 'dark'
+          ? '/assets/images/brand-logo-dark.webp'
+          : '/assets/images/brand-logo.webp'
       }
       alt=""
       width={64}

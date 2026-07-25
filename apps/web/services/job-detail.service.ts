@@ -4,6 +4,11 @@ import type {
   JobDetailsApiData,
   JobDetailsApiResponse,
 } from '@/features/jobs/types/job-details-api.types';
+import {
+  homePageStore,
+  type HomeDeadlineEntry,
+  type HomeJobEntry,
+} from '@/features/home/store/homepage-store';
 import jobsListResponse from '@/features/listings/store/jobs.json';
 import {
   staticListApiResponses,
@@ -188,11 +193,27 @@ function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
     (job) => job.slug === identifier || job.id === identifier,
   );
 
-  if (!listedJob) {
-    return null;
+  if (listedJob) {
+    return createJobDetailsResponseFromListItem(listedJob);
   }
 
-  return createJobDetailsResponseFromListItem(listedJob);
+  const homeJob = homePageStore.latestJobs.find(
+    (job) => job.slug === identifier || job.id === identifier || job._id === identifier,
+  );
+
+  if (homeJob) {
+    return createJobDetailsResponseFromHomeJob(homeJob);
+  }
+
+  const homeDeadline = homePageStore.upcomingDeadlines.find(
+    (job) => job.slug === identifier || job.id === identifier || job._id === identifier,
+  );
+
+  if (homeDeadline) {
+    return createJobDetailsResponseFromHomeDeadline(homeDeadline);
+  }
+
+  return null;
 }
 
 function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetailsApiResponse {
@@ -238,6 +259,59 @@ function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetail
       },
     },
   };
+}
+
+function createJobDetailsResponseFromHomeJob(job: HomeJobEntry): JobDetailsApiResponse {
+  const lastDateValue = job.lastDate ? formatDisplayDate(job.lastDate) : 'Check Notification';
+
+  return {
+    success: true,
+    message: 'Job details fetched successfully',
+    data: {
+      id: job.id ?? job._id ?? job.slug,
+      type: 'job',
+      slug: job.slug,
+      title: job.title,
+      organization: job.organization,
+      organizationShort: job.organization,
+      status: job.status === 'active' ? 'Application Open' : job.status,
+      badgeColor: job.status === 'active' ? 'green' : 'slate',
+      postedOn: seedDate,
+      updatedOn: seedDate,
+      hero: {
+        summary: `${job.organization} has released an update for ${job.title}. Candidates should check the official notification before applying.`,
+      },
+      quickFacts: [
+        { icon: 'calendar', label: 'Last Date', value: lastDateValue },
+        { icon: 'briefcase', label: 'Category', value: 'Latest Job' },
+        { icon: 'location', label: 'State', value: 'All India' },
+      ],
+      overview: {
+        title: 'About This Recruitment',
+        description: `${job.title} is listed under latest government job updates. Review important dates, official links and notification details before taking action.`,
+      },
+      importantDates: [{ label: 'Last Date', value: lastDateValue }],
+      eligibility: ['Check official notification'],
+      importantLinks: [{ title: 'Official Website', url: '#', type: 'secondary' }],
+      seo: {
+        title: job.title,
+        description: `Check details for ${job.title}.`,
+        keywords: [job.organization, 'Latest Job', 'Government Job'],
+      },
+    },
+  };
+}
+
+function createJobDetailsResponseFromHomeDeadline(job: HomeDeadlineEntry): JobDetailsApiResponse {
+  return createJobDetailsResponseFromHomeJob({
+    _id: job._id,
+    id: job.id,
+    title: job.title,
+    organization: job.organization,
+    slug: job.slug,
+    lastDate: job.lastDate,
+    status: 'active',
+  });
 }
 
 function mapStaticListItemToDetailPageData(

@@ -19,6 +19,7 @@ export interface ApiJob {
   category?: ApiCategory | string;
   department?: ApiDepartment | string;
   applicationStatus?: string;
+  lastDate?: string | null;
   qualification?: string;
   publishedAt?: string;
   updatedAt?: string;

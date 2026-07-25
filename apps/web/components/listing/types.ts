@@ -7,6 +7,7 @@ export interface ListingItem {
   year: string;
   state: string;
   href: string;
+  lastDate: string;
 }
 
 export interface ListingStatistic {
@@ -17,7 +18,7 @@ export interface ListingStatistic {
 }
 
 export interface ListingColumn {
-  key: 'index' | 'title' | 'organization' | 'updatedDate' | 'action';
+  key: 'index' | 'title' | 'organization' | 'lastDate' | 'action';
   label: string;
 }
 

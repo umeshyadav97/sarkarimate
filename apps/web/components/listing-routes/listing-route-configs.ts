@@ -1,11 +1,14 @@
 import type { ListingPageConfig } from '@/components/listing';
 
-function createListingColumns(titleLabel: string): ListingPageConfig['columns'] {
+function createListingColumns(
+  titleLabel: string,
+  displayValueLabel = 'Last Date',
+): ListingPageConfig['columns'] {
   return [
     { key: 'index', label: '#' },
     { key: 'title', label: titleLabel },
     { key: 'organization', label: 'Organization' },
-    { key: 'updatedDate', label: 'Updated Date' },
+    { key: 'lastDate', label: displayValueLabel },
     { key: 'action', label: 'Action' },
   ];
 }
@@ -55,13 +58,14 @@ function createListingConfig(
 }
 
 export const resultsListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Result Status'),
   pageTitle: 'All Latest Results',
   breadcrumbLabel: 'Results',
   heroDescription:
     'Stay updated with results of all government exams, recruitments and entrance tests.',
   heroDescriptionHindi: 'सभी सरकारी परीक्षाओं और भर्ती के परिणाम की जानकारी यहां देखें।',
   heroImage: {
-    src: '/assets/images/result-banner.png',
+    src: '/assets/images/result-banner.webp',
     alt: 'Illustration of exam results on a clipboard',
     priority: true,
   },
@@ -76,7 +80,7 @@ export const resultsListingConfig = createListingConfig({
     helpText: 'Need help finding a result? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Results | SarkariMate',
+    title: 'Results',
     description:
       'Check Sarkari Result 2026, latest government exam results, recruitment results, merit lists and scorecard updates.',
     canonical: '/results',
@@ -84,13 +88,13 @@ export const resultsListingConfig = createListingConfig({
 });
 
 export const jobsListingConfig = createListingConfig({
-  columns: createListingColumns('Post Name'),
+  columns: createListingColumns('Post Name', 'Last Date'),
   pageTitle: 'All Latest Jobs',
   breadcrumbLabel: 'Latest Jobs',
   heroDescription: 'Find the latest government job notifications, vacancies and online forms.',
   heroDescriptionHindi: 'नई सरकारी नौकरियों, भर्ती और ऑनलाइन फॉर्म की जानकारी यहां देखें।',
   heroImage: {
-    src: '/assets/images/latest-job.png',
+    src: '/assets/images/latest-job.webp',
     alt: 'Government building illustration for latest job updates',
   },
   searchPlaceholder: 'Search by post, exam or organization...',
@@ -104,7 +108,7 @@ export const jobsListingConfig = createListingConfig({
     helpText: 'Need help finding a job update? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Latest Jobs | SarkariMate',
+    title: 'Latest Jobs',
     description:
       'Find latest govt jobs 2026, Sarkari Result job updates, recruitment notifications, vacancy details and online form links.',
     canonical: '/jobs',
@@ -112,12 +116,13 @@ export const jobsListingConfig = createListingConfig({
 });
 
 export const admitCardsListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Status'),
   pageTitle: 'All Latest Admit Cards',
   breadcrumbLabel: 'Admit Cards',
   heroDescription: 'Download admit cards and hall tickets for upcoming government exams.',
   heroDescriptionHindi: 'आगामी सरकारी परीक्षाओं के एडमिट कार्ड और हॉल टिकट यहां देखें।',
   heroImage: {
-    src: '/assets/images/admit-card.png',
+    src: '/assets/images/admit-card.webp',
     alt: 'Student using SarkariMate for admit card updates',
   },
   searchPlaceholder: 'Search by exam or organization...',
@@ -131,7 +136,7 @@ export const admitCardsListingConfig = createListingConfig({
     helpText: 'Need help finding an admit card? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Admit Cards | SarkariMate',
+    title: 'Admit Cards',
     description:
       'Download latest admit card 2026, government exam hall tickets, Sarkari Result admit card updates and exam date notices.',
     canonical: '/admit-cards',
@@ -139,12 +144,13 @@ export const admitCardsListingConfig = createListingConfig({
 });
 
 export const answerKeysListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Answer Key'),
   pageTitle: 'All Latest Answer Keys',
   breadcrumbLabel: 'Answer Keys',
   heroDescription: 'Check provisional and final answer keys for government recruitment exams.',
   heroDescriptionHindi: 'सरकारी भर्ती परीक्षाओं की प्रोविजनल और फाइनल आंसर की यहां देखें।',
   heroImage: {
-    src: '/assets/images/answer-key.png',
+    src: '/assets/images/answer-key.webp',
     alt: 'Illustration for answer key and result verification',
   },
   searchPlaceholder: 'Search by exam or organization...',
@@ -158,7 +164,7 @@ export const answerKeysListingConfig = createListingConfig({
     helpText: 'Need help finding an answer key? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Answer Keys | SarkariMate',
+    title: 'Answer Keys',
     description:
       'Check latest answer key 2026, Sarkari Result answer key updates, objection links and final answer key notices.',
     canonical: '/answer-keys',
@@ -166,12 +172,13 @@ export const answerKeysListingConfig = createListingConfig({
 });
 
 export const syllabusListingConfig = createListingConfig({
+  columns: createListingColumns('Exam', 'Revision'),
   pageTitle: 'All Latest Syllabus',
   breadcrumbLabel: 'Syllabus',
   heroDescription: 'Find syllabus, exam patterns and syllabus guides for government exams.',
   heroDescriptionHindi: 'सरकारी परीक्षाओं का सिलेबस, एग्जाम पैटर्न और टॉपिक्स यहां देखें।',
   heroImage: {
-    src: '/assets/images/syllabus.png',
+    src: '/assets/images/syllabus.webp',
     alt: 'Study illustration for syllabus updates',
   },
   searchPlaceholder: 'Search by exam, post or organization...',
@@ -185,7 +192,7 @@ export const syllabusListingConfig = createListingConfig({
     helpText: 'Need help finding syllabus material? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Syllabus | SarkariMate',
+    title: 'Syllabus',
     description:
       'Check latest syllabus 2026, government exam pattern, Sarkari Result syllabus guides, topics and study updates.',
     canonical: '/syllabus',
@@ -193,14 +200,14 @@ export const syllabusListingConfig = createListingConfig({
 });
 
 export const schemesListingConfig = createListingConfig({
-  columns: createListingColumns('Scheme'),
+  columns: createListingColumns('Scheme', 'Updated'),
   pageTitle: 'All Government Schemes',
   breadcrumbLabel: 'Schemes',
   heroDescription:
     'Explore central and state government schemes, benefits and application updates.',
   heroDescriptionHindi: 'केंद्र और राज्य सरकार की योजनाओं, लाभ और आवेदन जानकारी यहां देखें।',
   heroImage: {
-    src: '/assets/images/gov-schemes.png',
+    src: '/assets/images/gov-schemes.webp',
     alt: 'Government building illustration for scheme updates',
   },
   searchPlaceholder: 'Search by scheme, department or state...',
@@ -214,7 +221,7 @@ export const schemesListingConfig = createListingConfig({
     helpText: 'Need help finding a scheme? Contact SarkariMate support for guidance.',
   },
   seo: {
-    title: 'Schemes | SarkariMate',
+    title: 'Schemes',
     description:
       'Explore latest government schemes 2026, central and state benefits, Sarkari Yojana updates and online application details.',
     canonical: '/schemes',

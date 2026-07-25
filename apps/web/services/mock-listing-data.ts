@@ -84,6 +84,7 @@ export function getMockListingItems(endpoint: string): ListingItem[] {
       title,
       organization,
       updatedDate: `${day} Jul ${year}`,
+      lastDate: `${day} Jul ${year}`,
       year,
       state: states[index % states.length],
       href: endpoint === '/jobs' ? mockJobDetailHref : '#',

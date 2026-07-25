@@ -10,23 +10,23 @@ export function useHomePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
+    let isMounted = true;
 
     async function loadHomeData() {
       try {
         setIsLoading(true);
         setError(null);
-        const homeData = await getHomePageData(controller.signal);
+        const homeData = await getHomePageData();
 
-        if (!controller.signal.aborted) {
+        if (isMounted) {
           setData(homeData);
         }
       } catch (error) {
-        if (!controller.signal.aborted) {
+        if (isMounted) {
           setError(error instanceof Error ? error.message : 'Unable to load homepage data.');
         }
       } finally {
-        if (!controller.signal.aborted) {
+        if (isMounted) {
           setIsLoading(false);
         }
       }
@@ -35,7 +35,7 @@ export function useHomePage() {
     void loadHomeData();
 
     return () => {
-      controller.abort();
+      isMounted = false;
     };
   }, []);
 

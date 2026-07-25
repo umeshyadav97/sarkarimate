@@ -3,6 +3,7 @@ import {
   staticListApiResponses,
   type StaticListEndpoint,
 } from '@/features/listings/store/static-list-api';
+import { extractLeadingDate } from '@/lib/date-display';
 
 type StaticApiItem = (typeof staticListApiResponses)[StaticListEndpoint]['data']['items'][number];
 
@@ -15,11 +16,18 @@ function formatListingDate(date?: string | null) {
     return 'Recently Updated';
   }
 
-  const normalizedDate = date.includes('T') ? date : `${date}T00:00:00`;
+  const leadingDate = extractLeadingDate(date);
+
+  if (leadingDate) {
+    return leadingDate;
+  }
+
+  const displayDate = date;
+  const normalizedDate = displayDate.includes('T') ? displayDate : `${displayDate}T00:00:00`;
   const parsedDate = new Date(normalizedDate);
 
   if (Number.isNaN(parsedDate.getTime())) {
-    return 'Recently Updated';
+    return displayDate;
   }
 
   return new Intl.DateTimeFormat('en-IN', {
@@ -56,7 +64,7 @@ function getItemYear(item: StaticApiItem) {
   return item.title.match(/\b(20\d{2})\b/)?.[1] ?? '2026';
 }
 
-function toListingItem(item: StaticApiItem): ListingItem {
+function toListingItem(item: StaticApiItem, endpoint: string): ListingItem {
   const href = item.href.startsWith('/syllabus/') ? item.href : `/${item.slug}`;
 
   return {
@@ -64,10 +72,52 @@ function toListingItem(item: StaticApiItem): ListingItem {
     title: item.title,
     organization: item.organization,
     updatedDate: formatListingDate(getItemDate(item)),
+    lastDate: getListingDisplayValue(item, endpoint),
     year: getItemYear(item),
     state: item.state ?? 'All India',
     href,
   };
+}
+
+function getListingDisplayValue(item: StaticApiItem, endpoint: string) {
+  switch (endpoint) {
+    case '/jobs':
+    case '/api/v1/jobs':
+      return formatListingDate(item.lastDate ?? getItemDate(item));
+    case '/admit-cards':
+    case '/api/v1/admit-cards':
+      return normalizeStatus(item.status, 'Out');
+    case '/results':
+    case '/api/v1/results':
+      return normalizeStatus(item.status, 'Out');
+    case '/answer-keys':
+    case '/api/v1/answer-keys':
+      return normalizeStatus(item.status, 'Out');
+    case '/syllabus':
+    case '/api/v1/syllabus':
+      return normalizeStatus(item.status, 'Updated');
+    default:
+      return formatListingDate(getItemDate(item));
+  }
+}
+
+function normalizeStatus(status: string | undefined, fallback: string) {
+  if (!status) {
+    return fallback;
+  }
+
+  if (status.toLowerCase() === 'active') {
+    return fallback;
+  }
+
+  if (['released', 'available'].includes(status.toLowerCase())) {
+    return 'Out';
+  }
+
+  return status
+    .split('-')
+    .join(' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function applySearch(items: ListingItem[], search: string) {
@@ -115,7 +165,9 @@ export async function getListingItems(query: ListingQuery): Promise<ListingRespo
   });
 
   const staticApiResponse = getStaticApiResponse(query.endpoint);
-  const staticListingItems = staticApiResponse.data.items.map(toListingItem);
+  const staticListingItems = staticApiResponse.data.items.map((item) =>
+    toListingItem(item, query.endpoint),
+  );
   const filteredItems = applySort(
     applyFilters(applySearch(staticListingItems, query.search), query),
     query.sort,
