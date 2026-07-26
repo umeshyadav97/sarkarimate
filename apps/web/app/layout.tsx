@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { ClarityAnalytics } from '@/components/clarity-analytics';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { QueryProvider } from '@/providers/query-provider';
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteFooter />
         </QueryProvider>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
+        <ClarityAnalytics />
       </body>
     </html>
   );
