@@ -1,11 +1,63 @@
 @import 'tailwindcss';
 
+@theme {
+  --breakpoint-md: 700px;
+}
+
 :root {
   color-scheme: light;
+  --font-inter: Inter, Arial, Helvetica, sans-serif;
+  --font-inter-medium: Inter, Arial, Helvetica, sans-serif;
+  --font-inter-semibold: Inter, Arial, Helvetica, sans-serif;
+  --font-inter-bold: Inter, Arial, Helvetica, sans-serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #f8fafc;
+  font-family: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+b,
+strong,
+.font-bold,
+.font-extrabold {
+  font-family: var(--font-inter-bold);
+}
+
+.font-semibold {
+  font-family: var(--font-inter-semibold);
+}
+
+.font-medium {
+  font-family: var(--font-inter-medium);
+}
+
+.deadline-carousel-track {
+  animation: deadline-slide 68s linear infinite;
+}
+
+.deadline-carousel-mask:hover .deadline-carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes deadline-slide {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deadline-carousel-track {
+    animation: none;
+  }
 }

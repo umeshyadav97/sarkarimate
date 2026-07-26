@@ -1,0 +1,8 @@
+{
+  "GET /api/v1/jobs": "jobs.json",
+  "GET /api/v1/admit-cards": "admit-cards.json",
+  "GET /api/v1/results": "results.json",
+  "GET /api/v1/answer-keys": "answer-keys.json",
+  "GET /api/v1/syllabus": "syllabus.json",
+  "GET /api/v1/deadlines": "upcoming-deadlines.json"
+}

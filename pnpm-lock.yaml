@@ -90,9 +90,15 @@ importers:
       '@repo/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tanstack/react-query':
+        specifier: ^5.101.2
+        version: 5.101.2(react@19.2.7)
       clsx:
-        specifier: ^2.1.0
+        specifier: ^2.1.1
         version: 2.1.1
+      lucide-react:
+        specifier: ^1.23.0
+        version: 1.23.0(react@19.2.7)
       next:
         specifier: 16.2.10
         version: 16.2.10(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -102,6 +108,12 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.7(react@19.2.7)
+      react-icons:
+        specifier: ^5.7.0
+        version: 5.7.0(react@19.2.7)
+      tailwind-merge:
+        specifier: ^3.6.0
+        version: 3.6.0
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.0
@@ -533,6 +545,14 @@ packages:
 
   '@tailwindcss/postcss@4.3.2':
     resolution: {integrity: sha512-rjVWYCa7Ngbi5AarT6k8TkxUG3Wl1QKzHdIZVsjZSzf36Jmo2IKZt/NHRAwly8oDkbBOH0YTu+CHuf9jPxMc+g==}
+
+  '@tanstack/query-core@5.101.2':
+    resolution: {integrity: sha512-hH5MLoJhF7KaIGd7q3xTXGXvslI+GYlM1Z/35aSHHWaCJWB7XvTSHYuV3eM7tw+aE0mT/xMro4M4Q9rCGHT0lw==}
+
+  '@tanstack/react-query@5.101.2':
+    resolution: {integrity: sha512-seDkr6kzGzX1okaaTtZPtgA688CDPlXUz1C6xSg0ESqn04Vuc8tlrYms1s3de+znBqhPVxFRfpAfUf+6XvfPWg==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@turbo/darwin-64@2.10.3':
     resolution: {integrity: sha512-guuiO2kKc7yUQFU2jhWyM/BrYGD/brqb0+JvJIXTQ/QI1NlWfHZ1id50kkkOWqxmBiDc8DgW2orfY85pQIc7gw==}
@@ -1604,6 +1624,11 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+  lucide-react@1.23.0:
+    resolution: {integrity: sha512-38BpJcD0JhFosxHApP/BYsBetLpQFRoTRzEzstM/XCc3jsAG7wqaY1lgVwxiUe3xqYE+lNxo2PkCmYwXWrwwIw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -1812,6 +1837,11 @@ packages:
     peerDependencies:
       react: ^19.2.7
 
+  react-icons@5.7.0:
+    resolution: {integrity: sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw==}
+    peerDependencies:
+      react: '*'
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -2007,6 +2037,9 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  tailwind-merge@3.6.0:
+    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
   tailwindcss@4.3.2:
     resolution: {integrity: sha512-WtctNNSH8A9jlMIqxzuYumOHU5uGZyRv0Q5svQl+oEPy5w84YpBxdb7MdqyiSPQge5jTJ6zFQLq0PFygdccSBA==}
@@ -2445,6 +2478,13 @@ snapshots:
       '@tailwindcss/oxide': 4.3.2
       postcss: 8.5.16
       tailwindcss: 4.3.2
+
+  '@tanstack/query-core@5.101.2': {}
+
+  '@tanstack/react-query@5.101.2(react@19.2.7)':
+    dependencies:
+      '@tanstack/query-core': 5.101.2
+      react: 19.2.7
 
   '@turbo/darwin-64@2.10.3':
     optional: true
@@ -3658,6 +3698,10 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
+  lucide-react@1.23.0(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -3855,6 +3899,10 @@ snapshots:
     dependencies:
       react: 19.2.7
       scheduler: 0.27.0
+
+  react-icons@5.7.0(react@19.2.7):
+    dependencies:
+      react: 19.2.7
 
   react-is@16.13.1: {}
 
@@ -4119,6 +4167,8 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  tailwind-merge@3.6.0: {}
 
   tailwindcss@4.3.2: {}
 

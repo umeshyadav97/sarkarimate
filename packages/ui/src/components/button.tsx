@@ -6,5 +6,11 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export function Button({ className = '', variant = 'primary', ...props }: ButtonProps) {
   const base = variant === 'primary' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-900';
-  return <button className={`rounded-md px-4 py-2 font-medium ${base} ${className}`} {...props} />;
+  return (
+    <button
+      suppressHydrationWarning
+      className={`rounded-md px-4 py-2 font-medium ${base} ${className}`}
+      {...props}
+    />
+  );
 }
