@@ -43,6 +43,7 @@ export function DeadlinesCarousel({
           </h2>
           <Link
             href="/jobs"
+            aria-label="View all upcoming job deadlines"
             className="rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-[#1D4ED8] shadow-sm hover:bg-blue-50"
           >
             View All

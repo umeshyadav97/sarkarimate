@@ -99,7 +99,7 @@ function NotificationPanel({
 }) {
   return (
     <Card className="rounded-lg border-slate-200 p-4 shadow-sm">
-      <SectionHeader title={title} actionHref={actionHref} />
+      <SectionHeader title={title} actionHref={actionHref} actionLabel={actionLabel} />
       <div className="divide-y divide-slate-100">
         {items.map((item) => (
           <article key={item.title} className="grid grid-cols-[1fr_auto] items-center gap-3 py-4">
@@ -134,6 +134,7 @@ function NotificationPanel({
       </div>
       <Link
         href={actionHref}
+        aria-label={`${actionLabel} in ${title}`}
         className="mt-3 flex h-11 items-center justify-center gap-2 rounded-md border border-blue-300 text-sm font-bold text-[#1D4ED8] hover:bg-blue-50"
       >
         {actionLabel}
