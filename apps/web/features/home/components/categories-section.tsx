@@ -9,7 +9,7 @@ import { SectionHeader } from '@/features/home/components/section-header';
 
 const toneClasses = {
   blue: 'text-[#1D4ED8]',
-  green: 'text-[#16A34A]',
+  green: 'text-[#15803D]',
   orange: 'text-[#F59E0B]',
   purple: 'text-violet-600',
 };
@@ -61,7 +61,7 @@ export function StatsSection({ stats = defaultStats }: StatsSectionProps) {
     ...stat,
     toneClass:
       stat.tone === 'green'
-        ? 'bg-green-50 text-[#16A34A]'
+        ? 'bg-green-50 text-[#15803D]'
         : stat.tone === 'purple'
           ? 'bg-violet-50 text-violet-600'
           : stat.tone === 'orange'
@@ -69,7 +69,7 @@ export function StatsSection({ stats = defaultStats }: StatsSectionProps) {
             : 'bg-blue-50 text-[#1D4ED8]',
     valueClass:
       stat.tone === 'green'
-        ? 'text-[#16A34A]'
+        ? 'text-[#15803D]'
         : stat.tone === 'purple'
           ? 'text-violet-600'
           : stat.tone === 'orange'

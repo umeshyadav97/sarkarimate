@@ -13,7 +13,7 @@ const statisticIcons = {
 };
 const toneClasses = {
   blue: 'bg-blue-50 text-[#1D4ED8]',
-  green: 'bg-green-50 text-[#16A34A]',
+  green: 'bg-green-50 text-[#15803D]',
   purple: 'bg-violet-50 text-violet-600',
   orange: 'bg-orange-50 text-[#F97316]',
 };

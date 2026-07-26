@@ -6,7 +6,7 @@ import {
 
 const toneClasses = {
   blue: 'bg-blue-50 text-[#1D4ED8]',
-  green: 'bg-green-50 text-[#16A34A]',
+  green: 'bg-green-50 text-[#15803D]',
   orange: 'bg-orange-50 text-[#F59E0B]',
   purple: 'bg-violet-50 text-violet-600',
 };
