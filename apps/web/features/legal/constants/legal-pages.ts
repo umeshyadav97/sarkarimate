@@ -33,7 +33,7 @@ export const legalPageRoutes: Record<LegalPageKey, string> = {
   'privacy-policy': '/privacy-policy',
   disclaimer: '/disclaimer',
   'terms-and-conditions': '/terms-and-conditions',
-  sitemap: '/sitemap',
+  sitemap: '/site-map',
 };
 
 export const legalPages: Record<LegalPageKey, LegalPageContent> = {
@@ -350,7 +350,7 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
           { label: 'Privacy Policy', href: '/privacy-policy' },
           { label: 'Disclaimer', href: '/disclaimer' },
           { label: 'Terms & Conditions', href: '/terms-and-conditions' },
-          { label: 'Sitemap', href: '/sitemap' },
+          { label: 'Sitemap', href: '/site-map' },
         ],
       },
     ],
