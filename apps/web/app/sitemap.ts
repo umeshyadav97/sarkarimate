@@ -4,8 +4,8 @@ import { getCommonDetailStaticParams } from '@/services/job-detail.service';
 import { getSyllabusSitemapEntries } from '@/services/syllabus.service';
 
 const siteUrl = 'https://sarkarimate.com';
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://sarkarimate-api.vercel.app';
-const lastModified = new Date('2026-07-15T00:00:00+05:30');
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.sarkarimate.com';
+const lastModified = new Date();
 
 const staticRoutes = [
   '/',
