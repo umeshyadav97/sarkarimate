@@ -7,7 +7,7 @@ const page = legalPages.sitemap;
 export const metadata: Metadata = {
   title: page.title,
   description: page.description,
-  alternates: { canonical: '/sitemap' },
+  alternates: { canonical: '/site-map' },
 };
 
 export default function SitemapPage() {
