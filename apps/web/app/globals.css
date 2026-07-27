@@ -97,6 +97,85 @@ strong,
   min-width: 1.8rem;
 }
 
+.Toastify__toast-container {
+  width: min(420px, calc(100vw - 32px));
+}
+
+.Toastify__toast.sarkarimate-toast {
+  min-height: 0;
+  margin-bottom: 12px;
+  overflow: hidden;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgb(15 23 42 / 0.16);
+  color: #334155;
+  font-family: var(--font-inter-semibold);
+}
+
+.Toastify__toast.sarkarimate-toast--success {
+  border-color: #bbf7d0;
+}
+
+.Toastify__toast.sarkarimate-toast--error {
+  border-color: #fecdd3;
+}
+
+.Toastify__toast.sarkarimate-toast--warn {
+  border-color: #fde68a;
+}
+
+.Toastify__toast.sarkarimate-toast--info {
+  border-color: #bfdbfe;
+}
+
+.sarkarimate-toast .Toastify__toast-body {
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.sarkarimate-toast .Toastify__toast-icon {
+  width: 18px;
+  margin-inline-end: 1px;
+}
+
+.sarkarimate-toast .Toastify__close-button {
+  align-self: center;
+  color: #64748b;
+  opacity: 1;
+  transition: color 160ms ease;
+}
+
+.sarkarimate-toast .Toastify__close-button:hover {
+  color: #1d4ed8;
+}
+
+.sarkarimate-toast .Toastify__progress-bar {
+  height: 3px;
+  opacity: 1;
+}
+
+.sarkarimate-toast--success .Toastify__progress-bar {
+  background: #22c55e;
+}
+
+.sarkarimate-toast--error .Toastify__progress-bar {
+  background: #ef4444;
+}
+
+.sarkarimate-toast--warn .Toastify__progress-bar {
+  background: #facc15;
+}
+
+.sarkarimate-toast--info .Toastify__progress-bar {
+  background: #38bdf8;
+}
+
 @keyframes deadline-slide {
   from {
     transform: translateX(-50%);
