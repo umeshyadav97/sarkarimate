@@ -4,7 +4,8 @@ import { ClarityAnalytics } from '@/components/clarity-analytics';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { OrganizationSchema, WebsiteSchema } from '@/components/structured-data';
-import { QueryProvider } from '@/providers/query-provider';
+import { ToastProvider } from '@/components/toast-provider';
+import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -82,11 +83,10 @@ export default function RootLayout({
       </head>
 
       <body suppressHydrationWarning>
-        <QueryProvider>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </QueryProvider>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+        <ToastProvider />
 
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
 

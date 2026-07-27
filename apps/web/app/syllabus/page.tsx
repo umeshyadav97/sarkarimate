@@ -3,9 +3,13 @@ import {
   SyllabusListing,
   syllabusListingConfig,
 } from '@/components/listing-routes';
+import {
+  getListingSearchParam,
+  type ListingSearchPageProps,
+} from '@/components/listing-routes/search-params';
 
 export const metadata = createListingMetadata(syllabusListingConfig);
 
-export default function SyllabusPage() {
-  return <SyllabusListing />;
+export default async function SyllabusPage({ searchParams }: ListingSearchPageProps) {
+  return <SyllabusListing search={await getListingSearchParam(searchParams)} />;
 }
