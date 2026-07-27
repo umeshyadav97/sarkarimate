@@ -10,25 +10,42 @@ import { ListingTable } from '@/components/listing/ListingTable';
 import { ListingToolbar } from '@/components/listing/ListingToolbar';
 import { NeedHelpCard } from '@/components/listing/NeedHelpCard';
 import { NewsletterCard } from '@/components/listing/NewsletterCard';
-import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
+import type {
+  ListingFilters,
+  ListingPageConfig,
+  ListingResponse,
+} from '@/components/listing/types';
+import type { JobCategoryOptions } from '@/services/job-category.service';
 import { useConfiguredListingItems } from '@/hooks/useConfiguredListingItems';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useSearchParams } from 'next/navigation';
 
 interface ListingPageProps {
   config: ListingPageConfig;
+  initialResponse?: ListingResponse;
+  initialSearch?: string;
+  initialSort?: string;
+  initialFilters?: ListingFilters;
+  jobCategoryOptions: JobCategoryOptions;
 }
 
-const initialFilters: ListingFilters = {
+const defaultListingFilters: ListingFilters = {
   year: 'all',
   state: 'all',
   organization: 'all',
 };
 
-export function ListingPage({ config }: ListingPageProps) {
+export function ListingPage({
+  config,
+  initialResponse,
+  initialSearch = '',
+  initialSort = 'latest',
+  initialFilters = defaultListingFilters,
+  jobCategoryOptions,
+}: ListingPageProps) {
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState(searchParams.get('q') ?? '');
-  const [sort, setSort] = useState('latest');
+  const [search, setSearch] = useState(searchParams.get('q') ?? initialSearch);
+  const [sort, setSort] = useState(initialSort);
   const [filters, setFilters] = useState<ListingFilters>(initialFilters);
   const [draftFilters, setDraftFilters] = useState<ListingFilters>(initialFilters);
 
@@ -45,11 +62,14 @@ export function ListingPage({ config }: ListingPageProps) {
     error,
     loadMore,
   } = useConfiguredListingItems({
-    endpoint: config.apiEndpoint,
     pageType: config.pageType,
     search,
     sort,
     filters,
+    initialResponse,
+    initialSearch,
+    initialSort,
+    initialFilters,
   });
 
   const sentinelRef = useInfiniteScroll({
@@ -71,8 +91,8 @@ export function ListingPage({ config }: ListingPageProps) {
   }, []);
 
   const handleResetFilters = useCallback(() => {
-    setDraftFilters(initialFilters);
-    setFilters(initialFilters);
+    setDraftFilters(defaultListingFilters);
+    setFilters(defaultListingFilters);
   }, []);
 
   return (
@@ -134,7 +154,7 @@ export function ListingPage({ config }: ListingPageProps) {
         </div>
 
         <div className="order-3 grid gap-6 md:grid-cols-2 lg:hidden">
-          <NewsletterCard config={config} />
+          <NewsletterCard config={config} jobCategoryOptions={jobCategoryOptions} />
           <NeedHelpCard config={config} />
         </div>
 
@@ -145,6 +165,7 @@ export function ListingPage({ config }: ListingPageProps) {
             onApplyFilters={() => setFilters(draftFilters)}
             onDraftFilterChange={handleDraftFilterChange}
             onResetFilters={handleResetFilters}
+            jobCategoryOptions={jobCategoryOptions}
           />
         </div>
       </section>

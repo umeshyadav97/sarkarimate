@@ -31,6 +31,7 @@ export function SidebarCutoffCard({ cutoff, tier2Cutoff }: SidebarCutoffCardProp
       {hasTier2Cutoff ? (
         <button
           type="button"
+          suppressHydrationWarning
           onClick={() => setShowTier2Cutoff((current) => !current)}
           className="mt-4 flex min-h-11 w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-sm font-bold text-[#1D4ED8] hover:border-[#1D4ED8]"
         >

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { SyllabusGuidePage } from '@/components/syllabus';
+import { getLatestJobs } from '@/services/latest-jobs.service';
 import { getSyllabusGuide, getSyllabusStaticParams } from '@/services/syllabus.service';
 
 interface PageProps {
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function SyllabusGuideRoute({ params }: PageProps) {
   const { slug } = await params;
-  const guide = getSyllabusGuide(slug);
+  const [guide, latestJobs] = await Promise.all([getSyllabusGuide(slug), getLatestJobs()]);
 
   if (!guide) {
     notFound();
@@ -54,7 +55,7 @@ export default async function SyllabusGuideRoute({ params }: PageProps) {
   return (
     <>
       <SyllabusStructuredData guide={guide} />
-      <SyllabusGuidePage guide={guide} />
+      <SyllabusGuidePage guide={guide} latestJobs={latestJobs} />
     </>
   );
 }

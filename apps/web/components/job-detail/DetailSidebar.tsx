@@ -11,21 +11,23 @@ import type {
   DetailPageData,
   DetailSidebarWidgetId,
 } from '@/components/job-detail/types';
+import type { ApiJob } from '@/features/jobs/types';
 
 interface DetailSidebarProps {
   config: DetailPageConfig;
   data: DetailPageData;
   actions: DetailAction[];
+  latestJobs: ApiJob[];
 }
 
-export function DetailSidebar({ config, data, actions }: DetailSidebarProps) {
+export function DetailSidebar({ config, data, actions, latestJobs }: DetailSidebarProps) {
   return (
     <aside className="grid content-start gap-4">
       {config.sidebarWidgets.flatMap((widget) => {
         const sidebarWidget = renderSidebarWidget(widget, config, data, actions);
 
         if (widget === 'share') {
-          return [sidebarWidget, <LatestJobsCard key="latest-jobs" />];
+          return [sidebarWidget, <LatestJobsCard key="latest-jobs" jobs={latestJobs} />];
         }
 
         return [sidebarWidget];

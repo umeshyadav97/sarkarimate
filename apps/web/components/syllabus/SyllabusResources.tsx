@@ -59,6 +59,7 @@ export function SyllabusResources({ resources }: SyllabusResourcesProps) {
               <button
                 key={resource.title}
                 type="button"
+                suppressHydrationWarning
                 onClick={scrollToCutoff}
                 className="flex min-h-[170px] flex-col rounded-lg border border-slate-200 bg-slate-50 p-4 text-left outline-none hover:border-[#1D4ED8] focus-visible:ring-2 focus-visible:ring-[#1D4ED8] cursor-pointer"
               >

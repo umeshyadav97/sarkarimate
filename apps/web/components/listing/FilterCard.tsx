@@ -54,6 +54,7 @@ export function FilterCard({
         <button
           className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#1D4ED8] md:px-3 px-2 md:text-sm text-xs font-bold text-white transition hover:bg-[#1E40AF] focus:outline-none focus:ring-2 focus:ring-blue-100"
           type="button"
+          suppressHydrationWarning
           onClick={onApply}
         >
           <SlidersHorizontal className="h-3 w-3" aria-hidden="true" />
@@ -62,6 +63,7 @@ export function FilterCard({
         <button
           className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white md:px-3 px-2 md:text-sm text-xs font-bold text-[#1D4ED8] transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-100"
           type="button"
+          suppressHydrationWarning
           onClick={onReset}
         >
           <RotateCcw className="h-3 w-3" aria-hidden="true" />

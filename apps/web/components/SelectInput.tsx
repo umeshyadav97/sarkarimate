@@ -15,11 +15,13 @@ interface SelectInputProps {
   value: string;
   options: SelectOption[];
   onChange: (value: string) => void;
+  name?: string;
   className?: string;
   labelClassName?: string;
   selectClassName?: string;
   hideLabel?: boolean;
   disabled?: boolean;
+  required?: boolean;
 }
 
 export function SelectInput({
@@ -28,11 +30,13 @@ export function SelectInput({
   value,
   options,
   onChange,
+  name,
   className,
   labelClassName,
   selectClassName,
   hideLabel = false,
   disabled,
+  required,
 }: SelectInputProps) {
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value);
@@ -49,12 +53,15 @@ export function SelectInput({
       <div className={cn('relative', hideLabel ? '' : 'mt-2')}>
         <select
           id={id}
+          name={name}
           aria-label={hideLabel ? label : undefined}
           className={cn(
             'min-h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3 pr-9 text-sm font-medium text-[#111827] outline-none transition focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60',
             selectClassName,
           )}
           disabled={disabled}
+          required={required}
+          suppressHydrationWarning
           value={value}
           onChange={handleChange}
         >
