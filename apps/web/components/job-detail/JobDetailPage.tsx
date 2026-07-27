@@ -22,13 +22,15 @@ import type {
   DetailPageData,
   DetailSectionConfig,
 } from '@/components/job-detail/types';
+import type { ApiJob } from '@/features/jobs/types';
 
 interface JobDetailPageProps {
   config: DetailPageConfig;
   data: DetailPageData;
+  latestJobs?: ApiJob[];
 }
 
-export function JobDetailPage({ config, data }: JobDetailPageProps) {
+export function JobDetailPage({ config, data, latestJobs = [] }: JobDetailPageProps) {
   const visibleConfig = getVisibleDetailConfig(config, data);
   const actions = getConfiguredActions(data.actions, visibleConfig.actionButtonLabels);
 
@@ -63,7 +65,12 @@ export function JobDetailPage({ config, data }: JobDetailPageProps) {
             renderSection={(section) => renderStandaloneSection(section, data)}
           />
         </div>
-        <DetailSidebar actions={actions} config={visibleConfig} data={data} />
+        <DetailSidebar
+          actions={actions}
+          config={visibleConfig}
+          data={data}
+          latestJobs={latestJobs}
+        />
       </section>
 
       <section className="mx-auto grid w-full max-w-full gap-4 px-4 pb-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">

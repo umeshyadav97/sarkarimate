@@ -4,6 +4,7 @@ import { FilterCard } from '@/components/listing/FilterCard';
 import { NeedHelpCard } from '@/components/listing/NeedHelpCard';
 import { NewsletterCard } from '@/components/listing/NewsletterCard';
 import type { ListingFilters, ListingPageConfig } from '@/components/listing/types';
+import type { JobCategoryOptions } from '@/services/job-category.service';
 
 interface ListingSidebarProps {
   config: ListingPageConfig;
@@ -11,6 +12,7 @@ interface ListingSidebarProps {
   onDraftFilterChange: (key: keyof ListingFilters, value: string) => void;
   onApplyFilters: () => void;
   onResetFilters: () => void;
+  jobCategoryOptions: JobCategoryOptions;
 }
 
 export function ListingSidebar({
@@ -19,6 +21,7 @@ export function ListingSidebar({
   onDraftFilterChange,
   onApplyFilters,
   onResetFilters,
+  jobCategoryOptions,
 }: ListingSidebarProps) {
   return (
     <aside className="space-y-6" aria-label="Listing sidebar">
@@ -29,7 +32,7 @@ export function ListingSidebar({
         onDraftFilterChange={onDraftFilterChange}
         onReset={onResetFilters}
       /> */}
-      <NewsletterCard config={config} />
+      <NewsletterCard config={config} jobCategoryOptions={jobCategoryOptions} />
       <NeedHelpCard config={config} />
     </aside>
   );

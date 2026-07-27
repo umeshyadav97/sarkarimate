@@ -45,6 +45,7 @@ export function ShareCard({ heading, title, description, canonicalPath }: ShareC
         </a>
         <button
           type="button"
+          suppressHydrationWarning
           onClick={() => void share({ title, text: description, url })}
           className="grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-700 outline-none hover:bg-blue-50 hover:text-[#1D4ED8] focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
           aria-label={displayCopied ? 'Link copied' : 'Copy or share link'}

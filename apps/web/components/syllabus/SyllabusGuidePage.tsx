@@ -14,13 +14,15 @@ import {
 import { QuickActions } from '@/components/syllabus/QuickActions';
 import { PreviousYearCutoff } from '@/components/syllabus/PreviousYearCutoff';
 import { SyllabusSection } from '@/components/syllabus/SyllabusSection';
+import type { ApiJob } from '@/features/jobs/types';
 import type { SyllabusGuide } from '@/types/syllabus';
 
 interface SyllabusGuidePageProps {
   guide: SyllabusGuide;
+  latestJobs: ApiJob[];
 }
 
-export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
+export function SyllabusGuidePage({ guide, latestJobs }: SyllabusGuidePageProps) {
   const sections = getSyllabusTabSections(guide);
 
   return (
@@ -43,7 +45,7 @@ export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
             tier2CutoffHeading={guide.tier2CutoffHeading}
           />
           <div className="grid gap-4 lg:hidden">
-            <LatestJobsCard />
+            <LatestJobsCard jobs={latestJobs} />
             <SyllabusHelpCard />
             <SyllabusShareCard />
           </div>
@@ -56,7 +58,7 @@ export function SyllabusGuidePage({ guide }: SyllabusGuidePageProps) {
           <div className="hidden gap-4 lg:grid">
             <SyllabusHelpCard />
             <SyllabusShareCard />
-            <LatestJobsCard />
+            <LatestJobsCard jobs={latestJobs} />
           </div>
         </div>
       </section>

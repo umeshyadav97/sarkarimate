@@ -22,10 +22,12 @@ export function NewsletterCard({ title, description, buttonText }: NewsletterCar
           id="detail-newsletter-email"
           className="min-h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100"
           placeholder="Enter your email address"
+          suppressHydrationWarning
           type="email"
         />
         <button
           className="min-h-11 rounded-lg bg-[#1D4ED8] px-4 text-sm font-bold text-white hover:bg-[#1E40AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
+          suppressHydrationWarning
           type="submit"
         >
           {buttonText}

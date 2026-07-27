@@ -52,6 +52,21 @@ function getDisplayValueClass(label: string, value: string) {
   return 'text-[#111827]';
 }
 
+function shouldShowNewTag(index: number) {
+  return index < 3;
+}
+
+function NewListingTag() {
+  return (
+    <span
+      className="new-listing-tag inline-flex h-7 min-w-11 shrink-0 items-center justify-center text-[10px] font-extrabold uppercase leading-none text-[#123524]"
+      aria-label="New listing"
+    >
+      <span className="new-listing-tag__text">New</span>
+    </span>
+  );
+}
+
 export function ListingTable({ actionLabel, columns, items, startIndex }: ListingTableProps) {
   const displayValueLabel =
     columns.find((column) => column.key === 'lastDate')?.label ?? 'Last Date';
@@ -85,15 +100,18 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
               <tr key={item.id} className="bg-white">
                 <td className="px-3 py-3 text-sm font-bold text-[#111827]">{startIndex + index}</td>
                 <td className="px-3 py-3">
-                  <Link
-                    className="text-sm font-bold text-[#073b82] hover:text-[#1D4ED8]"
-                    href={item.href}
-                    onClick={() => cacheDetailId(item)}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {item.title}
-                  </Link>
+                  <div className="flex items-start gap-2">
+                    <Link
+                      className="text-sm font-bold text-[#073b82] hover:text-[#1D4ED8]"
+                      href={item.href}
+                      onClick={() => cacheDetailId(item)}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {item.title}
+                    </Link>
+                    {shouldShowNewTag(index) ? <NewListingTag /> : null}
+                  </div>
                 </td>
                 <td className="px-3 py-3 text-sm font-medium text-[#111827]">
                   {item.organization}
@@ -124,19 +142,20 @@ export function ListingTable({ actionLabel, columns, items, startIndex }: Listin
       </div>
 
       <div className="space-y-5 bg-[#F8FAFC] p-3 md:hidden">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <article
             key={item.id}
             className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm"
           >
             <Link
-              className="block border-b border-slate-200 pb-3 text-base font-bold leading-6 text-[#071B3D]"
+              className="flex items-start gap-2 border-b border-slate-200 pb-3 text-base font-bold leading-6 text-[#071B3D]"
               href={item.href}
               onClick={() => cacheDetailId(item)}
               rel="noopener noreferrer"
               target="_blank"
             >
-              {item.title}
+              <span>{item.title}</span>
+              {shouldShowNewTag(index) ? <NewListingTag /> : null}
             </Link>
             <dl className="grid grid-cols-2 py-3">
               <div>

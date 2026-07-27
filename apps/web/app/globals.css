@@ -46,6 +46,57 @@ strong,
   animation-play-state: paused;
 }
 
+.new-listing-tag {
+  position: relative;
+  isolation: isolate;
+  filter: drop-shadow(0 2px 4px rgb(15 23 42 / 0.16));
+}
+
+.new-listing-tag::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, #fde68a 0%, #fbbf24 52%, #34d399 100%);
+  clip-path: polygon(
+    50% 0%,
+    58% 14%,
+    72% 8%,
+    76% 24%,
+    92% 28%,
+    82% 42%,
+    100% 50%,
+    82% 58%,
+    92% 72%,
+    76% 76%,
+    72% 92%,
+    58% 86%,
+    50% 100%,
+    42% 86%,
+    28% 92%,
+    24% 76%,
+    8% 72%,
+    18% 58%,
+    0% 50%,
+    18% 42%,
+    8% 28%,
+    24% 24%,
+    28% 8%,
+    42% 14%
+  );
+  transform-origin: center;
+  animation: new-tag-zoom 1.35s ease-in-out infinite;
+}
+
+.new-listing-tag__text {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8rem;
+}
+
 @keyframes deadline-slide {
   from {
     transform: translateX(-50%);
@@ -56,8 +107,20 @@ strong,
   }
 }
 
+@keyframes new-tag-zoom {
+  0%,
+  100% {
+    transform: scale(0.94);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .deadline-carousel-track {
+  .deadline-carousel-track,
+  .new-listing-tag::before {
     animation: none;
   }
 }
