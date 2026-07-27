@@ -106,11 +106,13 @@ strong,
   margin-bottom: 12px;
   overflow: hidden;
   padding: 12px 14px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #bfdbfe;
   border-radius: 6px;
-  background: #ffffff;
-  box-shadow: 0 14px 34px rgb(15 23 42 / 0.16);
-  color: #334155;
+  background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+  box-shadow:
+    0 18px 42px rgb(15 23 42 / 0.2),
+    0 0 0 1px rgb(29 78 216 / 0.08);
+  color: #071b3d;
   font-family: var(--font-inter-semibold);
 }
 
