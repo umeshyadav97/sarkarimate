@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next';
 import { legalPageRoutes } from '@/features/legal/constants/legal-pages';
+import { getApiBaseUrl } from '@/config/api.config';
 import { getCommonDetailStaticParams } from '@/services/job-detail.service';
 import { getSyllabusSitemapEntries } from '@/services/syllabus.service';
 
 const siteUrl = 'https://sarkarimate.com';
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.sarkarimate.com';
+const apiBaseUrl = getApiBaseUrl();
 const lastModified = new Date();
 
 const staticRoutes = [

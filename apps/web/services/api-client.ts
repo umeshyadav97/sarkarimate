@@ -1,4 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://sarkarimate-api.vercel.app';
+import { getApiBaseUrl } from '@/config/api.config';
+
+const API_BASE_URL = getApiBaseUrl();
 
 export class ApiRequestError extends Error {
   constructor(
@@ -30,10 +32,6 @@ export async function apiEnvelopeRequest<TData>(
   path: string,
   options: RequestOptions = {},
 ): Promise<TData> {
-  if (!API_BASE_URL) {
-    throw new Error('NEXT_PUBLIC_API_URL is not configured.');
-  }
-
   const { params, ...init } = options;
   const url = new URL(path, API_BASE_URL);
 
