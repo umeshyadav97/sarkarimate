@@ -6,7 +6,7 @@ export function LatestJobsCard({ jobs }: { jobs: ApiJob[] }) {
   const latestJobs = jobs.slice(0, 5);
 
   return (
-    <aside className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <aside className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <h2 className="flex items-center gap-2 text-lg font-bold text-[#111827]">
         <BriefcaseBusiness
           className="h-5 w-5 text-[#1D4ED8]"
@@ -16,7 +16,7 @@ export function LatestJobsCard({ jobs }: { jobs: ApiJob[] }) {
         Latest Jobs
       </h2>
 
-      <div className="mt-4 grid gap-2.5">
+      <div className="mt-4 grid min-w-0 gap-2.5">
         {latestJobs.length === 0 ? (
           <p className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600">
             Latest jobs are unavailable right now.
@@ -29,9 +29,9 @@ export function LatestJobsCard({ jobs }: { jobs: ApiJob[] }) {
             href={`/${job.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-start justify-between gap-3  px-3 py-2.5 outline-none transition-colors hover:border-[#1D4ED8] hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
+            className="group flex min-w-0 max-w-full items-start justify-between gap-3 rounded-md px-3 py-2.5 outline-none transition-colors hover:border-[#1D4ED8] hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
           >
-            <span className="min-w-0">
+            <span className="min-w-0 flex-1 overflow-hidden">
               <span className="line-clamp-2 text-sm font-bold leading-5 text-[#1D4ED8] underline decoration-blue-200 underline-offset-4 group-hover:decoration-[#1D4ED8]">
                 {job.title}
               </span>
