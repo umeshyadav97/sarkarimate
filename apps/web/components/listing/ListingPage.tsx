@@ -5,6 +5,7 @@ import { FilterCard } from '@/components/listing/FilterCard';
 import { InfiniteList } from '@/components/listing/InfiniteList';
 import { ListingHero } from '@/components/listing/ListingHero';
 import { ListingSidebar } from '@/components/listing/ListingSidebar';
+import { ListingSidebarLinksCard } from '@/components/listing/ListingSidebarLinksCard';
 import { ListingStats } from '@/components/listing/ListingStats';
 import { ListingTable } from '@/components/listing/ListingTable';
 import { ListingToolbar } from '@/components/listing/ListingToolbar';
@@ -61,6 +62,7 @@ export function ListingPage({
     isLoadingMore,
     error,
     loadMore,
+    sidebarSections,
   } = useConfiguredListingItems({
     pageType: config.pageType,
     search,
@@ -156,6 +158,9 @@ export function ListingPage({
         <div className="order-3 grid gap-6 md:grid-cols-2 lg:hidden">
           <NewsletterCard config={config} jobCategoryOptions={jobCategoryOptions} />
           <NeedHelpCard config={config} />
+          {sidebarSections.map((section) => (
+            <ListingSidebarLinksCard key={section.type} section={section} />
+          ))}
         </div>
 
         <div className="hidden lg:order-2 lg:block">
@@ -166,6 +171,7 @@ export function ListingPage({
             onDraftFilterChange={handleDraftFilterChange}
             onResetFilters={handleResetFilters}
             jobCategoryOptions={jobCategoryOptions}
+            sidebarSections={sidebarSections}
           />
         </div>
       </section>

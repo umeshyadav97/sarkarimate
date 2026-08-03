@@ -10,6 +10,19 @@ export interface ListingItem {
   lastDate: string;
 }
 
+export interface ListingSidebarLink {
+  id: string;
+  title: string;
+  organization: string;
+  href: string;
+}
+
+export interface ListingSidebarSection {
+  title: string;
+  type: 'latest-jobs' | 'admit-cards' | 'results' | 'answer-keys' | 'syllabus';
+  items: ListingSidebarLink[];
+}
+
 export interface ListingStatistic {
   label: string;
   value: string;
@@ -84,4 +97,5 @@ export interface ListingResponse {
   items: ListingItem[];
   total: number;
   hasMore: boolean;
+  sidebarSections?: ListingSidebarSection[];
 }

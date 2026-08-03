@@ -42,6 +42,11 @@ export interface JobsPagination {
 
 export interface JobsResponse {
   jobs: ApiJob[];
+  latestJobs?: ApiJob[];
+  admitCards?: ApiJob[];
+  results?: ApiJob[];
+  answerKeys?: ApiJob[];
+  syllabus?: ApiJob[];
   pagination: JobsPagination;
 }
 

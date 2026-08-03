@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ClarityAnalytics } from '@/components/clarity-analytics';
 import { SiteFooter } from '@/components/site-footer';
@@ -91,6 +92,7 @@ export default function RootLayout({
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
 
         <ClarityAnalytics />
+        <Analytics />
       </body>
     </html>
   );

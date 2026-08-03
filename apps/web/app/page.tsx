@@ -9,10 +9,6 @@ export default async function HomePage() {
   try {
     const data = await getHomePageData();
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[homepage-api] response:', data);
-    }
-
     return <Homepage initialData={data} />;
   } catch (error) {
     console.error('[homepage-api] failed:', error);
