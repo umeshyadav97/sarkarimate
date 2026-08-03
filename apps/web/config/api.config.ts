@@ -1,9 +1,5 @@
+const defaultApiBaseUrl = 'https://api.sarkarimate.com';
+
 export function getApiBaseUrl() {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '');
-
-  if (!apiBaseUrl) {
-    throw new Error('NEXT_PUBLIC_API_URL is not configured.');
-  }
-
-  return apiBaseUrl;
+  return (process.env.NEXT_PUBLIC_API_URL ?? defaultApiBaseUrl).replace(/\/$/, '');
 }
