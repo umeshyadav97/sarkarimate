@@ -1,3 +1,6 @@
+export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
+
 import type { MetadataRoute } from 'next';
 import { legalPageRoutes } from '@/features/legal/constants/legal-pages';
 import { getApiBaseUrl } from '@/config/api.config';
