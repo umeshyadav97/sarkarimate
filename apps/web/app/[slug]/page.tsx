@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = data?.seo.title ?? data?.title ?? fallbackTitle;
   const description = data?.seo.description ?? data?.alert;
   const canonical = data?.seo.canonical ?? `/${slug}`;
+  const imageUrl = `/og/detail/${slug}`;
 
   return {
     title,
@@ -33,11 +34,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonical,
       siteName: 'SarkariMate',
       type: 'article',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [imageUrl],
     },
     robots: data ? undefined : { index: false, follow: false },
   };

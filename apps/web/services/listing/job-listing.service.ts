@@ -1,14 +1,16 @@
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
 import { api } from '@/services/api-client';
 
-export function getJobListingItems(params: JobsQueryParams = {}, options?: RequestInit) {
-  return api.get<JobsResponse>(
+export async function getJobListingItems(params: JobsQueryParams = {}, options?: RequestInit) {
+  const response = await api.get<JobsResponse>(
     '/api/v1/jobs',
     {
       ...params,
     },
     options,
   );
+
+  return response;
 }
 
 export async function getJobListingItemBySlug(slug: string) {

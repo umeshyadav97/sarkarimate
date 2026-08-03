@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const imageUrl = `/og/syllabus/${guide.slug}`;
+
   return {
     title: guide.seo.title,
     description: guide.seo.description,
@@ -35,11 +37,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: guide.seo.description,
       url: guide.seo.canonical,
       type: 'article',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: guide.seo.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: guide.seo.title,
       description: guide.seo.description,
+      images: [imageUrl],
     },
   };
 }

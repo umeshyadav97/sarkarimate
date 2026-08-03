@@ -6,218 +6,144 @@ export const rrbGroupDSyllabus: SyllabusGuide = {
   examName: 'RRB Group D',
   organization: 'Railway Recruitment Board (RRB)',
   category: 'Railway',
-  updatedDate: '2026-07-16T00:00:00Z',
+  badgeLabel: 'Level 1 Railway Exam',
+  updatedDate: '2026-07-29T00:00:00Z',
   breadcrumbs: [
-    {
-      label: 'Home',
-      href: '/',
-    },
-    {
-      label: 'Syllabus',
-      href: '/syllabus',
-    },
-    {
-      label: 'RRB Group D Syllabus Guide 2026',
-      href: '/syllabus/rrb-group-d',
-    },
+    { label: 'Home', href: '/' },
+    { label: 'Syllabus', href: '/syllabus' },
+    { label: 'RRB Group D Syllabus Guide 2026', href: '/syllabus/rrb-group-d' },
   ],
-  badgeLabel: '10th Pass Railway Exam',
   heroFacts: [
-    {
-      label: 'Conducting Body',
-      value: 'Railway Recruitment Boards (RRBs)',
-      tone: 'blue',
-    },
-    {
-      label: 'Exam Mode',
-      value: 'Online',
-      tone: 'blue',
-    },
-    {
-      label: 'Exam Level',
-      value: '10th Pass',
-      tone: 'blue',
-    },
-    {
-      label: 'Selection Process',
-      value: 'CBT, PET, DV, Medical',
-      tone: 'slate',
-    },
-    {
-      label: 'Official Website',
-      value: 'indianrailways.gov.in',
-      tone: 'blue',
-    },
+    { label: 'Conducting Body', value: 'Railway Recruitment Board', tone: 'blue' },
+    { label: 'Exam Mode', value: 'Computer Based Test (CBT)', tone: 'blue' },
+    { label: 'Post Level', value: 'Level 1 (7th CPC Pay Matrix)', tone: 'blue' },
+    { label: 'Selection Process', value: 'CBT, PET, DV & Medical', tone: 'slate' },
+    { label: 'Official Website', value: 'rrbcdg.gov.in', tone: 'blue' },
   ],
   quickActions: [
-    {
-      label: 'Download Syllabus PDF',
-      href: '#syllabus',
-      type: 'download',
-    },
-    {
-      label: 'View Latest Notification',
-      href: '/rrb-group-d',
-      type: 'notification',
-    },
-    {
-      label: 'Official Website',
-      href: 'https://www.rrbcdg.gov.in',
-      type: 'official',
-    },
-    {
-      label: 'Apply Online',
-      href: 'https://www.rrbcdg.gov.in',
-      type: 'apply',
-    },
+    { label: 'Download Syllabus PDF', href: '#syllabus', type: 'download' },
+    { label: 'View Latest Notification', href: '/rrb-group-d', type: 'notification' },
+    { label: 'Official Website', href: 'https://www.rrbcdg.gov.in', type: 'official' },
+    { label: 'Apply Online', href: 'https://rrbapply.gov.in', type: 'apply' },
   ],
   overviewDescription:
-    'RRB Group D Examination is conducted by the Railway Recruitment Boards (RRBs) to recruit candidates for various Level-1 posts in Indian Railways such as Track Maintainer Grade-IV, Assistant Pointsman, Assistant in various departments, Hospital Assistant and other technical support staff. The recruitment process includes Computer Based Test (CBT), Physical Efficiency Test (PET), Document Verification, and Medical Examination.',
+    'RRB Group D is a Railway Recruitment Board examination for Level 1 posts such as Pointsman, Assistant, Track Maintainer, Assistant Loco Shed, Assistant Operations, and Assistant TL & AC. The CEN 09/2025 recruitment includes 22,195 vacancies.',
   overviewHighlights: [
-    {
-      label: 'Posts',
-      value: 'Level-1 Railway Posts',
-      tone: 'blue',
-    },
-    {
-      label: 'Vacancies',
-      value: '30,000+ (Expected)',
-      tone: 'blue',
-    },
-    {
-      label: 'Age Limit',
-      value: '18 - 36 Years',
-      tone: 'blue',
-    },
+    { label: 'Vacancies', value: '22,195', tone: 'blue' },
+    { label: 'Exam Dates', value: '3 - 21 August 2026', tone: 'blue' },
+    { label: 'Exam Shifts', value: '3 Shifts', tone: 'blue' },
   ],
+  overview: {
+    title: 'RRB Group D Overview',
+    description:
+      'The Railway Recruitment Board is conducting the RRB Group D CEN 09/2025 recruitment for Level 1 railway posts. The first stage is a Computer Based Test, followed by the Physical Efficiency Test, Document Verification, and Medical Examination.',
+    highlights: [
+      { label: 'Advertisement Number', value: 'CEN 09/2025', tone: 'blue' },
+      { label: 'Vacancies', value: '22,195', tone: 'blue' },
+      { label: 'Applicants', value: 'Approximately 1 Crore', tone: 'blue' },
+    ],
+  },
   syllabus: [
+    {
+      name: 'General Science',
+      topics: [
+        'General Science section',
+        '25 objective-type questions',
+        '25 marks',
+        'Detailed chapter-wise topics should be verified from the official syllabus notice',
+      ],
+    },
     {
       name: 'Mathematics',
       topics: [
-        'Number System',
-        'BODMAS',
-        'Decimals & Fractions',
-        'LCM & HCF',
-        'Ratio & Proportion',
-        'Percentage',
-        'Mensuration',
-        'Time & Work',
-        'Time, Speed & Distance',
-        'Simple & Compound Interest',
-        'Profit & Loss',
-        'Algebra',
-        'Geometry',
-        'Trigonometry',
-        'Data Interpretation',
+        'Mathematics section',
+        '25 objective-type questions',
+        '25 marks',
+        'Practise formulas, calculations, speed, and accuracy',
       ],
     },
     {
       name: 'General Intelligence & Reasoning',
       topics: [
-        'Analogies',
-        'Coding-Decoding',
-        'Series',
-        'Classification',
-        'Puzzle',
-        'Blood Relation',
-        'Direction Sense',
-        'Statement & Conclusion',
-        'Syllogism',
-        'Venn Diagram',
-        'Decision Making',
-        'Mathematical Operations',
-      ],
-    },
-    {
-      name: 'General Science',
-      topics: [
-        'Physics',
-        'Chemistry',
-        'Biology',
-        'Everyday Science',
-        'Scientific Instruments',
-        'Human Body',
-        'Nutrition',
-        'Environment',
+        'General Intelligence and Reasoning section',
+        '30 objective-type questions',
+        '30 marks',
+        'Practise previous year papers and mock tests regularly',
       ],
     },
     {
       name: 'General Awareness & Current Affairs',
       topics: [
-        'Current Affairs',
-        'Indian History',
-        'Geography',
-        'Indian Polity',
-        'Economics',
-        'Sports',
-        'Culture',
-        'Awards & Honours',
-        'Important Days',
-        'Books & Authors',
-        'Railways',
-        'Static GK',
+        'General Awareness and Current Affairs section',
+        '20 objective-type questions',
+        '20 marks',
+        'Revise current affairs, important facts, and short notes',
       ],
     },
   ],
   examPattern: {
     columns: [
-      {
-        key: 'stage',
-        label: 'Stage',
-      },
-      {
-        key: 'subjects',
-        label: 'Subjects',
-      },
-      {
-        key: 'questions',
-        label: 'Questions',
-      },
-      {
-        key: 'marks',
-        label: 'Marks',
-      },
-      {
-        key: 'duration',
-        label: 'Duration',
-      },
-      {
-        key: 'negativeMarking',
-        label: 'Negative Marking',
-      },
+      { key: 'tier', label: 'Stage / Section' },
+      { key: 'subjects', label: 'Subjects' },
+      { key: 'questions', label: 'Questions' },
+      { key: 'marks', label: 'Marks' },
+      { key: 'duration', label: 'Duration' },
+      { key: 'negativeMarking', label: 'Negative Marking' },
     ],
     rows: [
       {
-        id: 'cbt',
+        id: 'general-science',
         values: {
-          stage: 'Computer Based Test',
-          subjects: 'Mathematics, Reasoning, General Science, General Awareness',
+          tier: 'CBT',
+          subjects: 'General Science',
+          questions: '25',
+          marks: '25',
+          duration: '90 Minutes total',
+          negativeMarking: 'Verify from official notification',
+        },
+      },
+      {
+        id: 'mathematics',
+        values: {
+          tier: 'CBT',
+          subjects: 'Mathematics',
+          questions: '25',
+          marks: '25',
+          duration: '90 Minutes total',
+          negativeMarking: 'Verify from official notification',
+        },
+      },
+      {
+        id: 'reasoning',
+        values: {
+          tier: 'CBT',
+          subjects: 'General Intelligence and Reasoning',
+          questions: '30',
+          marks: '30',
+          duration: '90 Minutes total',
+          negativeMarking: 'Verify from official notification',
+        },
+      },
+      {
+        id: 'general-awareness',
+        values: {
+          tier: 'CBT',
+          subjects: 'General Awareness and Current Affairs',
+          questions: '20',
+          marks: '20',
+          duration: '90 Minutes total',
+          negativeMarking: 'Verify from official notification',
+        },
+      },
+      {
+        id: 'total',
+        values: {
+          tier: 'CBT Total',
+          subjects: 'All four sections',
           questions: '100',
           marks: '100',
-          duration: '90 Minutes',
-          negativeMarking: '1/3 Marks',
-        },
-      },
-      {
-        id: 'pet',
-        values: {
-          stage: 'Physical Efficiency Test',
-          subjects: 'Running & Physical Fitness',
-          questions: '-',
-          marks: 'Qualifying',
-          duration: 'As Scheduled',
-          negativeMarking: 'No',
-        },
-      },
-      {
-        id: 'medical',
-        values: {
-          stage: 'Medical Examination',
-          subjects: 'Medical Fitness',
-          questions: '-',
-          marks: 'Qualifying',
-          duration: 'As Scheduled',
-          negativeMarking: 'No',
+          duration: '90 Minutes (120 Minutes for PwD candidates)',
+          negativeMarking: 'Verify from official notification',
         },
       },
     ],
@@ -227,197 +153,158 @@ export const rrbGroupDSyllabus: SyllabusGuide = {
     'Physical Efficiency Test (PET)',
     'Document Verification',
     'Medical Examination',
-    'Final Merit',
+    'Final Selection',
   ],
   resources: [
     {
-      title: 'Study Strategy',
-      description: 'Complete preparation strategy for RRB Group D',
-      href: '#study-plan',
+      title: 'Exam Schedule',
+      description: 'Date-wise CBT schedule from 3 to 21 August 2026',
+      href: '#exam-schedule',
       tone: 'blue',
     },
     {
-      title: 'Recommended Books',
-      description: 'Best books for Mathematics, Science & Reasoning',
-      href: '#recommended-books',
+      title: 'City Intimation Slip',
+      description: 'Check allotted exam city before the admit card release',
+      href: '#city-intimation-slip',
       tone: 'orange',
     },
     {
+      title: 'Admit Card',
+      description: 'Download the hall ticket from the candidate login portal',
+      href: '#admit-card',
+      tone: 'blue',
+    },
+    {
       title: 'Previous Year Papers',
-      description: 'RRB Group D previous year papers with solutions',
+      description: 'Practise previous year papers to improve speed and accuracy',
       href: '#previous-year-papers',
       tone: 'blue',
     },
     {
-      title: 'Previous Year Cutoff',
-      description: 'Zone-wise and category-wise cutoff',
-      href: '#previous-year-cutoff',
-      tone: 'blue',
-    },
-    {
-      title: 'PET Preparation',
-      description: 'Physical test requirements and preparation guide',
-      href: '#physical-test',
+      title: 'Preparation Strategy',
+      description: 'Revision, mock tests, short notes, and study-plan guidance',
+      href: '#study-plan',
       tone: 'blue',
     },
   ],
-  cutoffHeading: 'RRB Group D CBT Cutoff (Out of 100)',
-  cutoff: {
+  tier1CutoffHeading: 'RRB Group D CBT Cutoff',
+  tier2CutoffHeading: 'RRB Group D PET / Final Cutoff',
+  tier1Cutoff: {
     columns: [
-      {
-        key: 'year',
-        label: 'Year',
-      },
-      {
-        key: 'general',
-        label: 'General',
-      },
-      {
-        key: 'obc',
-        label: 'OBC',
-      },
-      {
-        key: 'sc',
-        label: 'SC',
-      },
-      {
-        key: 'st',
-        label: 'ST',
-      },
-      {
-        key: 'ews',
-        label: 'EWS',
-      },
+      { key: 'year', label: 'Year' },
+      { key: 'general', label: 'General (UR)' },
+      { key: 'obc', label: 'OBC' },
+      { key: 'sc', label: 'SC' },
+      { key: 'st', label: 'ST' },
+      { key: 'ews', label: 'EWS' },
     ],
-    rows: [
-      {
-        id: '2026',
-        values: {
-          year: '2026',
-          general: '75.31',
-          obc: '73.12',
-          sc: '67.16',
-          st: '63.59',
-          ews: '68.60',
-        },
-      },
-      {
-        id: '2022',
-        values: {
-          year: '2022',
-          general: '68.32',
-          obc: '61.66',
-          sc: '54.02',
-          st: '54.08',
-          ews: '48.76',
-        },
-      },
-      {
-        id: '2018',
-        values: {
-          year: '2018',
-          general: '73.73',
-          obc: '70.10',
-          sc: '63.37',
-          st: '60.62',
-          ews: 'N/A',
-        },
-      },
+    rows: [],
+  },
+  tier2Cutoff: {
+    columns: [
+      { key: 'year', label: 'Year' },
+      { key: 'general', label: 'General (UR)' },
+      { key: 'obc', label: 'OBC' },
+      { key: 'sc', label: 'SC' },
+      { key: 'st', label: 'ST' },
+      { key: 'ews', label: 'EWS' },
     ],
+    rows: [],
   },
   sidebarHighlights: [
+    { title: 'Advertisement Number', value: 'CEN 09/2025' },
+    { title: 'Vacancies', value: '22,195 Level 1 Posts' },
     {
-      title: 'Negative Marking',
-      value: '1/3 Marks',
+      title: 'Exam Date',
+      value: '3 - 21 August 2026',
+      description: 'CBT will be conducted on notified dates in three shifts',
     },
     {
-      title: 'Age Limit',
-      value: '18 - 36 Years',
-      description: 'Age relaxation applicable as per government rules',
+      title: 'City Intimation Slip',
+      value: 'From 24 July 2026',
+      description: 'Released date-wise before the scheduled examination',
     },
     {
-      title: 'Educational Qualification',
-      value: '10th Pass / ITI / NAC (Post Wise)',
+      title: 'Admit Card',
+      value: 'From 31 July 2026',
+      description: 'Available through the candidate login portal',
     },
     {
-      title: 'Application Fee',
-      value: 'Rs 500 (General/OBC/EWS), Rs 250 (SC/ST/PwBD/Female/Transgender)',
+      title: 'Exam Duration',
+      value: '90 Minutes',
+      description: '120 minutes for PwD candidates',
     },
     {
-      title: 'Physical Test',
-      value: 'PET Mandatory',
+      title: 'Exam Timings',
+      value: '9:00 AM, 12:45 PM & 4:30 PM',
+      description: 'Three shifts with separate reporting and gate-closing times',
     },
   ],
   faqs: [
     {
-      question: 'What is the qualification required for RRB Group D?',
+      question: 'When will the RRB Group D Exam 2026 be conducted?',
       answer:
-        'Candidates must have passed Class 10th, ITI, or possess an equivalent National Apprenticeship Certificate (NAC) from NCVT as specified in the official notification.',
+        'The RRB Group D CBT under CEN 09/2025 is scheduled from 3 August to 21 August 2026 on the notified examination dates.',
     },
     {
-      question: 'Is there negative marking in RRB Group D?',
+      question: 'How many vacancies are available in RRB Group D 2026?',
       answer:
-        'Yes. One-third (1/3) mark is deducted for every incorrect answer in the Computer Based Test.',
+        'A total of 22,195 Level 1 vacancies are mentioned for the CEN 09/2025 recruitment cycle.',
     },
     {
-      question: 'Is PET compulsory in RRB Group D?',
+      question: 'What is the RRB Group D selection process?',
       answer:
-        'Yes. Candidates qualifying the CBT must clear the Physical Efficiency Test (PET) to be considered for further stages.',
+        'The selection process includes a Computer Based Test, Physical Efficiency Test, Document Verification, and Medical Examination.',
     },
     {
-      question: 'What is the age limit for RRB Group D?',
+      question: 'What is the RRB Group D CBT exam pattern?',
       answer:
-        'The basic age limit is generally 18 to 36 years. Age relaxation is provided for reserved categories as per government rules.',
+        'The CBT contains 100 objective-type questions for 100 marks from General Science, Mathematics, General Intelligence and Reasoning, and General Awareness and Current Affairs.',
     },
     {
-      question: 'How many attempts are allowed in RRB Group D?',
-      answer:
-        'There is no fixed attempt limit. Candidates may apply until they reach the maximum permissible age.',
+      question: 'How long is the RRB Group D CBT?',
+      answer: 'The CBT duration is 90 minutes. PwD candidates are allotted 120 minutes.',
     },
     {
-      question: 'What posts are available under RRB Group D?',
+      question: 'When will the RRB Group D city intimation slip be released?',
       answer:
-        'Popular posts include Track Maintainer Grade-IV, Assistant Pointsman, Assistant in Electrical, Mechanical, Engineering, Signal & Telecommunication departments, Hospital Assistant and Porter.',
+        'The city intimation slip started releasing from 24 July 2026 and is issued date-wise before each scheduled examination.',
     },
     {
-      question: 'What is the salary of RRB Group D employees?',
+      question: 'When will the RRB Group D admit card be released?',
       answer:
-        'RRB Group D employees are appointed under Pay Level-1 of the 7th CPC with a basic pay of Rs. 18,000 along with DA, HRA, TA and other railway allowances.',
+        'The admit card release starts from 31 July 2026 and is made available according to the candidate’s examination date.',
     },
     {
-      question: 'Is RRB Group D conducted every year?',
+      question: 'How can candidates download the city intimation slip?',
       answer:
-        'No. The recruitment is conducted whenever vacancies are notified by the Railway Recruitment Boards.',
+        'Candidates should open the official RRB website, select the CEN 09/2025 city-intimation link, log in using their registration credentials, complete the captcha, and download the slip.',
+    },
+    {
+      question: 'Which posts are included in RRB Group D?',
+      answer:
+        'The recruitment includes posts such as Pointsman, Assistant, Track Maintainer, Assistant Loco Shed, Assistant Operations, and Assistant TL & AC.',
+    },
+    {
+      question: 'Is the RRB Group D Exam 2026 postponed?',
+      answer:
+        'The supplied source states that no official postponement notification had been issued and candidates should prepare according to the announced schedule.',
     },
   ],
-  overview: {
-    title: 'RRB Group D Overview',
-    description:
-      'RRB Group D Examination is conducted by the Railway Recruitment Boards (RRBs) to recruit candidates for various Level-1 posts in Indian Railways such as Track Maintainer Grade-IV, Assistant Pointsman, Assistant in various departments, Hospital Assistant and other technical support staff. The recruitment process includes Computer Based Test (CBT), Physical Efficiency Test (PET), Document Verification, and Medical Examination.',
-    highlights: [
-      {
-        label: 'Posts',
-        value: 'Level-1 Railway Posts',
-        tone: 'blue',
-      },
-      {
-        label: 'Vacancies',
-        value: '30,000+ (Expected)',
-        tone: 'blue',
-      },
-      {
-        label: 'Age Limit',
-        value: '18 - 36 Years',
-        tone: 'blue',
-      },
-    ],
-  },
   seo: {
     title: 'RRB Group D Syllabus Guide 2026 | SarkariMate',
     description:
-      'RRB Group D Examination is conducted by the Railway Recruitment Boards (RRBs) to recruit candidates for various Level-1 posts in Indian Railways such as Track Maintainer Grade-IV, Assistant Pointsman, Assistant in various departments, Hospital Assistant and other technical support staff. The recruitment process includes Computer Based Test (CBT), Physical Efficiency Test (PET), Document Verification, and Medical Examination.',
+      'RRB Group D 2026 syllabus, CBT exam pattern, selection process, exam dates, city slip, admit card details, preparation guidance and FAQs.',
     canonical: '/syllabus/rrb-group-d',
-    keywords: ['RRB Group D', 'Railway', 'syllabus', 'syllabus guide', 'exam pattern'],
+    keywords: [
+      'RRB Group D syllabus 2026',
+      'RRB Group D exam pattern',
+      'Railway Group D syllabus',
+      'CEN 09/2025',
+      'RRB Group D exam date 2026',
+      'RRB Group D admit card',
+      'RRB Group D city slip',
+    ],
   },
 };
 

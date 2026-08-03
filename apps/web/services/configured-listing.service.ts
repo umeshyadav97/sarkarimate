@@ -1,4 +1,9 @@
-import type { ListingFilters, ListingItem, ListingResponse } from '@/components/listing/types';
+import type {
+  ListingFilters,
+  ListingItem,
+  ListingResponse,
+  ListingSidebarSection,
+} from '@/components/listing/types';
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
 import { extractLeadingDate } from '@/lib/date-display';
 import { getJobListingItems } from '@/services/listing/job-listing.service';
@@ -107,6 +112,43 @@ function toListingItem(job: ApiJob, pageType: string): ListingItem {
   };
 }
 
+function toSidebarLink(job: ApiJob, pageType: ListingSidebarSection['type']) {
+  const href = pageType === 'syllabus' ? `/syllabus/${job.slug}` : `/${job.slug}`;
+
+  return {
+    id: job._id,
+    title: job.title,
+    organization: job.organization,
+    href,
+  };
+}
+
+function createSidebarSections(
+  response: JobsResponse,
+  currentPageType: string,
+): ListingSidebarSection[] {
+  const sectionSources: Array<{
+    title: string;
+    type: ListingSidebarSection['type'];
+    items?: ApiJob[];
+  }> = [
+    { title: 'Latest Jobs', type: 'latest-jobs', items: response.latestJobs },
+    { title: 'Admit Cards', type: 'admit-cards', items: response.admitCards },
+    { title: 'Results', type: 'results', items: response.results },
+    { title: 'Answer Keys', type: 'answer-keys', items: response.answerKeys },
+    { title: 'Syllabus', type: 'syllabus', items: response.syllabus },
+  ];
+
+  return sectionSources
+    .filter((section) => section.type !== currentPageType && section.items?.length)
+    .map((section) => ({
+      title: section.title,
+      type: section.type,
+      items: (section.items ?? []).slice(0, 5).map((item) => toSidebarLink(item, section.type)),
+    }))
+    .filter((section) => section.items.length > 0);
+}
+
 function toApiFilters(pageType: string, filters: ListingFilters): JobsQueryParams {
   return {
     type: pageType as JobsQueryParams['type'],
@@ -135,5 +177,6 @@ export async function getConfiguredListingResponse({
     items: response.jobs.map((job) => toListingItem(job, pageType)),
     total: response.pagination.total,
     hasMore: response.pagination.hasNextPage,
+    sidebarSections: createSidebarSections(response, pageType),
   };
 }

@@ -1,7 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import type { ListingFilters, ListingItem, ListingResponse } from '@/components/listing/types';
+import type {
+  ListingFilters,
+  ListingItem,
+  ListingResponse,
+  ListingSidebarSection,
+} from '@/components/listing/types';
 import { getConfiguredListingResponse } from '@/services/configured-listing.service';
 
 interface UseConfiguredListingItemsOptions {
@@ -44,6 +49,9 @@ export function useConfiguredListingItems({
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(initialResponse?.total ?? 0);
   const [hasMore, setHasMore] = useState(initialResponse?.hasMore ?? false);
+  const [sidebarSections, setSidebarSections] = useState<ListingSidebarSection[]>(
+    initialResponse?.sidebarSections ?? [],
+  );
   const [isLoading, setIsLoading] = useState(!canUseInitialResponse);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +64,7 @@ export function useConfiguredListingItems({
         setItems(initialResponse.items);
         setTotal(initialResponse.total);
         setHasMore(initialResponse.hasMore);
+        setSidebarSections(initialResponse.sidebarSections ?? []);
         setIsLoading(false);
         setError(null);
         setPage(1);
@@ -80,6 +89,7 @@ export function useConfiguredListingItems({
         setItems(response.items);
         setTotal(response.total);
         setHasMore(response.hasMore);
+        setSidebarSections(response.sidebarSections ?? []);
       } catch {
         if (isMounted) {
           setError('Unable to load listings.');
@@ -117,6 +127,7 @@ export function useConfiguredListingItems({
       setItems((currentItems) => [...currentItems, ...response.items]);
       setTotal(response.total);
       setHasMore(response.hasMore);
+      setSidebarSections(response.sidebarSections ?? []);
       setPage(nextPage);
     } catch {
       setError('Unable to load more listings.');
@@ -133,5 +144,6 @@ export function useConfiguredListingItems({
     isLoadingMore,
     error,
     loadMore,
+    sidebarSections,
   };
 }
