@@ -58,7 +58,9 @@ export async function getJobDetails(identifier: string): Promise<JobDetailsApiRe
       : (getCachedJobId(identifier) ?? (await getJobIdFromSlug(identifier)));
 
     if (detailsIdentifier) {
-      return createJobDetailsResponse(await getLiveJobDetails(detailsIdentifier));
+      const liveJobDetails = await getLiveJobDetails(detailsIdentifier);
+
+      return createJobDetailsResponse(liveJobDetails);
     }
   } catch {
     // Use local fallback for offline/dev API failures.

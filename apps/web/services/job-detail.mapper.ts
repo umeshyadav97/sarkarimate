@@ -253,11 +253,32 @@ function mapAgeLimit(job: JobDetailsApiData): DetailKeyInfo[] {
 
 function mapVacancy(job: JobDetailsApiData): DetailPageData['vacancy'] {
   if (job.vacancies?.length) {
+    const hasQualification = job.vacancies.some((vacancy) => hasText(vacancy.qualification));
+    const hasLastDate = job.vacancies.some((vacancy) => hasText(vacancy.lastDate));
+    const hasNotification = job.vacancies.some(
+      (vacancy) => hasText(vacancy.notification) || hasText(vacancy.notificationUrl),
+    );
     const columns: DetailTableColumn[] = [
       { key: 'postName', label: 'Post Name' },
       { key: 'totalPosts', label: 'Total Posts' },
-      { key: 'qualification', label: 'Qualification' },
     ];
+
+    if (hasQualification) {
+      columns.push({ key: 'qualification', label: 'Qualification' });
+    }
+
+    if (hasLastDate) {
+      columns.push({ key: 'lastDate', label: 'Last Date' });
+    }
+
+    if (hasNotification) {
+      columns.push({
+        key: 'notification',
+        label: 'Notification',
+        kind: 'action',
+        hrefKey: 'notificationUrl',
+      });
+    }
 
     return {
       title: `Vacancy Details${job.totalPosts ? ` Total: ${job.totalPosts} Posts` : ''}`,
@@ -267,7 +288,14 @@ function mapVacancy(job: JobDetailsApiData): DetailPageData['vacancy'] {
         values: {
           postName: vacancy.postName,
           totalPosts: vacancy.totalPosts,
-          qualification: vacancy.qualification,
+          ...(hasQualification ? { qualification: vacancy.qualification } : {}),
+          ...(hasLastDate ? { lastDate: vacancy.lastDate } : {}),
+          ...(hasNotification
+            ? {
+                notification: vacancy.notification ?? 'Click Here',
+                notificationUrl: vacancy.notificationUrl,
+              }
+            : {}),
         },
       })),
     };
@@ -296,6 +324,10 @@ function mapVacancyColumns(columns?: string[]): DetailTableColumn[] {
       label: column,
     })) ?? []
   );
+}
+
+function hasText(value?: string) {
+  return Boolean(value?.trim());
 }
 
 function mapTimelineItems(items?: unknown[]): DetailTimelineItem[] {

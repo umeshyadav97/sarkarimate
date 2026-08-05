@@ -28,9 +28,15 @@ interface JobDetailPageProps {
   config: DetailPageConfig;
   data: DetailPageData;
   latestJobs?: ApiJob[];
+  latestSyllabus?: ApiJob[];
 }
 
-export function JobDetailPage({ config, data, latestJobs = [] }: JobDetailPageProps) {
+export function JobDetailPage({
+  config,
+  data,
+  latestJobs = [],
+  latestSyllabus = [],
+}: JobDetailPageProps) {
   const visibleConfig = getVisibleDetailConfig(config, data);
   const actions = getConfiguredActions(data.actions, visibleConfig.actionButtonLabels);
 
@@ -70,6 +76,7 @@ export function JobDetailPage({ config, data, latestJobs = [] }: JobDetailPagePr
           config={visibleConfig}
           data={data}
           latestJobs={latestJobs}
+          latestSyllabus={latestSyllabus}
         />
       </section>
 

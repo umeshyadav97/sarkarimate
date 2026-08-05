@@ -118,7 +118,10 @@ export interface JobVacancy {
 export interface JobVacancyRow {
   postName: string;
   totalPosts: number;
-  qualification: string;
+  qualification?: string;
+  lastDate?: string;
+  notification?: string;
+  notificationUrl?: string;
 }
 
 export interface JobApplicationFee {
