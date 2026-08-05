@@ -59,16 +59,10 @@ export async function getJobDetails(identifier: string): Promise<JobDetailsApiRe
 
     if (detailsIdentifier) {
       const liveJobDetails = await getLiveJobDetails(detailsIdentifier);
-      console.info('[job-details-api] response data:', {
-        identifier,
-        detailsIdentifier,
-        data: liveJobDetails,
-      });
 
       return createJobDetailsResponse(liveJobDetails);
     }
-  } catch (error) {
-    console.warn('[job-details-api] failed, using local fallback:', error);
+  } catch {
     // Use local fallback for offline/dev API failures.
   }
 

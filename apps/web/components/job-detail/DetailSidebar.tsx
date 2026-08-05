@@ -1,6 +1,6 @@
 import { ActionCard as SidebarActionCard } from '@/components/job-detail/Sidebar/ActionCard';
 import { NeedHelpCard } from '@/components/job-detail/Sidebar/NeedHelpCard';
-import { LatestJobsCard } from '@/components/job-detail/Sidebar/LatestJobsCard';
+import { LatestJobsCard, LatestSyllabusCard } from '@/components/job-detail/Sidebar/LatestJobsCard';
 import { NewsletterCard } from '@/components/job-detail/Sidebar/NewsletterCard';
 import { RelatedContentCard } from '@/components/job-detail/Sidebar/RelatedContentCard';
 import { ShareCard } from '@/components/job-detail/Sidebar/ShareCard';
@@ -18,16 +18,27 @@ interface DetailSidebarProps {
   data: DetailPageData;
   actions: DetailAction[];
   latestJobs: ApiJob[];
+  latestSyllabus: ApiJob[];
 }
 
-export function DetailSidebar({ config, data, actions, latestJobs }: DetailSidebarProps) {
+export function DetailSidebar({
+  config,
+  data,
+  actions,
+  latestJobs,
+  latestSyllabus,
+}: DetailSidebarProps) {
   return (
     <aside className="grid content-start gap-4">
       {config.sidebarWidgets.flatMap((widget) => {
         const sidebarWidget = renderSidebarWidget(widget, config, data, actions);
 
         if (widget === 'share') {
-          return [sidebarWidget, <LatestJobsCard key="latest-jobs" jobs={latestJobs} />];
+          return [
+            sidebarWidget,
+            <LatestJobsCard key="latest-jobs" jobs={latestJobs} />,
+            <LatestSyllabusCard key="latest-syllabus" syllabus={latestSyllabus} />,
+          ];
         }
 
         return [sidebarWidget];

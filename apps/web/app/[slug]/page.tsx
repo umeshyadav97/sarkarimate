@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { JobDetailPage } from '@/components/job-detail/JobDetailPage';
 import { getDetailPageConfig } from '@/config/detail-page.config';
 import { getCommonDetailPageData } from '@/services/job-detail.service';
-import { getLatestJobs } from '@/services/latest-jobs.service';
+import { getLatestJobs, getLatestSyllabus } from '@/services/latest-jobs.service';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,7 +62,11 @@ function formatSlugTitle(slug: string) {
 
 export default async function JobDetailsRoute({ params }: PageProps) {
   const { slug } = await params;
-  const [data, latestJobs] = await Promise.all([getCommonDetailPageData(slug), getLatestJobs()]);
+  const [data, latestJobs, latestSyllabus] = await Promise.all([
+    getCommonDetailPageData(slug),
+    getLatestJobs(),
+    getLatestSyllabus(),
+  ]);
 
   if (!data) {
     notFound();
@@ -73,6 +77,7 @@ export default async function JobDetailsRoute({ params }: PageProps) {
       config={getDetailPageConfig(data.pageType)}
       data={data}
       latestJobs={latestJobs}
+      latestSyllabus={latestSyllabus}
     />
   );
 }
