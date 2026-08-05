@@ -14,3 +14,18 @@ export async function getLatestJobs(limit = 5) {
     return [];
   }
 }
+
+export async function getLatestSyllabus(limit = 5) {
+  try {
+    const response = await getJobListingItems({
+      page: 1,
+      limit,
+      sort: 'latest',
+      type: 'syllabus',
+    });
+
+    return response.jobs;
+  } catch {
+    return [];
+  }
+}

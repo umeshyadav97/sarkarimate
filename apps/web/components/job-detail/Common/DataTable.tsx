@@ -1,4 +1,4 @@
-import { ChevronDown, ExternalLink, FileText } from 'lucide-react';
+import { CalendarX, ChevronDown, ExternalLink, FileText } from 'lucide-react';
 import type { DetailTableColumn, DetailTableRow } from '@/components/job-detail/types';
 
 interface DataTableProps {
@@ -16,7 +16,12 @@ export function DataTable({ columns, rows }: DataTableProps) {
           <thead className="bg-slate-50 text-xs font-bold uppercase text-[#111827]">
             <tr>
               {columns.map((column) => (
-                <th key={column.key} className="border-b border-slate-200 px-5 py-4">
+                <th
+                  key={column.key}
+                  className={`border-b border-slate-200 px-5 py-4 ${
+                    column.kind === 'action' ? 'text-right' : ''
+                  }`}
+                >
                   {column.label}
                 </th>
               ))}
@@ -26,7 +31,12 @@ export function DataTable({ columns, rows }: DataTableProps) {
             {rows.map((row) => (
               <tr key={row.id} className="hover:bg-blue-50/30">
                 {columns.map((column) => (
-                  <td key={column.key} className="px-5 py-3 text-sm font-medium text-[#111827]">
+                  <td
+                    key={column.key}
+                    className={`px-5 py-3 text-sm font-medium text-[#111827] ${
+                      column.kind === 'action' ? 'text-right' : ''
+                    }`}
+                  >
                     <TableCell
                       column={column}
                       rowValues={row.values}
@@ -210,6 +220,10 @@ function TableCell({
     return '-';
   }
 
+  if (isExpiryDateColumn(column)) {
+    return <ExpiryDateCell value={value} />;
+  }
+
   if (column.kind === 'action') {
     const href = column.hrefKey ? rowValues[column.hrefKey] : undefined;
     const label = value;
@@ -220,7 +234,7 @@ function TableCell({
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex min-h-8 min-w-20 items-center justify-center gap-1.5 rounded-md bg-[#0B5ED7] px-4 text-sm font-bold text-white shadow-sm hover:bg-[#0847A6]"
+          className="inline-flex min-h-10 min-w-28 items-center justify-center gap-2 rounded-lg bg-[#1D4ED8] px-4 text-sm font-bold text-white shadow-sm outline-none transition-colors hover:bg-[#1E40AF] focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
         >
           {label}
           <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -229,7 +243,7 @@ function TableCell({
     }
 
     return (
-      <span className="inline-flex min-h-8 min-w-20 items-center justify-center rounded-md bg-[#0B5ED7] px-4 text-sm font-bold text-white shadow-sm">
+      <span className="inline-flex min-h-10 min-w-28 items-center justify-center rounded-lg bg-[#1D4ED8] px-4 text-sm font-bold text-white shadow-sm">
         {value}
       </span>
     );
@@ -245,6 +259,82 @@ function TableCell({
   }
 
   return value;
+}
+
+function ExpiryDateCell({ value }: { value: DetailTableRow['values'][string] }) {
+  const expired = isExpiredDate(value);
+
+  if (!expired) {
+    return <span className="font-bold text-[#111827]">{value}</span>;
+  }
+
+  return (
+    <span className="inline-flex items-center gap-2 rounded-md border border-red-200 bg-red-50 px-2.5 py-1.5 text-sm font-bold text-[#B91C1C] shadow-sm">
+      <CalendarX className="h-4 w-4" aria-hidden="true" />
+      <span>{value}</span>
+      <span className="rounded bg-red-100 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[#991B1B]">
+        Expired
+      </span>
+    </span>
+  );
+}
+
+function isExpiryDateColumn(column: DetailTableColumn) {
+  return /last.*date|closing.*date|end.*date/i.test(`${column.key} ${column.label}`);
+}
+
+function isExpiredDate(value: DetailTableRow['values'][string]) {
+  if (typeof value !== 'string' && typeof value !== 'number') {
+    return false;
+  }
+
+  const date = parseDisplayDate(String(value));
+
+  if (!date) {
+    return false;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return date.getTime() < today.getTime();
+}
+
+function parseDisplayDate(value: string) {
+  const trimmedValue = value.trim();
+  const dayMonthYearMatch = trimmedValue.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+
+  if (dayMonthYearMatch) {
+    const [, day, month, year] = dayMonthYearMatch;
+    return createValidDate(Number(year), Number(month) - 1, Number(day));
+  }
+
+  const yearMonthDayMatch = trimmedValue.match(/^(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+
+  if (yearMonthDayMatch) {
+    const [, year, month, day] = yearMonthDayMatch;
+    return createValidDate(Number(year), Number(month) - 1, Number(day));
+  }
+
+  const parsedDate = new Date(trimmedValue);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return null;
+  }
+
+  parsedDate.setHours(0, 0, 0, 0);
+  return parsedDate;
+}
+
+function createValidDate(year: number, monthIndex: number, day: number) {
+  const date = new Date(year, monthIndex, day);
+
+  if (date.getFullYear() !== year || date.getMonth() !== monthIndex || date.getDate() !== day) {
+    return null;
+  }
+
+  date.setHours(0, 0, 0, 0);
+  return date;
 }
 
 function hasCellValue(value: DetailTableRow['values'][string]) {
