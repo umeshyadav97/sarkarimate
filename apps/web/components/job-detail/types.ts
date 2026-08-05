@@ -24,6 +24,7 @@ export interface DetailTableColumn {
   key: string;
   label: string;
   kind?: 'text' | 'document' | 'action';
+  hrefKey?: string;
 }
 
 export interface DetailTableRow {
