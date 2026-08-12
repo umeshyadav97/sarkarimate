@@ -246,7 +246,7 @@ function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetail
       ],
       overview: {
         title: 'About This Recruitment',
-        description: `${job.title} is listed under ${job.category}. Review eligibility, important links and official notification details before taking action.`,
+        description: `${job.title} is listed on SarkariMate under ${job.category}. Review eligibility, important links and official notification details before taking action.`,
       },
       importantDates: [{ label: 'Last Date', value: lastDateValue }],
       eligibility: [job.qualification],
@@ -255,9 +255,9 @@ function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetail
         { title: 'Official Website', url: job.officialUrl, type: 'secondary' },
       ],
       seo: {
-        title: job.title,
-        description: `Check details for ${job.title}.`,
-        keywords: [job.organization, job.category, 'Government Job'],
+        title: `${job.title} | SarkariMate`,
+        description: `Check SarkariMate details for ${job.title}, including important dates, eligibility and official links.`,
+        keywords: [job.organization, job.category, 'Government Job', 'SarkariMate'],
       },
     },
   };
@@ -290,15 +290,15 @@ function createJobDetailsResponseFromHomeJob(job: HomeJobEntry): JobDetailsApiRe
       ],
       overview: {
         title: 'About This Recruitment',
-        description: `${job.title} is listed under latest government job updates. Review important dates, official links and notification details before taking action.`,
+        description: `${job.title} is listed on SarkariMate under latest government job updates. Review important dates, official links and notification details before taking action.`,
       },
       importantDates: [{ label: 'Last Date', value: lastDateValue }],
       eligibility: ['Check official notification'],
       importantLinks: [{ title: 'Official Website', url: '#', type: 'secondary' }],
       seo: {
-        title: job.title,
-        description: `Check details for ${job.title}.`,
-        keywords: [job.organization, 'Latest Job', 'Government Job'],
+        title: `${job.title} | SarkariMate`,
+        description: `Check SarkariMate details for ${job.title}, including important dates, eligibility and official links.`,
+        keywords: [job.organization, 'Latest Job', 'Government Job', 'SarkariMate'],
       },
     },
   };
@@ -450,7 +450,7 @@ function getImportantLinks(item: StaticListItem) {
 }
 
 function createOverviewDescription(pageType: DetailPageType, item: StaticListItem) {
-  return `${item.organization} has published ${item.title}. Check the official details, important links and latest update before taking action.`;
+  return `${item.organization} has published ${item.title}. SarkariMate helps candidates check the official details, important links and latest update before taking action.`;
 }
 
 function getAboutTitle(pageType: DetailPageType) {

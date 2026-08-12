@@ -20,7 +20,7 @@ export function JobHeader({ data }: JobHeaderProps) {
               <li key={breadcrumb.href} className="flex items-center gap-2">
                 {isLast ? (
                   <span className="text-slate-900" aria-current="page">
-                    {breadcrumb.label}
+                    Details
                   </span>
                 ) : (
                   <Link

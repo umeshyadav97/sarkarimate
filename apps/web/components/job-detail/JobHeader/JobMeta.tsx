@@ -29,21 +29,26 @@ export function JobMeta({ organization, location, postedDate, updatedDate }: Job
   const postedDateLabel = formatDate(postedDate);
   const updatedDateLabel = formatDate(updatedDate);
   const items = [
-    { label: organization, icon: Building2 },
-    { label: location, icon: MapPin },
-    postedDateLabel ? { label: `Posted On: ${postedDateLabel}`, icon: Clock3 } : null,
-    updatedDateLabel ? { label: `Updated On: ${updatedDateLabel}`, icon: CalendarClock } : null,
-  ].filter((item): item is { label: string; icon: typeof Building2 } => Boolean(item));
+    { term: 'Organization', value: organization, icon: Building2 },
+    { term: 'Location', value: location, icon: MapPin },
+    postedDateLabel ? { term: 'Posted On', value: postedDateLabel, icon: Clock3 } : null,
+    updatedDateLabel ? { term: 'Updated On', value: updatedDateLabel, icon: CalendarClock } : null,
+  ].filter((item): item is { term: string; value: string; icon: typeof Building2 } =>
+    Boolean(item),
+  );
 
   return (
     <dl className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-slate-600">
       {items.map((item) => {
         const Icon = item.icon;
         return (
-          <div key={item.label} className="flex items-center gap-2">
+          <div key={`${item.term}-${item.value}`} className="flex items-center gap-2">
             <Icon className="h-4 w-4 text-slate-500" aria-hidden="true" />
-            <dt className="sr-only">{item.label}</dt>
-            <dd>{item.label}</dd>
+            <dt className="sr-only">{item.term}</dt>
+            <dd>
+              {item.term.includes('On') ? `${item.term}: ` : null}
+              {item.value}
+            </dd>
           </div>
         );
       })}

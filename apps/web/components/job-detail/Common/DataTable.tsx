@@ -18,7 +18,7 @@ export function DataTable({ columns, rows }: DataTableProps) {
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`border-b border-slate-200 px-5 py-4 ${
+                  className={`border-b border-r border-slate-300 px-5 py-4 last:border-r-0 ${
                     column.kind === 'action' ? 'text-right' : ''
                   }`}
                 >
@@ -33,7 +33,7 @@ export function DataTable({ columns, rows }: DataTableProps) {
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className={`px-5 py-3 text-sm font-medium text-[#111827] ${
+                    className={`border-r border-slate-200 px-5 py-3 text-sm font-medium text-[#111827] last:border-r-0 ${
                       column.kind === 'action' ? 'text-right' : ''
                     }`}
                   >
@@ -224,6 +224,10 @@ function TableCell({
     return <ExpiryDateCell value={value} />;
   }
 
+  if (isTotalPostsColumn(column)) {
+    return <TotalPostsCell value={value} />;
+  }
+
   if (column.kind === 'action') {
     const href = column.hrefKey ? rowValues[column.hrefKey] : undefined;
     const label = value;
@@ -261,6 +265,12 @@ function TableCell({
   return value;
 }
 
+function TotalPostsCell({ value }: { value: DetailTableRow['values'][string] }) {
+  return (
+    <span className="font-extrabold tabular-nums text-[#1D4ED8]">{formatPostCount(value)}</span>
+  );
+}
+
 function ExpiryDateCell({ value }: { value: DetailTableRow['values'][string] }) {
   const expired = isExpiredDate(value);
 
@@ -281,6 +291,10 @@ function ExpiryDateCell({ value }: { value: DetailTableRow['values'][string] }) 
 
 function isExpiryDateColumn(column: DetailTableColumn) {
   return /last.*date|closing.*date|end.*date/i.test(`${column.key} ${column.label}`);
+}
+
+function isTotalPostsColumn(column: DetailTableColumn) {
+  return /total.*posts|posts.*total|no.*of.*post/i.test(`${column.key} ${column.label}`);
 }
 
 function isExpiredDate(value: DetailTableRow['values'][string]) {

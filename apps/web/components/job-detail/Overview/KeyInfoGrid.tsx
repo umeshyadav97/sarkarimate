@@ -56,7 +56,7 @@ function getVisualTreatment(label: string): { icon: typeof CalendarDays; tone: V
   }
 
   if (normalizedLabel.includes('age')) {
-    return { icon: Hourglass, tone: 'orange' };
+    return { icon: Hourglass, tone: 'blue' };
   }
 
   if (normalizedLabel.includes('status')) {
@@ -83,7 +83,14 @@ export function KeyInfoGrid({ items }: KeyInfoGridProps) {
     <dl className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {items.map((item, index) => {
         const { icon: Icon, tone } = getVisualTreatment(item.label);
-        const valueTone = item.tone === 'red' ? 'red' : item.tone === 'slate' ? 'slate' : tone;
+        const isAgeItem = item.label.toLowerCase().includes('age');
+        const valueTone = isAgeItem
+          ? 'blue'
+          : item.tone === 'red'
+            ? 'red'
+            : item.tone === 'slate'
+              ? 'slate'
+              : tone;
 
         return (
           <div

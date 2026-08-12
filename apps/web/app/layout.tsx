@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SarkariMate - Latest Government Jobs, Results and Admit Cards',
     description:
-      'Find the latest government job notifications, admit cards, results, answer keys, syllabus and official exam updates.',
+      'SarkariMate brings the latest government job notifications, admit cards, results, answer keys, syllabus and official exam updates in one place.',
 
     url: 'https://sarkarimate.com',
     siteName: 'SarkariMate',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SarkariMate - Latest Government Jobs, Results and Admit Cards',
     description:
-      'Latest government job notifications, admit cards, results, answer keys, syllabus and official exam updates.',
+      'SarkariMate brings latest government job notifications, admit cards, results, answer keys, syllabus and official exam updates.',
 
     images: ['/twitter-image'],
   },
