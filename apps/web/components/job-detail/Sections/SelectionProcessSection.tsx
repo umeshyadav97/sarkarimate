@@ -36,6 +36,8 @@ function ProcessStep({
   index: number;
   isLast: boolean;
 }) {
+  const hasSeparateDetail = item.date.trim() && item.date.trim() !== item.title.trim();
+
   return (
     <li className="flex items-start gap-3">
       <span className="flex shrink-0 flex-col items-center">
@@ -46,9 +48,11 @@ function ProcessStep({
       </span>
       <span className="min-w-0 pb-1">
         <span className="block text-sm font-bold leading-5 text-[#111827]">{item.title}</span>
-        <span className="mt-0.5 block text-sm font-medium leading-5 text-slate-600">
-          {item.date}
-        </span>
+        {hasSeparateDetail ? (
+          <span className="mt-0.5 block text-sm font-medium leading-5 text-slate-600">
+            {item.date}
+          </span>
+        ) : null}
       </span>
     </li>
   );

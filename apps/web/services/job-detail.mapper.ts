@@ -20,8 +20,9 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
   const importantDates = mapImportantDates(job);
   const applicationFee = mapApplicationFees(job);
   const ageLimit = mapAgeLimit(job);
-  const overviewDescription =
-    job.overview?.description ?? job.shortDescription ?? getDescriptionPreview(job.description);
+  const overviewDescription = addSarkariMateBrandSignal(
+    job.overview?.description ?? job.shortDescription ?? getDescriptionPreview(job.description),
+  );
   const overviewTitle = job.overview?.title ?? 'About This Recruitment';
 
   return {
@@ -42,7 +43,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
       { label: job.title, href: canonical },
     ],
     keyInformation: mapQuickFacts(job),
-    alert: job.hero?.summary ?? overviewDescription,
+    alert: addSarkariMateBrandSignal(job.hero?.summary ?? overviewDescription),
     actions: mapActions(job),
     about: {
       title: overviewTitle,
@@ -80,13 +81,36 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
         ]
       : [],
     seo: {
-      title: job.seo?.title ?? job.seo?.metaTitle ?? job.title,
-      description:
+      title: withSarkariMateTitle(job.seo?.title ?? job.seo?.metaTitle ?? job.title),
+      description: addSarkariMateBrandSignal(
         job.seo?.description ?? job.seo?.metaDescription ?? job.hero?.summary ?? job.title,
+      ),
       canonical,
-      keywords: job.seo?.keywords,
+      keywords: addSarkariMateKeywords(job.seo?.keywords),
     },
   };
+}
+
+function withSarkariMateTitle(title: string) {
+  return /sarkarimate/i.test(title) ? title : `${title} | SarkariMate`;
+}
+
+function addSarkariMateBrandSignal(description: string) {
+  const trimmedDescription = description.trim();
+
+  if (!trimmedDescription) {
+    return 'SarkariMate provides the latest government job, admit card, result, answer key and syllabus updates in one place.';
+  }
+
+  if (/sarkarimate/i.test(trimmedDescription)) {
+    return trimmedDescription;
+  }
+
+  return `${trimmedDescription} Check this update on SarkariMate for official links, important dates and candidate-friendly details.`;
+}
+
+function addSarkariMateKeywords(keywords?: string[]) {
+  return Array.from(new Set([...(keywords ?? []), 'SarkariMate', 'SarkariMate updates']));
 }
 
 function getDetailHref(slug: string) {

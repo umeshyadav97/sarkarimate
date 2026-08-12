@@ -31,8 +31,9 @@ function formatVacancyTitle(title: string) {
   return (
     <>
       {title.slice(0, postCountMatch.index)}
-      <span className="ml-1.5 inline-flex px-1 py-1 text-lg font-bold text-[#1D4ED8]">
-        Total: {postCountMatch[1]}
+      <span className="ml-2 inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1 text-sm font-bold text-[#1D4ED8] align-middle">
+        <span className="text-slate-700">Total:</span>
+        <span className="text-lg leading-none text-[#1D4ED8]">{postCountMatch[1]}</span>
       </span>
     </>
   );

@@ -63,7 +63,7 @@ export function ApplicationFeeSection({ id, title, items, note }: ApplicationFee
               className="flex min-w-0 items-center justify-between gap-4"
             >
               <dt className="min-w-0 truncate text-sm font-semibold text-slate-600">{fee.label}</dt>
-              <dd className="shrink-0 whitespace-nowrap rounded-full bg-emerald-50 px-2.5 py-1 text-sm font-bold text-[#009A44] ring-1 ring-emerald-200">
+              <dd className="shrink-0 whitespace-nowrap rounded-full bg-blue-50 px-2.5 py-1 text-sm font-bold text-[#1D4ED8] ring-1 ring-blue-200">
                 {fee.value}
               </dd>
             </div>
