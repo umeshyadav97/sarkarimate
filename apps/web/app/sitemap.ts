@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 import type { MetadataRoute } from 'next';
 import { legalPageRoutes } from '@/features/legal/constants/legal-pages';
 import { getApiBaseUrl } from '@/config/api.config';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 import { getCommonDetailStaticParams } from '@/services/job-detail.service';
 import { getSyllabusSitemapEntries } from '@/services/syllabus.service';
 
@@ -61,14 +62,16 @@ async function getLiveSitemapJobSlugs() {
     const jobs = getJobsFromPayload(payload);
 
     return jobs
-      .map((job) => job.slug)
+      .map((job) => getDetailRouteSlug(job))
       .filter((slug): slug is string => Boolean(slug && /^[a-z0-9-]+$/.test(slug)));
   } catch {
     return [];
   }
 }
 
-function getJobsFromPayload(payload: unknown): Array<{ slug: string }> {
+function getJobsFromPayload(
+  payload: unknown,
+): Array<{ slug: string; displaySlug?: string | null }> {
   if (!isRecord(payload)) {
     return [];
   }
@@ -83,6 +86,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function isJobSitemapEntry(value: unknown): value is { slug: string } {
+function isJobSitemapEntry(value: unknown): value is { slug: string; displaySlug?: string | null } {
   return isRecord(value) && typeof value.slug === 'string';
 }

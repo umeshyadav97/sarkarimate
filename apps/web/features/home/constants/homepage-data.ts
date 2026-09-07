@@ -32,6 +32,7 @@ import admitCardsResponse from '@/features/listings/store/admit-cards.json';
 import answerKeysResponse from '@/features/listings/store/answer-keys.json';
 import syllabusResponse from '@/features/listings/store/syllabus.json';
 import { homePageStore, type HomePageStore } from '@/features/home/store/homepage-store';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 
 type HomeIcon = ComponentType<
   SVGProps<SVGSVGElement> & {
@@ -329,7 +330,7 @@ function mapLatestJobs(store: HomePageStore): NotificationItem[] {
     organization: job.organization,
     metaLabel: 'Last Date',
     metaValue: formatNotificationMetaValue(job.lastDate),
-    href: `/${job.slug}`,
+    href: `/${getDetailRouteSlug(job)}`,
     detailId: job._id ?? job.id,
     accent: (['orange', 'red', 'blue', 'green', 'purple'] as const)[index % 5],
   }));
@@ -345,7 +346,7 @@ function mapUpcomingDeadlines(store: HomePageStore): DeadlineItem[] {
     date: formatDisplayDate(deadline.lastDate),
     daysLeft:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
-    href: `/${deadline.slug}`,
+    href: `/${getDetailRouteSlug(deadline)}`,
     detailId: deadline._id ?? deadline.id,
   }));
 }
@@ -356,7 +357,7 @@ function mapLatestAdmitCards(): NotificationItem[] {
     organization: admitCard.organization,
     metaLabel: 'Status',
     metaValue: formatListingStatus(admitCard.status, 'Out'),
-    href: `/${admitCard.slug}`,
+    href: `/${getDetailRouteSlug(admitCard)}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
 }
@@ -371,7 +372,7 @@ function mapLatestResults(store: HomePageStore): NotificationItem[] {
     organization: result.organization,
     metaLabel: 'Status',
     metaValue: 'Out',
-    href: `/${result.slug}`,
+    href: `/${getDetailRouteSlug(result)}`,
     detailId: result._id ?? result.id,
     accent: (['red', 'purple', 'orange', 'blue', 'green'] as const)[index % 5],
   }));
@@ -389,7 +390,7 @@ function mapLatestAnswerKeys(store: HomePageStore): NotificationItem[] {
     organization: answerKey.organization,
     metaLabel: 'Answer Key',
     metaValue: formatListingStatus(getOptionalStatus(answerKey), 'Out'),
-    href: `/${answerKey.slug}`,
+    href: `/${getDetailRouteSlug(answerKey)}`,
     detailId: getOptionalDetailId(answerKey),
     accent: (['orange', 'blue', 'green', 'purple', 'red'] as const)[index % 5],
   }));
@@ -424,7 +425,7 @@ function mapOldUpcomingDeadlines(store: HomePageStore): NotificationItem[] {
     metaLabel: 'Deadline',
     metaValue:
       typeof deadline.daysLeft === 'number' ? `${deadline.daysLeft} Days Left` : 'Check Date',
-    href: `/${deadline.slug}`,
+    href: `/${getDetailRouteSlug(deadline)}`,
     accent: (['green', 'blue', 'purple', 'orange', 'red'] as const)[index % 5],
   }));
 }

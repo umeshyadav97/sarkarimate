@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, BookOpen, BriefcaseBusiness, type LucideIcon } from 'lucide-react';
 import type { ApiJob } from '@/features/jobs/types';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 
 export function LatestJobsCard({ jobs }: { jobs: ApiJob[] }) {
   return (
@@ -60,7 +61,7 @@ function SidebarListingCard({
         {sidebarItems.map((item) => (
           <Link
             key={item._id}
-            href={`${hrefPrefix}${item.slug}`}
+            href={`${hrefPrefix}${getRouteSlug(item, hrefPrefix)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex min-w-0 max-w-full items-start justify-between gap-3 rounded-md px-3 py-2.5 outline-none transition-colors hover:border-[#1D4ED8] hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-[#1D4ED8]"
@@ -79,4 +80,8 @@ function SidebarListingCard({
       </div>
     </aside>
   );
+}
+
+function getRouteSlug(item: ApiJob, hrefPrefix: string) {
+  return hrefPrefix === '/syllabus/' ? item.slug : getDetailRouteSlug(item);
 }

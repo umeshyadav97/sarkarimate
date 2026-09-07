@@ -11,12 +11,14 @@ import type {
   JobDetailsApiData,
   JobDetailsApiResponse,
 } from '@/features/jobs/types/job-details-api.types';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 
 const jobListingHref = '/jobs';
 
 export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPageData {
   const job = response.data;
-  const canonical = getDetailHref(job.slug);
+  const routeSlug = getDetailRouteSlug(job);
+  const canonical = getDetailHref(routeSlug);
   const importantDates = mapImportantDates(job);
   const applicationFee = mapApplicationFees(job);
   const ageLimit = mapAgeLimit(job);
@@ -27,7 +29,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
 
   return {
     pageType: 'jobs',
-    slug: job.slug,
+    slug: routeSlug,
     title: job.title,
     status: {
       label: job.status ?? job.applicationStatus ?? '',
@@ -75,7 +77,7 @@ export function mapJobDetailsResponse(response: JobDetailsApiResponse): DetailPa
             href: jobListingHref,
             items: job.related.map((related) => ({
               label: related.title,
-              href: getDetailHref(related.slug),
+              href: getDetailHref(getDetailRouteSlug(related)),
             })),
           },
         ]

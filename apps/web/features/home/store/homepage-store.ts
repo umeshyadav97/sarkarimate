@@ -22,6 +22,7 @@ export interface HomeJobEntry {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   lastDate: string;
   status: string;
 }
@@ -32,6 +33,7 @@ export interface HomeDeadlineEntry {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   lastDate: string;
   daysLeft: number;
 }
@@ -42,6 +44,7 @@ export interface HomeResultEntry {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   resultDate: string;
 }
 
@@ -51,6 +54,7 @@ export interface HomeListingEntry {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   status?: string;
   updatedDate?: string | null;
   href?: string;
