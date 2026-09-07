@@ -10,6 +10,7 @@ export type StaticListItem = {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   category?: string;
   state?: string;
   qualification?: string;

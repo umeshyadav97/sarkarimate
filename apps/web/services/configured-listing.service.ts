@@ -6,6 +6,7 @@ import type {
 } from '@/components/listing/types';
 import type { ApiJob, JobsQueryParams, JobsResponse } from '@/features/jobs/types';
 import { extractLeadingDate } from '@/lib/date-display';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 import { getJobListingItems } from '@/services/listing/job-listing.service';
 
 export const LISTING_PAGE_SIZE = 20;
@@ -97,7 +98,8 @@ function getListingDisplayValue(job: ApiJob, pageType: string) {
 }
 
 function toListingItem(job: ApiJob, pageType: string): ListingItem {
-  const href = pageType === 'syllabus' ? `/syllabus/${job.slug}` : `/${job.slug}`;
+  const routeSlug = pageType === 'syllabus' ? job.slug : getDetailRouteSlug(job);
+  const href = pageType === 'syllabus' ? `/syllabus/${routeSlug}` : `/${routeSlug}`;
 
   return {
     id: job._id,
@@ -113,7 +115,8 @@ function toListingItem(job: ApiJob, pageType: string): ListingItem {
 }
 
 function toSidebarLink(job: ApiJob, pageType: ListingSidebarSection['type']) {
-  const href = pageType === 'syllabus' ? `/syllabus/${job.slug}` : `/${job.slug}`;
+  const routeSlug = pageType === 'syllabus' ? job.slug : getDetailRouteSlug(job);
+  const href = pageType === 'syllabus' ? `/syllabus/${routeSlug}` : `/${routeSlug}`;
 
   return {
     id: job._id,

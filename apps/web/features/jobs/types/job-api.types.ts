@@ -14,6 +14,7 @@ export interface ApiJob {
   _id: string;
   title: string;
   slug: string;
+  displaySlug?: string;
   organization: string;
   state: string;
   category?: ApiCategory | string;

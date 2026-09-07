@@ -1,5 +1,7 @@
+import { cache } from 'react';
 import type { DetailPageData, DetailPageType } from '@/components/job-detail/types';
 import jobDetailsResponse from '@/features/jobs/store/job-details.json';
+import type { ApiJob, JobsQueryParams } from '@/features/jobs/types';
 import type {
   JobDetailsApiData,
   JobDetailsApiResponse,
@@ -15,8 +17,12 @@ import {
   type StaticListItem,
 } from '@/features/listings/store/static-list-api';
 import { api } from '@/services/api-client';
+import { getDetailRouteSlug, isMatchingDetailRouteSlug } from '@/services/detail-route-slug';
 import { mapJobDetailsResponse } from '@/services/job-detail.mapper';
-import { getJobListingItemBySlug } from '@/services/listing/job-listing.service';
+import {
+  getJobListingItemBySlug,
+  getJobListingItems,
+} from '@/services/listing/job-listing.service';
 
 const detailIdCachePrefix = 'sarkarimate:job-detail-id:';
 const localJobDetailsResponse = jobDetailsResponse as JobDetailsApiResponse;
@@ -41,6 +47,7 @@ interface StaticJobListItem {
   title: string;
   organization: string;
   slug: string;
+  displaySlug?: string;
   category: string;
   state: string;
   qualification: string;
@@ -51,11 +58,13 @@ interface StaticJobListItem {
   notificationUrl: string;
 }
 
-export async function getJobDetails(identifier: string): Promise<JobDetailsApiResponse | null> {
+export const getJobDetails = cache(async function getJobDetails(
+  identifier: string,
+): Promise<JobDetailsApiResponse | null> {
   try {
     const detailsIdentifier = isObjectId(identifier)
       ? identifier
-      : (getCachedJobId(identifier) ?? (await getJobIdFromSlug(identifier)));
+      : (getCachedJobId(identifier) ?? (await getJobIdFromRouteSlug(identifier)));
 
     if (detailsIdentifier) {
       const liveJobDetails = await getLiveJobDetails(detailsIdentifier);
@@ -67,15 +76,19 @@ export async function getJobDetails(identifier: string): Promise<JobDetailsApiRe
   }
 
   return getLocalJobDetails(identifier);
-}
+});
 
 export function getJobDetailsStaticSlugs() {
-  return Array.from(
+  const slugs = Array.from(
     new Set([
       localJobDetailsResponse.data.slug,
+      localJobDetailsResponse.data.displaySlug,
       ...localJobsListResponse.data.items.map((job) => job.slug),
+      ...localJobsListResponse.data.items.map((job) => job.displaySlug),
     ]),
   );
+
+  return slugs.filter((slug): slug is string => Boolean(slug));
 }
 
 export async function getDetailPageData(
@@ -103,7 +116,9 @@ export async function getDetailPageData(
   return null;
 }
 
-export async function getCommonDetailPageData(slug: string): Promise<DetailPageData | null> {
+export const getCommonDetailPageData = cache(async function getCommonDetailPageData(
+  slug: string,
+): Promise<DetailPageData | null> {
   const jobDetails = await getJobDetails(slug);
 
   if (jobDetails) {
@@ -119,14 +134,14 @@ export async function getCommonDetailPageData(slug: string): Promise<DetailPageD
   }
 
   return null;
-}
+});
 
 export function getCommonDetailStaticParams() {
   const slugs = [
     ...getJobDetailsStaticSlugs(),
     ...getSearchableDetailPageTypes().flatMap((pageType) => {
       const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
-      return listResponse?.data.items.map((item) => item.slug) ?? [];
+      return listResponse?.data.items.map((item) => getDetailRouteSlug(item)) ?? [];
     }),
   ];
 
@@ -141,7 +156,7 @@ export async function getDetailPageStaticParams(pageType: DetailPageType) {
   const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
 
   if (listResponse) {
-    return listResponse.data.items.map((item) => ({ slug: item.slug }));
+    return listResponse.data.items.map((item) => ({ slug: getDetailRouteSlug(item) }));
   }
 
   const routeData = detailDataByRoute[pageType] ?? {};
@@ -150,12 +165,70 @@ export async function getDetailPageStaticParams(pageType: DetailPageType) {
 
 function getStaticListItem(pageType: DetailPageType, slug: string) {
   const listResponse = staticListApiResponses[listingHrefByPageType[pageType]];
-  return listResponse?.data.items.find((item) => item.slug === slug);
+  return listResponse?.data.items.find((item) => isMatchingDetailRouteSlug(item, slug));
 }
 
-async function getJobIdFromSlug(slug: string) {
-  const job = await getJobListingItemBySlug(slug);
-  return job._id;
+async function getJobIdFromRouteSlug(routeSlug: string) {
+  try {
+    const job = await getJobListingItemBySlug(routeSlug);
+    return job._id;
+  } catch {
+    return getJobIdFromLiveListings(routeSlug);
+  }
+}
+
+async function getJobIdFromLiveListings(routeSlug: string) {
+  const pageTypes = getLikelyPageTypes(routeSlug);
+  const limit = 100;
+
+  for (const pageType of pageTypes) {
+    for (let page = 1; page <= 10; page += 1) {
+      const response = await getJobListingItems({
+        page,
+        limit,
+        type: pageType,
+      });
+      const job = findJobByRouteSlug(response.jobs, routeSlug);
+
+      if (job) {
+        return job._id;
+      }
+
+      if (!response.pagination.hasNextPage) {
+        break;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function findJobByRouteSlug(jobs: ApiJob[], routeSlug: string) {
+  return jobs.find((job) => isMatchingDetailRouteSlug(job, routeSlug));
+}
+
+function getLikelyPageTypes(routeSlug: string): Array<JobsQueryParams['type']> {
+  const pageTypes: Array<JobsQueryParams['type']> = [
+    'jobs',
+    'admit-cards',
+    'results',
+    'answer-keys',
+  ];
+  const priorityByKeyword: Array<{
+    keyword: string;
+    pageType: JobsQueryParams['type'];
+  }> = [
+    { keyword: 'admit-card', pageType: 'admit-cards' },
+    { keyword: 'result', pageType: 'results' },
+    { keyword: 'answer-key', pageType: 'answer-keys' },
+  ];
+  const match = priorityByKeyword.find(({ keyword }) => routeSlug.includes(keyword));
+
+  if (!match) {
+    return pageTypes;
+  }
+
+  return [match.pageType, ...pageTypes.filter((pageType) => pageType !== match.pageType)];
 }
 
 function getLiveJobDetails(id: string) {
@@ -184,7 +257,7 @@ function getCachedJobId(slug: string) {
 
 function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
   if (
-    localJobDetailsResponse.data.slug === identifier ||
+    isMatchingDetailRouteSlug(localJobDetailsResponse.data, identifier) ||
     localJobDetailsResponse.data.id === identifier ||
     localJobDetailsResponse.data._id === identifier
   ) {
@@ -192,7 +265,7 @@ function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
   }
 
   const listedJob = localJobsListResponse.data.items.find(
-    (job) => job.slug === identifier || job.id === identifier,
+    (job) => isMatchingDetailRouteSlug(job, identifier) || job.id === identifier,
   );
 
   if (listedJob) {
@@ -200,7 +273,8 @@ function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
   }
 
   const homeJob = homePageStore.latestJobs.find(
-    (job) => job.slug === identifier || job.id === identifier || job._id === identifier,
+    (job) =>
+      isMatchingDetailRouteSlug(job, identifier) || job.id === identifier || job._id === identifier,
   );
 
   if (homeJob) {
@@ -208,7 +282,8 @@ function getLocalJobDetails(identifier: string): JobDetailsApiResponse | null {
   }
 
   const homeDeadline = homePageStore.upcomingDeadlines.find(
-    (job) => job.slug === identifier || job.id === identifier || job._id === identifier,
+    (job) =>
+      isMatchingDetailRouteSlug(job, identifier) || job.id === identifier || job._id === identifier,
   );
 
   if (homeDeadline) {
@@ -228,6 +303,7 @@ function createJobDetailsResponseFromListItem(job: StaticJobListItem): JobDetail
       id: job.slug,
       type: 'job',
       slug: job.slug,
+      displaySlug: job.displaySlug,
       title: job.title,
       organization: job.organization,
       organizationShort: job.organization,
@@ -273,6 +349,7 @@ function createJobDetailsResponseFromHomeJob(job: HomeJobEntry): JobDetailsApiRe
       id: job.id ?? job._id ?? job.slug,
       type: 'job',
       slug: job.slug,
+      displaySlug: job.displaySlug,
       title: job.title,
       organization: job.organization,
       organizationShort: job.organization,
@@ -311,6 +388,7 @@ function createJobDetailsResponseFromHomeDeadline(job: HomeDeadlineEntry): JobDe
     title: job.title,
     organization: job.organization,
     slug: job.slug,
+    displaySlug: job.displaySlug,
     lastDate: job.lastDate,
     status: 'active',
   });
@@ -321,14 +399,15 @@ function mapStaticListItemToDetailPageData(
   item: StaticListItem,
 ): DetailPageData {
   const listingHref = listingHrefByPageType[pageType];
-  const canonical = getDetailHref(item.slug);
+  const routeSlug = getDetailRouteSlug(item);
+  const canonical = getDetailHref(routeSlug);
   const dateItems = getDateItems(item);
   const overviewDescription = createOverviewDescription(pageType, item);
   const importantLinks = getImportantLinks(item);
 
   return {
     pageType,
-    slug: item.slug,
+    slug: routeSlug,
     title: item.title,
     status: {
       label: getStatusLabel(item.status),

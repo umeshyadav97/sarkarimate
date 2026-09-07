@@ -4,6 +4,7 @@ import {
   type StaticListEndpoint,
 } from '@/features/listings/store/static-list-api';
 import { extractLeadingDate } from '@/lib/date-display';
+import { getDetailRouteSlug } from '@/services/detail-route-slug';
 
 type StaticApiItem = (typeof staticListApiResponses)[StaticListEndpoint]['data']['items'][number];
 
@@ -65,7 +66,8 @@ function getItemYear(item: StaticApiItem) {
 }
 
 function toListingItem(item: StaticApiItem, endpoint: string): ListingItem {
-  const href = item.href.startsWith('/syllabus/') ? item.href : `/${item.slug}`;
+  const routeSlug = getDetailRouteSlug(item);
+  const href = item.href.startsWith('/syllabus/') ? item.href : `/${routeSlug}`;
 
   return {
     id: item.id,

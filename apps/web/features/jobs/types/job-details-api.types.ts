@@ -9,6 +9,7 @@ export interface JobDetailsApiData {
   _id?: string;
   type: string;
   slug: string;
+  displaySlug?: string;
   title: string;
   organization: string;
   organizationShort?: string;
@@ -144,4 +145,5 @@ export interface JobFaq {
 export interface JobRelated {
   title: string;
   slug: string;
+  displaySlug?: string;
 }
