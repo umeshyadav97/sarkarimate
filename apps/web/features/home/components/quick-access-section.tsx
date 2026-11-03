@@ -32,7 +32,7 @@ export function QuickAccessSection({ items = defaultQuickAccessItems }: QuickAcc
             <Link
               key={item.label}
               href={item.href}
-              className={`relative flex min-h-34 flex-col items-center justify-center md:px-4 px-2 md:py-4  text-center transition-colors hover:bg-slate-50 ${
+              className={`relative flex min-h-24 flex-col items-center justify-center px-2 py-3 text-center transition-colors hover:bg-slate-50 md:px-4 ${
                 hasRowDivider ? 'border-b border-slate-200 lg:border-b-0' : ''
               }`}
             >
@@ -44,19 +44,15 @@ export function QuickAccessSection({ items = defaultQuickAccessItems }: QuickAcc
                 />
               ) : null}
               <span
-                className={`grid lg:h-12 lg:w-12 md:h-10 md:w-10 h-8 w-8 place-items-center rounded-xl ring-1 ring-inset ring-current/10 ${toneClasses[item.tone]}`}
+                className={`grid h-9 w-9 place-items-center rounded-xl ring-1 ring-inset ring-current/10 md:h-10 md:w-10 ${toneClasses[item.tone]}`}
               >
-                <Icon
-                  className="lg:h-7 lg:w-7 md:h-5 md:w-5 h-4 w-4"
-                  strokeWidth={1.5}
-                  aria-hidden="true"
-                />
+                <Icon className="h-4 w-4 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
               </span>
               <span>
-                <span className="mt-4 block md:text-base text-sm font-bold text-[#111827]">
+                <span className="mt-3 block text-sm font-bold text-[#111827] md:text-base">
                   {item.label}
                 </span>
-                <span className="mt-1 block md:text-sm text-xs font-semibold text-slate-500">
+                <span className="mt-0.5 block text-xs font-semibold text-slate-500 md:text-sm">
                   {item.description}
                 </span>
               </span>

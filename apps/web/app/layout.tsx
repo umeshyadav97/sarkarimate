@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ClarityAnalytics } from '@/components/clarity-analytics';
+import { SarkariMateAILauncher } from '@/components/sarkarimate-ai-launcher';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { OrganizationSchema, WebsiteSchema } from '@/components/structured-data';
@@ -87,6 +88,7 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <SarkariMateAILauncher />
         <ToastProvider />
 
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
