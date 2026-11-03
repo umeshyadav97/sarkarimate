@@ -97,6 +97,52 @@ strong,
   min-width: 1.8rem;
 }
 
+.sarkarimate-ai-launcher {
+  animation: sarkarimate-ai-float 3s ease-in-out infinite;
+}
+
+.sarkarimate-ai-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 12px;
+  margin-left: 2px;
+  background: #1d4ed8;
+  vertical-align: -1px;
+  animation: sarkarimate-ai-cursor 0.75s step-end infinite;
+}
+
+.sarkarimate-ai-launcher::before,
+.sarkarimate-ai-launcher::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 9999px;
+  border: 1px solid rgb(29 78 216 / 0.18);
+  animation: sarkarimate-ai-pulse 2.4s ease-out infinite;
+}
+
+.sarkarimate-ai-launcher::after {
+  animation-delay: 1.2s;
+}
+
+.animate-ai-float {
+  animation: ai-float 3s ease-in-out infinite;
+}
+
+.animate-ai-present {
+  animation: ai-present 2.6s ease-in-out infinite;
+}
+
+.animate-ai-left-arm {
+  animation: ai-left-arm 3s ease-in-out infinite;
+}
+
+.ai-eye {
+  transform-origin: center;
+  animation: ai-blink 4.5s ease-in-out infinite;
+}
+
 .Toastify__toast-container {
   width: min(420px, calc(100vw - 32px));
 }
@@ -199,9 +245,102 @@ strong,
   }
 }
 
+@keyframes sarkarimate-ai-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes sarkarimate-ai-pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.86);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes ai-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes ai-present {
+  0%,
+  100% {
+    transform: rotate(28deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(18deg) translateY(-2px);
+  }
+}
+
+@keyframes ai-left-arm {
+  0%,
+  100% {
+    transform: rotate(25deg);
+  }
+
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes ai-blink {
+  0%,
+  45%,
+  55%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  49%,
+  51% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes sarkarimate-ai-cursor {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .deadline-carousel-track,
-  .new-listing-tag::before {
+  .new-listing-tag::before,
+  .sarkarimate-ai-cursor,
+  .sarkarimate-ai-launcher,
+  .sarkarimate-ai-launcher::before,
+  .sarkarimate-ai-launcher::after,
+  .animate-ai-float,
+  .animate-ai-present,
+  .animate-ai-left-arm,
+  .ai-eye {
     animation: none;
+  }
+
+  .sarkarimate-ai-cursor {
+    display: none;
   }
 }

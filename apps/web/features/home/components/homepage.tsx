@@ -1,6 +1,7 @@
 'use client';
 
 import { CategoriesSection, StatsSection } from '@/features/home/components/categories-section';
+import { SarkariMateAIPanel } from '@/components/sarkarimate-ai-panel';
 import { DeadlinesCarousel } from '@/features/home/components/deadlines-carousel';
 import { HomeContentSections } from '@/features/home/components/home-content-sections';
 import { HeroSection } from '@/features/home/components/hero-section';
@@ -60,6 +61,9 @@ export function Homepage({ initialData }: { initialData: HomePageStore }) {
       />
       <main className="bg-[#F8FAFC] text-[#111827]">
         <HeroSection popularSearches={homepageData.popularSearches} />
+        {/* <section className="mx-auto max-w-full px-2 pb-3 sm:px-4 lg:px-6">
+          <SarkariMateAIPanel />
+        </section> */}
         <QuickAccessSection items={homepageData.quickAccessItems} />
         <NotificationPanels
           latestAdmitCards={homepageData.latestAdmitCards}
